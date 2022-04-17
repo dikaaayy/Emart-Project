@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id       Int     @id
+  name     String? @db.Char(40)
+  age      String? @db.Char(40)
+  username String? @db.Char(40)
+  password String? @db.Char(40)
+}
+
+model Seller {
+  SellerID  Int     @id
+  ProductID Int?
+  name      String? @db.VarChar(40)
+}
+
+model orderdetail {
+  custName      String   @db.VarChar(30)
+  orderDate     DateTime @db.Date
+  price         Int
+  orderDetailID Int      @id
+  orderID       Int
+  orders        orders   @relation(fields: [orderID], references: [orderID], onDelete: NoAction, onUpdate: NoAction, map: "orderdetail_ibfk_1")
+
+  @@index([orderID], map: "orderID")
+}
+
+model orders {
+  orderID     Int           @id
+  productID   Int
+  warehouseID Int
+  product     product       @relation(fields: [productID], references: [productID], onDelete: NoAction, onUpdate: NoAction, map: "orders_ibfk_1")
+  orderdetail orderdetail[]
+
+  @@index([productID], map: "productID")
+  @@index([warehouseID], map: "warehouseID")
+}
+
+model product {
+  productID         Int       @id
+  name              String?   @db.VarChar(14)
+  cost              String?   @db.VarChar(15)
+  manufacturingDate DateTime? @db.Date
+  orders            orders[]
+}
+
+model transaction {
+  id      Int     @id
+  details String? @db.VarChar(255)
+  date    String? @db.VarChar(255)
+}

@@ -2,8 +2,26 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { Customer, PrismaClient } from '@prisma/client'
+import { useEffect, useState } from 'react'
 
-const Home: NextPage = () => {
+const prisma = new PrismaClient()
+
+export async function getServerSideProps() {
+  const customers: Customer[] = await prisma.customer.findMany();
+  return {
+    props: {
+      initialContacts: customers
+    }
+  };
+}
+
+type HomeProp={
+  initialContacts:Customer[]
+}
+export default  function Home(props:HomeProp) {
+  const [contacts, setContacts] = useState<Customer[]>(props.initialContacts);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -65,8 +83,15 @@ const Home: NextPage = () => {
           </span>
         </a>
       </footer>
+      <div>
+        {
+          contacts.map((customer:Customer)=>{
+            return <div key={customer.id}>{customer.name}</div>
+          }
+          )
+        }
+      </div>
     </div>
   )
 }
 
-export default Home
