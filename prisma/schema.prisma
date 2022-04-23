@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialActions"]
 }
 
 datasource db {
@@ -27,7 +28,7 @@ model orderdetail {
   price         Int
   orderDetailID Int      @id
   orderID       Int
-  orders        orders   @relation(fields: [orderID], references: [orderID], onDelete: NoAction, onUpdate: NoAction, map: "orderdetail_ibfk_1")
+  orders        orders   @relation(fields: [orderID], references: [orderID], onDelete: Cascade, onUpdate: NoAction, map: "orderdetail_ibfk_1")
 
   @@index([orderID], map: "orderID")
 }
@@ -36,7 +37,6 @@ model orders {
   orderID     Int           @id
   productID   Int
   warehouseID Int
-  product     product       @relation(fields: [productID], references: [productID], onDelete: NoAction, onUpdate: NoAction, map: "orders_ibfk_1")
   orderdetail orderdetail[]
 
   @@index([productID], map: "productID")
@@ -48,7 +48,6 @@ model product {
   name              String?   @db.VarChar(14)
   cost              String?   @db.VarChar(15)
   manufacturingDate DateTime? @db.Date
-  orders            orders[]
 }
 
 model transaction {
