@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const prisma = new PrismaClient();
 
-async function deleteProduct(id: number) {
+async function deleteProductOnDatabase(id: number) {
   try {
     fetch(`http://localhost:3000/api/product/${id.toString()}`, {
       headers: {
@@ -28,53 +28,36 @@ export async function getServerSideProps() {
     },
   };
 }
-
 type HomeProp = {
   products: string;
 };
 export default function Home(props: HomeProp) {
   const parsedProducts: product[] = JSON.parse(props.products);
   const [products, setProducts] = useState<product[]>(parsedProducts);
+  const deleteProduct = (products: product[], id: number) => {
+    let newProducts = products.filter((e) => {
+      return e.productID != id;
+    });
+    setProducts(newProducts);
+    deleteProductOnDatabase(id);
+  };
 
   return (
-    <div>
-      <table className="table-auto border-solid border-4 w-[100%]">
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Year</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product: product) => {
-            return (
-              <tr key={product.productID}>
-                <td>
-                  <div className=" justify-center flex">{product.name}</div>
-                </td>
-                <td>
-                  <div className="justify-center flex">{product.cost}</div>
-                </td>
-                <td>
-                  <div className="justify-center flex">
-                    {product.manufacturingDate?.toString()}
-                  </div>
-                </td>
-                <div>
-                  <button
-                    onClick={() => {
-                      deleteProduct(product.productID);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {products.map((product: product) => {
+        return (
+          <div key={product.productID} className="justify-center flex">
+            {product.name}
+            <button
+              onClick={() => {
+                deleteProduct(products, product.productID);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        );
+      })}
+    </>
   );
 }
