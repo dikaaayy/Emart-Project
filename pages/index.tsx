@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import ProductPage from "../src/components/ProductPage/ProductPage";
 import { product, PrismaClient } from "@prisma/client";
 import { NavBar } from "../src/components/globalstyled";
+import Header from "../src/components/Header/Header";
 
 const prisma = new PrismaClient();
 export async function getServerSideProps() {
@@ -22,7 +23,7 @@ type HomeProp = {
 export default function Home(props: HomeProp) {
   return (
     <>
-      <NavBar></NavBar>
+      <Header></Header>
       <ProductPage products={props.products}></ProductPage>
     </>
   );
