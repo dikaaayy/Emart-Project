@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
 import ProductPage from "../src/components/ProductPage/ProductPage";
 import { product, PrismaClient } from "@prisma/client";
+import { NavBar } from "../src/components/globalstyled";
 
 const prisma = new PrismaClient();
 export async function getServerSideProps() {
@@ -19,5 +20,10 @@ type HomeProp = {
   products: product[];
 };
 export default function Home(props: HomeProp) {
-  return <ProductPage products={props.products}></ProductPage>;
+  return (
+    <>
+      <NavBar>Hello world</NavBar>
+      <ProductPage products={props.products}></ProductPage>
+    </>
+  );
 }
