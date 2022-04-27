@@ -7,5 +7,5 @@ export const NavBar = styled.div`
   display: relative;
   position: fixed;
   background: #16213b;
-  z-index: 100;
+  z-index: 2;
 `;
