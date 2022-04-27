@@ -44,10 +44,9 @@ model orders {
 }
 
 model product {
-  productID         Int       @id
-  name              String?   @db.VarChar(14)
-  cost              String?   @db.VarChar(15)
-  manufacturingDate DateTime? @db.Date
+  productID Int     @id
+  name      String? @db.VarChar(14)
+  cost      String? @db.VarChar(15)
 }
 
 model transaction {

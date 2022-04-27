@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { Customer, product, PrismaClient } from "@prisma/client";
+import { product, PrismaClient } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 const prisma = new PrismaClient();
@@ -21,7 +21,7 @@ async function deleteProductOnDatabase(id: number) {
 }
 
 export async function getServerSideProps() {
-  const product: string = JSON.stringify(await prisma.product.findMany());
+  const product: product[] = await prisma.product.findMany();
   return {
     props: {
       products: product,
@@ -29,11 +29,10 @@ export async function getServerSideProps() {
   };
 }
 type HomeProp = {
-  products: string;
+  products: product[];
 };
 export default function Home(props: HomeProp) {
-  const parsedProducts: product[] = JSON.parse(props.products);
-  const [products, setProducts] = useState<product[]>(parsedProducts);
+  const [products, setProducts] = useState<product[]>(props.products);
   const deleteProduct = (products: product[], id: number) => {
     let newProducts = products.filter((e) => {
       return e.productID != id;
