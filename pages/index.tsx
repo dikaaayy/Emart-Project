@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { product, PrismaClient } from "@prisma/client";
 import { useEffect, useState } from "react";
+import ProductCard from "../src/components/ProductCard";
 
 const prisma = new PrismaClient();
 
@@ -57,6 +58,7 @@ export default function Home(props: HomeProp) {
           </div>
         );
       })}
+      <ProductCard></ProductCard>
     </>
   );
 }
