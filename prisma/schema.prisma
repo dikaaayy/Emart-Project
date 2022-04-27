@@ -44,9 +44,9 @@ model orders {
 }
 
 model product {
-  productID   Int     @id
+  productID   Int     @id @default(autoincrement())
   name        String? @db.VarChar(14)
-  description String? @db.VarChar(255)
+  description String? @db.VarChar(16)
   cost        String? @db.VarChar(15)
 }
 
