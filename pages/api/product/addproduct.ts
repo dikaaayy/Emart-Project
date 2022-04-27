@@ -4,16 +4,32 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
+// export default async (req: NextApiRequest, res: NextApiResponse) => {
+//   if (req.method !== "POST") {
+//     return res.status(405).json({ message: "Method not allowed" });
+//   }
+
+//   try {
+//     const product: Prisma.productCreateInput = JSON.parse(req.body);
+//     const savedProduct = await prisma.product.create({ data: product });
+//     res.status(200).json(savedProduct);
+//   } catch (err) {
+//     res.status(400).json({ message: "Something went wrong" });
+//   }
+// };
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { name, cost, description, productID } = req.body;
 
   try {
-    const product: Prisma.productCreateInput = JSON.parse(req.body);
-    const savedProduct = await prisma.product.create({ data: product });
-    res.status(200).json(savedProduct);
-  } catch (err) {
-    res.status(400).json({ message: "Something went wrong" });
+    await prisma.product.create({
+      data: {
+        name,
+        description,
+        cost,
+      },
+    });
+    res.status(200).json({ message: "succesfuly created" });
+  } catch (e) {
+    console.log(e);
   }
-};
+}

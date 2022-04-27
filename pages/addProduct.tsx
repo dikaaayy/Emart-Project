@@ -2,8 +2,15 @@
 import { Prisma } from "@prisma/client";
 import { useState } from "react";
 
+interface Product {
+  name: string;
+  cost: string;
+  description: string;
+  productID: number;
+}
+
 export default function AddProduct() {
-  const [product, setProduct] = useState({ productID: 0, name: "", price: "" });
+  const [product, setProduct] = useState<Product>({ productID: 0, name: "", cost: "", description: "" });
 
   // const submitToDB = async (name: string, price: string) => {
   //   axios({
@@ -15,22 +22,39 @@ export default function AddProduct() {
   //     },
   //   });
   // };
-  const submitToDB = async (product: Prisma.productCreateInput) => {
-    console.log(product);
-    const response = await fetch("/api/addproduct", {
-      method: "POST",
-      body: JSON.stringify(product),
-    });
-    if (!response.ok) {
-      throw new Error(response.statusText);
+  // const submitToDB = async (product: Prisma.productCreateInput) => {
+  //   console.log(product);
+  //   const response = await fetch("/api/addproduct", {
+  //     method: "POST",
+  //     body: JSON.stringify(product),
+  //   });
+  //   if (!response.ok) {
+  //     throw new Error(response.statusText);
+  //   }
+  //   return await response.json();
+  // };
+  const submitToDB = async (data: Product) => {
+    try {
+      fetch("http://localhost:3000/api/product/addproduct", {
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+    } catch (e) {
+      console.log(e);
     }
-    return await response.json();
   };
 
   const submitHandler = (e: any) => {
-    e.preventDefault();
-    submitToDB(product);
-    setProduct({ productID: 0, name: "", price: "" });
+    try {
+      e.preventDefault();
+      submitToDB(product);
+      setProduct({ productID: 0, name: "", cost: "", description: "" });
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <>
@@ -51,7 +75,7 @@ export default function AddProduct() {
               maxLength={14}
             />
           </div>
-          <div className="ml-10 flex flex-col gap-y-2 mb-10">
+          <div className="ml-10 flex flex-col gap-y-2 mb-5">
             <label htmlFor="productCost" className="text-xl font-semibold">
               Price
             </label>
@@ -61,9 +85,24 @@ export default function AddProduct() {
               type="text"
               name="productCost"
               id="productCost"
-              value={product.price}
-              onChange={(e) => setProduct({ ...product, price: e.target.value })}
+              value={product.cost}
+              onChange={(e) => setProduct({ ...product, cost: e.target.value })}
               maxLength={15}
+            />
+          </div>
+          <div className="ml-10 flex flex-col gap-y-2 mb-10">
+            <label htmlFor="productDesc" className="text-xl font-semibold">
+              Description
+            </label>
+            <input
+              className="w-1/2 overflow-auto p-2 rounded"
+              placeholder="Enter Description"
+              type="text"
+              name="productDesc"
+              id="productDesc"
+              value={product.description}
+              onChange={(e) => setProduct({ ...product, description: e.target.value })}
+              maxLength={16}
             />
           </div>
           <button className="ml-10 bg-[#14213D] hover:bg-[#1a2c52] transition duration-500 text-white px-2 py-2 rounded" type="submit">
