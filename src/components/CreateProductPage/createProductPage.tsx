@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form } from "./styled";
+// import { Form } from "./styled";
 
 export default function createProductPage() {
   const [productName, setProductName] = useState("");
@@ -11,7 +11,7 @@ export default function createProductPage() {
   };
   return (
     <>
-      <Form></Form>
+      <h2>Test</h2>
     </>
   );
 }
