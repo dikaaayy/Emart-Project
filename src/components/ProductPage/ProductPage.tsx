@@ -2,7 +2,7 @@ import { product } from "@prisma/client";
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import axios from "axios";
-
+import { ProductGridDiv } from "./styled";
 async function deleteProductOnDatabase(id: number) {
   const status = await axios
     .delete(`http://localhost:3000/product/${id.toString()}`)
@@ -37,22 +37,16 @@ export default function ProductPage(props: HomeProp) {
   };
 
   return (
-    <div className="flex justify-center">
+    <ProductGridDiv>
       {products.map((product: product) => {
         return (
-          <div key={product.productID}>
-            {product.name}
-            <button
-              onClick={() => {
-                deleteProduct(products, product.productID);
-              }}
-            >
-              Delete
-            </button>
-          </div>
+          <ProductCard
+            key={product.productID}
+            productName={product.name}
+            productPrice={product.cost}
+          ></ProductCard>
         );
       })}
-      <ProductCard></ProductCard>
-    </div>
+    </ProductGridDiv>
   );
 }
