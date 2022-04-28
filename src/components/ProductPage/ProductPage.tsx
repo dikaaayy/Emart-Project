@@ -37,7 +37,7 @@ export default function ProductPage(props: HomeProp) {
   };
 
   return (
-    <div className="flex">
+    <div className="flex mb-36">
       <ProductGridDiv>
         {products.map((product: product) => {
           return (
