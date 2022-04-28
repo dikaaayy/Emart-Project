@@ -10,7 +10,7 @@ interface Product {
 }
 
 export default function AddProduct() {
-  const [product, setProduct] = useState<Product>({ productID: 0, name: "", cost: "", description: "" });
+  const [product, setProduct] = useState<Product>({ productID: 100, name: "", cost: "", description: "" });
 
   // const submitToDB = async (name: string, price: string) => {
   //   axios({
@@ -50,6 +50,7 @@ export default function AddProduct() {
   const submitHandler = (e: any) => {
     try {
       e.preventDefault();
+      console.log(product);
       submitToDB(product);
       setProduct({ productID: 0, name: "", cost: "", description: "" });
     } catch (e) {

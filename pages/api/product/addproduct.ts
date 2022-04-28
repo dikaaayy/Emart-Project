@@ -23,6 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     await prisma.product.create({
       data: {
+        productID,
         name,
         description,
         cost,
