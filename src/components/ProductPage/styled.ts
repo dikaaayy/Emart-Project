@@ -36,8 +36,8 @@ export const ProductGridDiv = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 200px;
   margin-top: 20px;
+  top: 1000px;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-column-gap: 35px;
   grid-row-gap: 50px;
