@@ -1,6 +1,7 @@
 // import axios from "axios";
 import { Prisma } from "@prisma/client";
 import { useState } from "react";
+import { uid } from "uid";
 
 interface Product {
   name: string;
