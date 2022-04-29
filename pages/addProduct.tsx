@@ -51,7 +51,6 @@ export default function AddProduct() {
   const submitHandler = (e: any) => {
     try {
       e.preventDefault();
-      console.log(product);
       submitToDB(product);
       setProduct({ productID: "", name: "", cost: "", description: "" });
     } catch (e) {
@@ -60,7 +59,7 @@ export default function AddProduct() {
   };
   return (
     <>
-      <div className="mt-20 pt-10 ml-10 w-1/2 h-[50vh] bg-gray-200 rounded">
+      <div className="mt-20 pt-10 ml-10 w-1/2 h-[28rem] bg-gray-200 rounded">
         <form onSubmit={submitHandler} autoComplete="off">
           <div className="ml-10 flex flex-col gap-y-2 mb-5">
             <label htmlFor="productName" className="text-xl font-semibold">
