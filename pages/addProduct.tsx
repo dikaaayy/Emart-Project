@@ -51,7 +51,6 @@ export default function AddProduct() {
   const submitHandler = (e: any) => {
     try {
       e.preventDefault();
-      setProduct({ ...product, productID: uid(25) });
       console.log(product);
       submitToDB(product);
       setProduct({ productID: "", name: "", cost: "", description: "" });
@@ -108,7 +107,13 @@ export default function AddProduct() {
               maxLength={16}
             />
           </div>
-          <button className="ml-10 bg-[#14213D] hover:bg-[#1a2c52] transition duration-500 text-white px-2 py-2 rounded" type="submit">
+          <button
+            className="ml-10 bg-[#14213D] hover:bg-[#1a2c52] transition duration-500 text-white px-2 py-2 rounded"
+            type="submit"
+            onClick={() => {
+              setProduct({ ...product, productID: String(uid(25)) });
+            }}
+          >
             Add Product
           </button>
         </form>
