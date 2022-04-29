@@ -43,14 +43,14 @@ export default function AddProduct() {
         <h1>Add New Product</h1>
       </div>
       <div className="flex justify-center">
-        <div className="my-20 flex flex-col justify-center w-[60%] h-[28rem] bg-gray-200 rounded">
+        <div className="my-20 flex flex-col justify-center w-[80%] lg:w-[60%] h-[28rem] bg-gray-200 rounded">
           <form onSubmit={submitHandler} autoComplete="off">
-            <div className="ml-10 flex flex-col gap-y-2 mb-5">
-              <label htmlFor="productName" className="text-xl font-semibold">
+            <div className="ml-3 md:ml-10 flex flex-col gap-y-2 mb-5">
+              <label htmlFor="productName" className="text-lg md:text-xl font-semibold">
                 Name
               </label>
               <input
-                className="w-1/2 overflow-auto p-2 rounded"
+                className="w-[90%] md:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
                 placeholder="Enter Name"
                 type="text"
                 name="productName"
@@ -60,12 +60,12 @@ export default function AddProduct() {
                 maxLength={14}
               />
             </div>
-            <div className="ml-10 flex flex-col gap-y-2 mb-5">
-              <label htmlFor="productCost" className="text-xl font-semibold">
+            <div className="ml-3 md:ml-10 flex flex-col gap-y-2 mb-5">
+              <label htmlFor="productCost" className="text-lg md:text-xl font-semibold">
                 Price
               </label>
               <input
-                className="w-1/2 overflow-auto p-2 rounded"
+                className="w-[90%] md:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
                 placeholder="Enter Price"
                 type="text"
                 name="productCost"
@@ -75,12 +75,12 @@ export default function AddProduct() {
                 maxLength={15}
               />
             </div>
-            <div className="ml-10 flex flex-col gap-y-2 mb-10">
-              <label htmlFor="productDesc" className="text-xl font-semibold">
+            <div className="ml-3 md:ml-10 flex flex-col gap-y-2 mb-10">
+              <label htmlFor="productDesc" className="text-lg md:text-xl font-semibold">
                 Description
               </label>
               <textarea
-                className="w-1/2 overflow-auto p-2 rounded"
+                className="w-[90%] md:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
                 placeholder="Enter Description"
                 rows={2}
                 name="productDesc"
@@ -91,7 +91,7 @@ export default function AddProduct() {
               />
             </div>
             <button
-              className="ml-10 bg-[#14213D] hover:bg-[#1a2c52] transition duration-500 text-white px-2 py-2 rounded"
+              className="ml-3 md:ml-10 bg-[#14213D] hover:bg-[#1a2c52] transition duration-500 text-white px-2 py-2 rounded"
               type="submit"
               onClick={() => {
                 setProduct({ ...product, productID: String(uid(25)) });
