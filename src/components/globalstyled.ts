@@ -4,7 +4,7 @@ export const NavBar = styled.div`
   justify-content: space-between;
   width: 100%;
   display: flex;
-  position: absolute;
+  position: fixed;
   background: #16213b;
   z-index: 2;
   padding: 1.2rem;
