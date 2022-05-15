@@ -31,6 +31,7 @@ export default function AddProduct() {
   };
 
   const submitHandler = (e: any) => {
+    if (product.cost === "" || product.name === "" || product.description === "") return;
     try {
       e.preventDefault();
       submitToDB(product);
@@ -57,24 +58,24 @@ export default function AddProduct() {
         <p className="text-2xl">Product Added!</p>
         <p className="">Redirecting to main page</p>
       </div>
-      <div className="pt-32 text-center font-semibold text-3xl">
+      <div className="pt-36 text-center font-semibold text-lg md:text-xl lg:text-2xl">
         <h1>Add New Product</h1>
       </div>
-      <div className="flex mt-7 gap-x-20 justify-around mx-auto w-[70vw] h-[70vh]">
-        <div className="w-1/2 grid grid-cols-2 p-5 gap-4">
+      <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[85vw] lg:w-[65vw] lg:h-[65vh]">
+        <div className="w-full  lg:w-1/2 grid grid-cols-2 p-7 lg:p-5 gap-4">
           <Image src={"/placeholder.png"} width="100%" height="100%" />
           <Image src={"/placeholder.png"} width="100%" height="100%" />
           <Image src={"/placeholder.png"} width="100%" height="100%" />
           <Image src={"/placeholder.png"} width="100%" height="100%" />
         </div>
-        <div className="w-1/2">
-          <form onSubmit={submitHandler} spellCheck={false} autoComplete="off" className="w-full h-full mt-20">
+        <div className="w-full  lg:w-1/2">
+          <form onSubmit={submitHandler} spellCheck={false} autoComplete="off" className="w-full h-full lg:mt-20 mx-auto">
             <div className="flex flex-col gap-y-2 mb-5">
-              <label htmlFor="productName" className="text-lg md:text-xl font-semibold">
+              <label htmlFor="productName" className="lg:text-xl font-semibold">
                 Name
               </label>
               <input
-                className="w-[90%] md:w-[60%] overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
+                className="w-[80%] sm:w-[65%] lg:w-[60%] overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
                 placeholder="Enter Name"
                 type="text"
                 name="productName"
@@ -85,11 +86,11 @@ export default function AddProduct() {
               />
             </div>
             <div className="flex flex-col gap-y-2 mb-5">
-              <label htmlFor="productCost" className="text-lg md:text-xl font-semibold">
+              <label htmlFor="productCost" className="lg:text-xl font-semibold">
                 Price
               </label>
               <input
-                className="w-[90%] md:w-1/3 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
+                className="w-1/2 lg:w-1/3 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
                 placeholder="Enter Price"
                 type="text"
                 name="productCost"
@@ -100,11 +101,11 @@ export default function AddProduct() {
               />
             </div>
             <div className="flex flex-col gap-y-2 mb-10">
-              <label htmlFor="productDesc" className="text-lg md:text-xl font-semibold">
+              <label htmlFor="productDesc" className="lg:text-xl font-semibold">
                 Description
               </label>
               <textarea
-                className="w-[90%] md:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500 resize-y pb-5"
+                className="w-[80%] sm:w-[65%] lg:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500 resize-y pb-5"
                 placeholder="Enter Description"
                 rows={2}
                 name="productDesc"
