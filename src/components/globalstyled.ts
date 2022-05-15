@@ -11,7 +11,6 @@ export const NavBar = styled.div`
   z-index: 2;
 `;
 
-
 export const HeaderContent = styled.div`
   display: flex;
   width: 35px;
@@ -29,4 +28,5 @@ export const HeaderLogoWrapper = styled.div`
 export const HeaderAddProductButtonWrapper = styled.div`
   display: flex;
   margin-left: 430.5px;
+  margin-top: 2rem;
 `;
