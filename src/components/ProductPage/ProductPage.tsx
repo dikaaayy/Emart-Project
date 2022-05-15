@@ -28,13 +28,6 @@ type HomeProp = {
 };
 export default function ProductPage(props: HomeProp) {
   const [products, setProducts] = useState<product[]>(props.products);
-  const deleteProduct = async (products: product[], id: number) => {
-    let newProducts = products.filter((e) => {
-      return e.productID != id;
-    });
-    setProducts(newProducts);
-    return await deleteProductOnDatabase(id);
-  };
 
   return (
     <div className="flex mb-36">
