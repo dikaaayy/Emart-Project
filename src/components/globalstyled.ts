@@ -15,7 +15,6 @@ export const HeaderContent = styled.div`
   display: flex;
   width: 100%;
   margin-left: 20px;
-  margin-right: 20px;
   height: 32.81px;
   margin-top: 34.69px;
   margin-bottom: 20px;
