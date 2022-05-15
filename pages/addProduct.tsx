@@ -2,6 +2,8 @@ import { Prisma } from "@prisma/client";
 import { useState } from "react";
 import { uid } from "uid";
 import Header from "../src/components/Header/Header";
+import Router from "next/router";
+import Image from "next/image";
 
 interface Product {
   name: string;
@@ -30,8 +32,12 @@ export default function AddProduct() {
   const submitHandler = (e: any) => {
     try {
       e.preventDefault();
+      setProduct({ ...product, productID: String(uid(25)) });
       submitToDB(product);
       setProduct({ productID: "", name: "", cost: "", description: "" });
+      setTimeout(() => {
+        Router.push("/");
+      }, 3000);
     } catch (e) {
       console.log(e);
     }
@@ -39,18 +45,24 @@ export default function AddProduct() {
   return (
     <>
       <Header />
-      <div className="pt-40 text-center font-semibold text-3xl">
+      <div className="pt-32 text-center font-semibold text-3xl">
         <h1>Add New Product</h1>
       </div>
-      <div className="flex justify-center">
-        <div className="my-20 flex flex-col justify-center w-[80%] lg:w-[60%] h-[28rem] bg-gray-200 rounded">
-          <form onSubmit={submitHandler} autoComplete="off">
-            <div className="ml-3 md:ml-10 flex flex-col gap-y-2 mb-5">
+      <div className="flex mt-7 gap-x-20 justify-around mx-auto w-[70vw] h-[70vh]">
+        <div className="w-1/2 grid grid-cols-2 p-5 gap-4">
+          <Image src={"/placeholder.png"} width="100%" height="100%" />
+          <Image src={"/placeholder.png"} width="100%" height="100%" />
+          <Image src={"/placeholder.png"} width="100%" height="100%" />
+          <Image src={"/placeholder.png"} width="100%" height="100%" />
+        </div>
+        <div className="w-1/2">
+          <form onSubmit={submitHandler} spellCheck={false} autoComplete="off" className="w-full h-full mt-20">
+            <div className="flex flex-col gap-y-2 mb-5">
               <label htmlFor="productName" className="text-lg md:text-xl font-semibold">
                 Name
               </label>
               <input
-                className="w-[90%] md:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
+                className="w-[90%] md:w-[60%] overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
                 placeholder="Enter Name"
                 type="text"
                 name="productName"
@@ -60,12 +72,12 @@ export default function AddProduct() {
                 maxLength={14}
               />
             </div>
-            <div className="ml-3 md:ml-10 flex flex-col gap-y-2 mb-5">
+            <div className="flex flex-col gap-y-2 mb-5">
               <label htmlFor="productCost" className="text-lg md:text-xl font-semibold">
                 Price
               </label>
               <input
-                className="w-[90%] md:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
+                className="w-[90%] md:w-1/3 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
                 placeholder="Enter Price"
                 type="text"
                 name="productCost"
@@ -75,7 +87,7 @@ export default function AddProduct() {
                 maxLength={15}
               />
             </div>
-            <div className="ml-3 md:ml-10 flex flex-col gap-y-2 mb-10">
+            <div className="flex flex-col gap-y-2 mb-10">
               <label htmlFor="productDesc" className="text-lg md:text-xl font-semibold">
                 Description
               </label>
@@ -91,10 +103,10 @@ export default function AddProduct() {
               />
             </div>
             <button
-              className="ml-3 md:ml-10 bg-[#14213D] hover:bg-[#1a2c52] transition duration-500 text-white px-2 py-2 rounded"
+              className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-2 py-2 rounded"
               type="submit"
               onClick={() => {
-                setProduct({ ...product, productID: String(uid(25)) });
+                // setProduct({ ...product, productID: String(uid(25)) });
               }}
             >
               Add Product
