@@ -14,6 +14,7 @@ interface Product {
 
 export default function AddProduct() {
   const [product, setProduct] = useState<Product>({ productID: "", name: "", cost: "", description: "" });
+  const [isOpen, setIsOpen] = useState(false);
 
   const submitToDB = async (data: Product) => {
     try {
@@ -32,19 +33,30 @@ export default function AddProduct() {
   const submitHandler = (e: any) => {
     try {
       e.preventDefault();
-      setProduct({ ...product, productID: String(uid(25)) });
       submitToDB(product);
       setProduct({ productID: "", name: "", cost: "", description: "" });
+      setIsOpen(true);
       setTimeout(() => {
+        setIsOpen(false);
         Router.push("/");
       }, 3000);
     } catch (e) {
       console.log(e);
     }
   };
+  const cancelHandler = () => {
+    setProduct({ productID: "", name: "", cost: "", description: "" });
+    setTimeout(() => {
+      Router.push("/");
+    }, 100);
+  };
   return (
     <>
       <Header />
+      <div className={`absolute mx-auto right-0 left-0 top-24 z-50 font-semibold flex flex-col justify-center items-center w-[25%] h-24 bg-green-400 rounded-md select-none gap-y-3 ${isOpen ? "flex" : "hidden"}`}>
+        <p className="text-2xl">Product Added!</p>
+        <p className="">Redirecting to main page</p>
+      </div>
       <div className="pt-32 text-center font-semibold text-3xl">
         <h1>Add New Product</h1>
       </div>
@@ -92,7 +104,7 @@ export default function AddProduct() {
                 Description
               </label>
               <textarea
-                className="w-[90%] md:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
+                className="w-[90%] md:w-1/2 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500 resize-y pb-5"
                 placeholder="Enter Description"
                 rows={2}
                 name="productDesc"
@@ -102,15 +114,20 @@ export default function AddProduct() {
                 maxLength={16}
               />
             </div>
-            <button
-              className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-2 py-2 rounded"
-              type="submit"
-              onClick={() => {
-                // setProduct({ ...product, productID: String(uid(25)) });
-              }}
-            >
-              Add Product
-            </button>
+            <div className="flex gap-x-4">
+              <button
+                className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-2 py-2 rounded"
+                type="submit"
+                onClick={() => {
+                  setProduct({ ...product, productID: String(uid(25)) });
+                }}
+              >
+                Add Product
+              </button>
+              <button className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded" type="reset" onClick={cancelHandler}>
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>
