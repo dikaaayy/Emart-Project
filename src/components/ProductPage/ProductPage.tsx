@@ -37,16 +37,18 @@ export default function ProductPage(props: HomeProp) {
   };
 
   return (
-    <ProductGridDiv>
-      {products.map((product: product) => {
-        return (
-          <ProductCard
-            key={product.productID}
-            productName={product.name}
-            productPrice={product.cost}
-          ></ProductCard>
-        );
-      })}
-    </ProductGridDiv>
+    <div className="flex mb-36">
+      <ProductGridDiv>
+        {products.map((product: product) => {
+          return (
+            <ProductCard
+              key={product.productID}
+              productName={product.name}
+              productPrice={product.cost}
+            ></ProductCard>
+          );
+        })}
+      </ProductGridDiv>
+    </div>
   );
 }

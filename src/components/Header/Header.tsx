@@ -1,3 +1,4 @@
+
 import { HeaderAddProductButtonWrapper, HeaderContent, HeaderLogoWrapper, NavBar } from "../globalstyled";
 import Image from "next/image";
 import Link from "next/link";

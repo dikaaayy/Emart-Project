@@ -13,20 +13,26 @@ export const NavBar = styled.div`
 
 export const HeaderContent = styled.div`
   display: flex;
-  width: 35px;
+  width: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
   height: 32.81px;
-  margin-left: 69px;
   margin-top: 34.69px;
+  margin-bottom: 20px;
+
 `;
 
 export const HeaderLogoWrapper = styled.div`
   display: flex;
-  margin-left: 498.5px;
+  flex-grow: 1;
   margin-top: 20px;
   margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
 `;
 export const HeaderAddProductButtonWrapper = styled.div`
   display: flex;
-  margin-left: 430.5px;
-  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: 20px;
+
 `;
