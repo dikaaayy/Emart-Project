@@ -1,37 +1,46 @@
 import styled from "styled-components";
 
 export const NavBar = styled.div`
-  flex-direction: row;
-  box-sizing: border-box;
+  justify-content: space-between;
   width: 100%;
-  height: 100px;
   display: flex;
-  position: fixed;
+  position: absolute;
   background: #16213b;
   z-index: 2;
+  padding: 1.2rem;
 `;
 
-export const HeaderContent = styled.div`
+export const HeaderHomeIcon = styled.div`
   display: flex;
-  width: 100%;
-  margin-left: 20px;
-  margin-right: 20px;
-  height: 32.81px;
-  margin-top: 34.69px;
-  margin-bottom: 20px;
+  align-content: center;
+  cursor: pointer;
+  padding: 0rem 1rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  &:hover {
+    background-color: #1f2d4d;
+    border-radius: 0.5rem;
+  }
 `;
 
 export const HeaderLogoWrapper = styled.div`
   display: flex;
-  flex-grow: 1;
-  margin-top: 20px;
-  margin-bottom: 20px;
   justify-content: center;
-  align-items: center;
 `;
 export const HeaderAddProductButtonWrapper = styled.div`
   display: flex;
-  margin-left: auto;
-  margin-right: 20px;
+  align-items: center;
   cursor: pointer;
+  padding: 0rem 1.2rem;
+  font-weight: 600;
+  color: white;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  &:hover {
+    background-color: #1f2d4d;
+    border-radius: 0.5rem;
+    color: #e3e3e3;
+  }
 `;
