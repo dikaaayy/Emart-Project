@@ -1,3 +1,5 @@
+### Reminder Please Change the TITLE of the PR, example: [Feature] Add Product Page : Fix NavBar
+
 ### Background
 
 Describe Clearly What the Fix is, Give Screenshots if needed to make it cleare and provide detailed description on what is deleted, added and not deleted
