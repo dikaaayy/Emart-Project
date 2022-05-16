@@ -63,10 +63,10 @@ export default function AddProduct() {
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[85vw] lg:w-[65vw] lg:h-[65vh]">
         <div className="w-full  lg:w-1/2 grid grid-cols-2 p-7 lg:p-5 gap-4">
-          <Image src={"/placeholder.png"} width="100%" height="100%" />
-          <Image src={"/placeholder.png"} width="100%" height="100%" />
-          <Image src={"/placeholder.png"} width="100%" height="100%" />
-          <Image src={"/placeholder.png"} width="100%" height="100%" />
+          <Image src={"/placeholder.png"} alt="img-template" width="100%" height="100%" />
+          <Image src={"/placeholder.png"} alt="img-template" width="100%" height="100%" />
+          <Image src={"/placeholder.png"} alt="img-template" width="100%" height="100%" />
+          <Image src={"/placeholder.png"} alt="img-template" width="100%" height="100%" />
         </div>
         <div className="w-full  lg:w-1/2">
           <form onSubmit={submitHandler} spellCheck={false} autoComplete="off" className="w-full h-full lg:mt-20 mx-auto">
@@ -83,6 +83,7 @@ export default function AddProduct() {
                 value={product.name}
                 onChange={(e) => setProduct({ ...product, name: e.target.value })}
                 maxLength={14}
+                required
               />
             </div>
             <div className="flex flex-col gap-y-2 mb-5">
@@ -98,6 +99,7 @@ export default function AddProduct() {
                 value={product.cost}
                 onChange={(e) => setProduct({ ...product, cost: e.target.value })}
                 maxLength={15}
+                required
               />
             </div>
             <div className="flex flex-col gap-y-2 mb-10">
@@ -113,6 +115,7 @@ export default function AddProduct() {
                 value={product.description}
                 onChange={(e) => setProduct({ ...product, description: e.target.value })}
                 maxLength={16}
+                required
               />
             </div>
             <div className="flex gap-x-4">
