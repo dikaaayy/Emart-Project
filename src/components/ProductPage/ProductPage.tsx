@@ -36,6 +36,7 @@ export default function ProductPage(props: HomeProp) {
           return (
             <ProductCard
               key={product.productID}
+              productId={product.productID}
               productName={product.name}
               productPrice={product.cost}
             ></ProductCard>
