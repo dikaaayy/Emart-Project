@@ -1,8 +1,9 @@
 ### Reminder Please Change the TITLE of the PR, example: [Feature] Add Product Page : Fix NavBar
+### PLEASE ALSO TAG @Dwikavindra as the main reviewer for every PR do not merge it yourself :))))
 
 ### Background
 
-Describe Clearly What the Fix is, Give Screenshots if needed to make it cleare and provide detailed description on what is deleted, added and not deleted
+Describe Clearly What the Fix is, Give Screenshots if needed to make it clearer and provide detailed description on what is deleted, added and not deleted
 
 ### Impacted Components
 
