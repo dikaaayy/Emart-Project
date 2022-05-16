@@ -30,7 +30,7 @@ export default function ProductPage(props: HomeProp) {
   const [products, setProducts] = useState<product[]>(props.products);
 
   return (
-    <div className="flex mb-36">
+    <>
       <ProductGridDiv>
         {products.map((product: product) => {
           return (
@@ -42,6 +42,6 @@ export default function ProductPage(props: HomeProp) {
           );
         })}
       </ProductGridDiv>
-    </div>
+    </>
   );
 }
