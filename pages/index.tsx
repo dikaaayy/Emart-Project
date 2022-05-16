@@ -23,7 +23,7 @@ type HomeProp = {
 export default function Home(props: HomeProp) {
   return (
     <>
-      <Header></Header>
+      <Header />
       <ProductPage products={props.products}></ProductPage>
     </>
   );

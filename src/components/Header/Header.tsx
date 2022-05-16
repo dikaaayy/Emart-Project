@@ -1,17 +1,20 @@
 import {
   HeaderAddProductButtonWrapper,
-  HeaderContent,
+  HeaderHomeIcon,
   HeaderLogoWrapper,
   NavBar,
 } from "../globalstyled";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   return (
     <NavBar>
-      <HeaderContent>
-        <Image src="/home.svg" alt="home" width="100%" height="100%"></Image>
-      </HeaderContent>
+      <HeaderHomeIcon>
+        <Link href={"/"} passHref>
+          <Image src="/home.svg" alt="home" width="30" height="30" />
+        </Link>
+      </HeaderHomeIcon>
       <HeaderLogoWrapper>
         <Image
           src="/placeholder.png"
@@ -21,7 +24,9 @@ export default function Header() {
         ></Image>
       </HeaderLogoWrapper>
       <HeaderAddProductButtonWrapper>
-        <Image src="/add.svg" alt="add" width="35px" height="35px"></Image>
+        <Link href={"/addProduct"} passHref>
+          <Image src="/add.svg" alt="home" width="30" height="30" />
+        </Link>
       </HeaderAddProductButtonWrapper>
     </NavBar>
   );

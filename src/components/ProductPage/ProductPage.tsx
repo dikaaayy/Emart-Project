@@ -28,25 +28,20 @@ type HomeProp = {
 };
 export default function ProductPage(props: HomeProp) {
   const [products, setProducts] = useState<product[]>(props.products);
-  const deleteProduct = async (products: product[], id: number) => {
-    let newProducts = products.filter((e) => {
-      return e.productID != id;
-    });
-    setProducts(newProducts);
-    return await deleteProductOnDatabase(id);
-  };
 
   return (
-    <ProductGridDiv>
-      {products.map((product: product) => {
-        return (
-          <ProductCard
-            key={product.productID}
-            productName={product.name}
-            productPrice={product.cost}
-          ></ProductCard>
-        );
-      })}
-    </ProductGridDiv>
+    <>
+      <ProductGridDiv>
+        {products.map((product: product) => {
+          return (
+            <ProductCard
+              key={product.productID}
+              productName={product.name}
+              productPrice={product.cost}
+            ></ProductCard>
+          );
+        })}
+      </ProductGridDiv>
+    </>
   );
 }

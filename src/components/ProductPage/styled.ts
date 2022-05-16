@@ -23,7 +23,6 @@ export const ProductName = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
-
   position: relative;
   width: 160px;
   height: 40px;
@@ -33,13 +32,11 @@ export const ProductName = styled.div`
 
 export const ProductGridDiv = styled.div`
   display: grid;
-  height: 100%;
-  position: absolute;
-  top: 90px;
-  margin-top: 20px;
-  margin-left: 120px;
-  margin-right: 120px;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-column-gap: 35px;
   grid-row-gap: 50px;
+  justify-items: center;
+  align-content: space-evenly;
+  padding-top: 8rem;
+  padding-bottom: 2rem;
 `;
