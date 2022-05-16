@@ -7,6 +7,7 @@ export const CardBox = styled.div`
   height: 280px;
   width: 200px;
   border-radius: 12.56px;
+  cursor: pointer;
 `;
 
 export const CardImage = styled.div`
@@ -32,18 +33,18 @@ export const ProductName = styled.div`
 
 export const ProductGridDiv = styled.div`
   display: grid;
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    grid-column-gap: 35px;
-    grid-row-gap: 50px;
-  }
-  @media (min-width: 640px) {
+  @media only screen and (max-width: 1024px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-column-gap: 20px;
     grid-row-gap: 30px;
   }
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-row-gap: 20px;
+  @media only screen and (max-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-row-gap: 20px;
+  }
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-column-gap: 35px;
+  grid-row-gap: 50px;
   justify-items: center;
   align-content: space-evenly;
   padding-top: 8rem;
