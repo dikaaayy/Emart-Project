@@ -8,6 +8,15 @@ export const CardBox = styled.div`
   width: 200px;
   border-radius: 12.56px;
   cursor: pointer;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  &:hover {
+    transform: scale(1.02);
+  }
 `;
 
 export const CardImage = styled.div`
