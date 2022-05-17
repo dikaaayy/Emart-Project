@@ -1,10 +1,11 @@
 import Header from "../../src/components/Header/Header";
-import { product, PrismaClient } from "@prisma/client";
+import { product} from "@prisma/client";
+import { prisma } from "../../lib/prisma";
 import { useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
 
-const prisma = new PrismaClient();
+
 export async function getStaticPaths() {
   const data: product[] = await prisma.product.findMany();
   const paths = data.map((product)=>{
