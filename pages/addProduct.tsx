@@ -54,12 +54,14 @@ export default function AddProduct() {
   return (
     <>
       <Header />
-      <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen ${isOpen ? "block" : "hidden"}`}>
+      {isOpen && 
+      <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
         <div className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
           <p className="text-2xl">Product Added!</p>
           <p className="">Redirecting to main page</p>
         </div>
       </div>
+      }
       <div className="pt-36 text-center font-semibold text-lg md:text-xl lg:text-2xl">
         <h1>Add New Product</h1>
       </div>
