@@ -63,7 +63,6 @@ export default function Detail(props: any) {
   const deleteHandler = () => {
     setIsOpenModal(false);
     setIsOpenToast(true);
-    console.log("anjeeng");
     setTimeout(() => {
       setIsOpenToast(false);
       Router.push("/");
@@ -130,7 +129,7 @@ function DeleteProduct({ product, handleClose, deleteHandler }: { product: any; 
   const deleteDataOnDB = (data: string) => {
     try {
       fetch("http://localhost:3000/api/product/deleteproduct", {
-        body: data,
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
         },
@@ -155,7 +154,7 @@ function DeleteProduct({ product, handleClose, deleteHandler }: { product: any; 
               Product Name : <span className="text-white">{name}</span>
             </p>
             <p className="text-xl font-medium text-custom-lightOrange">
-              Product ID : <span className="text-white">{name}</span>
+              Product ID : <span className="text-white">{id}</span>
             </p>
           </div>
         </div>
