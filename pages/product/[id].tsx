@@ -106,10 +106,7 @@ export default function Detail(props: any) {
             <p className="text-4xl lg:text-5xl font-bold text-custom-darkBlue">{product.name}</p>
             <p className="text-xl font-semibold">{product.cost}</p>
           </div>
-          <p className="text-lg">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia consequatur voluptatum quisquam iste dolorem, accusamus, animi, sit ea maxime voluptate ex nisi quod tempore! Molestias deleniti corporis explicabo praesentium
-            voluptates.
-          </p>
+          <p className="text-lg">{product.description}</p>
           <div className="flex lg:flex-col gap-x-5 lg:w-1/2 gap-y-4 mt-auto lg:mb-5 lg:text-xl">
             <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md" onClick={editHandler}>
               Edit Item
