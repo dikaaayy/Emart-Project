@@ -144,8 +144,8 @@ function DeleteProduct({ product, handleClose, deleteHandler }: { product: any; 
     deleteHandler();
   };
   return (
-    <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen flex justify-center items-center`}>
-      <div className={`flex flex-col justify-center items-center px-32 py-20 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
+    <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-[110vh] md:h-screen flex justify-center items-center`}>
+      <div className={`flex flex-col justify-center items-center px-10 sm:px-16 py-8 md:px-24 md:py-12 lg:px-32 lg:py-20 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
         <div className="flex flex-col gap-y-4 mb-4">
           <p className="text-2xl font-semibold">Are you sure you want to delete:</p>
           <hr />
