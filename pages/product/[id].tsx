@@ -7,31 +7,41 @@ import Router from "next/router";
 import Template from "../../public/placeholder.png";
 // import DeleteProduct from "../../src/components/deleteProduct";
 
-export async function getStaticPaths() {
-  const data: product[] = await prisma.product.findMany();
-  const paths = data.map((product) => {
-    return {
-      params: { id: product.productID },
-    };
-  });
-  return {
-    paths: paths,
-    fallback: false,
-  };
-}
+// export async function getStaticPaths() {
+//   const data: product[] = await prisma.product.findMany();
+//   const paths = data.map((product) => {
+//     return {
+//       params: { id: product.productID },
+//     };
+//   });
+//   return {
+//     paths: paths,
+//     fallback: false,
+//   };
+// }
 
-export const getStaticProps = async (context: any) => {
-  const id = context.params.id;
+// export const getStaticProps = async (context: any) => {
+//   const id = context.params.id;
+//   const product = await prisma.product.findUnique({
+//     where: {
+//       productID: id,
+//     },
+//   });
+
+//   return {
+//     props: { product },
+//   };
+// };
+
+export async function getServerSideProps(context: any) {
+  const { id } = context.params;
   const product = await prisma.product.findUnique({
     where: {
       productID: id,
     },
   });
-
-  return {
-    props: { product },
-  };
-};
+  return { props: { product } };
+}
 
 export default function Detail(props: any) {
   const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description });

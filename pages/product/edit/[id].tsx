@@ -5,31 +5,15 @@ import { useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
 
-export async function getStaticPaths() {
-  const data: product[] = await prisma.product.findMany();
-  const paths = data.map((product) => {
-    return {
-      params: { id: product.productID },
-    };
-  });
-  return {
-    paths: paths,
-    fallback: false,
-  };
-}
-
-export const getStaticProps = async (context: any) => {
-  const id = context.params.id;
+export async function getServerSideProps(context: any) {
+  const { id } = context.params;
   const product = await prisma.product.findUnique({
     where: {
       productID: id,
     },
   });
-
-  return {
-    props: { product },
-  };
-};
+  return { props: { product } };
+}
 
 export default function Update(props: any) {
   const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description });
@@ -74,14 +58,14 @@ export default function Update(props: any) {
   return (
     <div>
       <Header />
-      {isOpen && 
-      <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
-        <div className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
-          <p className="text-2xl">Product Updated!</p>
-          <p className="">Redirecting to main page</p>
+      {isOpen && (
+        <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
+          <div className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
+            <p className="text-2xl">Product Updated!</p>
+            <p className="">Redirecting to main page</p>
+          </div>
         </div>
-      </div>
-      }
+      )}
       <div className="pt-36 text-center font-semibold text-lg md:text-xl lg:text-2xl">
         <h1>Update Product</h1>
       </div>
