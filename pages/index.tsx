@@ -1,14 +1,8 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import { useEffect, useState } from "react";
 import ProductPage from "../src/components/ProductPage/ProductPage";
-import { product, PrismaClient } from "@prisma/client";
-import { NavBar } from "../src/components/globalstyled";
+import { product} from "@prisma/client";
 import Header from "../src/components/Header/Header";
+import { prisma } from "../lib/prisma";
 
-const prisma = new PrismaClient();
 export async function getServerSideProps() {
   const product: product[] = await prisma.product.findMany();
   return {

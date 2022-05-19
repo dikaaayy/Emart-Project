@@ -12,7 +12,7 @@ export const NavBar = styled.div`
 
 export const HeaderHomeIcon = styled.div`
   display: flex;
-  align-content: center;
+  align-items: center;
   cursor: pointer;
   padding: 0rem 1rem;
   transition-property: all;

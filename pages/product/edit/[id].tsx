@@ -1,24 +1,33 @@
-import { Prisma } from "@prisma/client";
+import Header from "../../../src/components/Header/Header";
+import { product } from "@prisma/client";
+import { prisma } from "../../../lib/prisma";
 import { useState } from "react";
-import { uid } from "uid";
-import Header from "../src/components/Header/Header";
-import Router from "next/router";
 import Image from "next/image";
+import Router from "next/router";
 
-interface Product {
-  name: string;
-  cost: string;
-  description: string;
-  productID: string;
+export async function getServerSideProps(context: any) {
+  const { id } = context.params;
+  const product = await prisma.product.findUnique({
+    where: {
+      productID: id,
+    },
+  });
+  return { props: { product } };
 }
 
-export default function AddProduct() {
-  const [product, setProduct] = useState<Product>({ productID: "", name: "", cost: "", description: "" });
+export default function Update(props: any) {
+  const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description });
   const [isOpen, setIsOpen] = useState(false);
 
-  const submitToDB = async (data: Product) => {
+  const cancelHandler = () => {
+    setTimeout(() => {
+      Router.push("/product/" + props.product.productID);
+    }, 100);
+  };
+
+  const submitToDB = async (data: any) => {
     try {
-      fetch("http://localhost:3000/api/product/addproduct", {
+      fetch("http://localhost:3000/api/product/updateProduct", {
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
@@ -31,13 +40,12 @@ export default function AddProduct() {
   };
 
   const submitHandler = (e: any) => {
-    if (product.cost === "" || product.name === "" || product.description === "") return;
     try {
       e.preventDefault();
       submitToDB(product);
-      setProduct({ productID: "", name: "", cost: "", description: "" });
       setIsOpen(true);
       setTimeout(() => {
+        setProduct({ productID: "", name: "", cost: "", description: "" });
         setIsOpen(false);
         Router.push("/");
       }, 3000);
@@ -45,25 +53,21 @@ export default function AddProduct() {
       console.log(e);
     }
   };
-  const cancelHandler = () => {
-    setProduct({ productID: "", name: "", cost: "", description: "" });
-    setTimeout(() => {
-      Router.push("/");
-    }, 100);
-  };
+
+  // console.log(props.product)
   return (
-    <>
+    <div>
       <Header />
-      {isOpen && 
-      <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
-        <div className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
-          <p className="text-2xl">Product Added!</p>
-          <p className="">Redirecting to main page</p>
+      {isOpen && (
+        <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
+          <div className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
+            <p className="text-2xl">Product Updated!</p>
+            <p className="">Redirecting to main page</p>
+          </div>
         </div>
-      </div>
-      }
+      )}
       <div className="pt-36 text-center font-semibold text-lg md:text-xl lg:text-2xl">
-        <h1>Add New Product</h1>
+        <h1>Update Product</h1>
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[85vw] lg:w-[65vw] lg:h-[65vh]">
         <div className="w-full  lg:w-1/2 grid grid-cols-2 p-7 lg:p-5 gap-4">
@@ -123,14 +127,8 @@ export default function AddProduct() {
               />
             </div>
             <div className="flex gap-x-4">
-              <button
-                className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-2 py-2 rounded"
-                type="submit"
-                onClick={() => {
-                  setProduct({ ...product, productID: String(uid(25)) });
-                }}
-              >
-                Add Product
+              <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded" type="submit">
+                Update
               </button>
               <button className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded" type="reset" onClick={cancelHandler}>
                 Cancel
@@ -139,6 +137,6 @@ export default function AddProduct() {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }

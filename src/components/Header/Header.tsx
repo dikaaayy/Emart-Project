@@ -12,7 +12,9 @@ export default function Header() {
     <NavBar>
       <HeaderHomeIcon>
         <Link href={"/"} passHref>
-          <Image src="/home.svg" alt="home" width="30" height="30" />
+          <a>
+            <Image src="/home.svg" alt="home" width="30" height="30" />
+          </a>
         </Link>
       </HeaderHomeIcon>
       <HeaderLogoWrapper>
@@ -25,7 +27,9 @@ export default function Header() {
       </HeaderLogoWrapper>
       <HeaderAddProductButtonWrapper>
         <Link href={"/addProduct"} passHref>
-          <Image src="/add.svg" alt="home" width="30" height="30" />
+          <a>
+            <Image src="/add.svg" alt="home" width="30" height="30" />
+          </a>
         </Link>
       </HeaderAddProductButtonWrapper>
     </NavBar>
