@@ -1,9 +1,4 @@
-import {
-  HeaderAddProductButtonWrapper,
-  HeaderHomeIcon,
-  HeaderLogoWrapper,
-  NavBar,
-} from "../globalstyled";
+import { HeaderAddProductButtonWrapper, HeaderHomeIcon, HeaderLogoWrapper, NavBar } from "../globalstyled";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,12 +13,7 @@ export default function Header() {
         </Link>
       </HeaderHomeIcon>
       <HeaderLogoWrapper>
-        <Image
-          src="/placeholder.png"
-          alt="icon"
-          width="240px"
-          height="60px"
-        ></Image>
+        <Image src="/logo.svg" alt="icon" width="480px" height="136px" />
       </HeaderLogoWrapper>
       <HeaderAddProductButtonWrapper>
         <Link href={"/addProduct"} passHref>

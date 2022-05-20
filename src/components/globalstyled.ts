@@ -27,6 +27,8 @@ export const HeaderHomeIcon = styled.div`
 export const HeaderLogoWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 9rem;
+  height: 3rem;
 `;
 export const HeaderAddProductButtonWrapper = styled.div`
   display: flex;
