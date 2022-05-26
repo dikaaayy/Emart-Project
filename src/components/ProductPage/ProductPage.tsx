@@ -38,11 +38,11 @@ export default function ProductPage(props: HomeProp) {
     setSearchName(e.target.value);
 
     const arr = products.filter((product) => {
-      return product.name.toLowerCase().includes();
+      return product.name.toLowerCase().includes(searchName.toLowerCase());
     });
 
     setSearchedProduct(arr);
-    console.log(searchedProduct);
+    // console.log(searchedProduct);
   };
   // const handler = () => {
   //   debounce(inputHandler, 500);
@@ -59,12 +59,16 @@ export default function ProductPage(props: HomeProp) {
       {searchName === "" ? (
         <ProductGridDiv>
           {products.map((product: product) => {
-            return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost}></ProductCard>;
+            return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost} />;
           })}
         </ProductGridDiv>
       ) : (
         <>
-          <ProductGridDiv>{/* */}</ProductGridDiv>
+          <ProductGridDiv>
+            {searchedProduct.map((product) => {
+              return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost} />;
+            })}
+          </ProductGridDiv>
         </>
       )}
     </div>
