@@ -5,6 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
 import Template from "../../public/placeholder.png";
+import Head from "next/head";
 // import DeleteProduct from "../../src/components/deleteProduct";
 
 // export async function getStaticPaths() {
@@ -71,6 +72,9 @@ export default function Detail(props: any) {
   // console.log(props.product)
   return (
     <>
+      <Head>
+        <title>{product.name} | Detail Product</title>
+      </Head>
       <Header />
       {isOpenModal && <DeleteProduct product={product} handleClose={closeModalHandler} deleteHandler={deleteHandler} />}
       {isOpenToast && (

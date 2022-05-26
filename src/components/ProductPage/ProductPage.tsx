@@ -2,7 +2,6 @@ import { product } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { debounce } from "lodash";
 import ProductCard from "./ProductCard";
-import { ProductGridDiv } from "./styled";
 import Image from "next/image";
 
 type HomeProp = {
@@ -42,7 +41,7 @@ export default function ProductPage(props: HomeProp) {
   }, 300);
 
   return (
-    <div className="pt-20">
+    <div className="pt-[77px]">
       <div className="w-full bg-[#DBE1EE] flex items-center justify-evenly h-16 px-4 rounded-b-2xl mb-5">
         <input className="w-[95%] rounded-lg h-7 pl-2 outline-none border-custom-lightOrange border-[1px]" type="text" onChange={handler} placeholder="Search a product" spellCheck={false} />
         <button>
