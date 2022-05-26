@@ -56,6 +56,6 @@ export const ProductGridDiv = styled.div`
   grid-row-gap: 50px;
   justify-items: center;
   align-content: space-evenly;
-  padding-top: 8rem;
+  padding-top: 0rem;
   padding-bottom: 2rem;
 `;
