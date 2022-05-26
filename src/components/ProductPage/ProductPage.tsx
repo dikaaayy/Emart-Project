@@ -12,38 +12,39 @@ export default function ProductPage(props: HomeProp) {
   const [products, setProducts] = useState<product[]>(props.products);
   const [searchedProduct, setSearchedProduct] = useState<any[]>([]);
   const [searchName, setSearchName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (searchName === "") setSearchedProduct([]);
-    const arr = products.filter((product) => {
-      return product?.name?.toLowerCase().includes(searchName.toLowerCase());
-    });
-    setSearchedProduct(arr);
+    if (searchName === "") {
+      setSearchedProduct([]);
+      return;
+    }
+    async function fetchData() {
+      setIsLoading(true);
+      fetch("http://localhost:3000/api/product/searchproduct", {
+        body: JSON.stringify({ searchName }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      })
+        .then((res) => res.json())
+        .then((data) => setSearchedProduct(data));
+      setIsLoading(false);
+    }
+    fetchData();
 
-    setSearchedProduct(arr);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchName]);
-
-  // const inputHandler = (e: any) => {
-  //   setSearchName(e?.target?.value);
-  //   console.log(searchName);
-
-  //   if (searchName === "") setSearchedProduct([]);
-  //   const arr = products.filter((product) => {
-  //     return product?.name?.toLowerCase().includes(searchName.toLowerCase());
-  //   });
-
-  //   setSearchedProduct(arr);
-  //   console.log(searchedProduct);
-  // };
 
   const handler = debounce((e) => {
     setSearchName(e?.target?.value);
-  }, 250);
+  }, 300);
 
   return (
     <div className="pt-20">
       <div className="w-full bg-[#DBE1EE] flex items-center justify-evenly h-16 px-4 rounded-b-2xl mb-5">
-        <input className="w-[95%] rounded-lg h-7 pl-2 outline-none border-custom-lightOrange border-[1px]" type="text" onChange={handler} placeholder="Search a product" />
+        <input className="w-[95%] rounded-lg h-7 pl-2 outline-none border-custom-lightOrange border-[1px]" type="text" onChange={handler} placeholder="Search a product" spellCheck={false} />
         <button>
           <Image src="/magnifier.svg" alt="search-logo" width="20" height="20" />
         </button>
@@ -56,9 +57,15 @@ export default function ProductPage(props: HomeProp) {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-y-5 pb-8 justify-items-center content-evenly sm:grid-cols-3 sm:gap-y-8 sm:gap-x-5 lg:grid-cols-5 lg:gap-y-12 lg:gap-x-9">
-          {searchedProduct.map((product) => {
-            return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost} />;
-          })}
+          {isLoading ? (
+            <div className="mx-auto w-screen flex justify-center">
+              <Image src="/loading.svg" width={50} height={50} alt="loading" className="animate-spin" />
+            </div>
+          ) : (
+            searchedProduct.map((product) => {
+              return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost} />;
+            })
+          )}
         </div>
       )}
     </div>
