@@ -1,6 +1,7 @@
 import ProductPage from "../src/components/ProductPage/ProductPage";
-import { product} from "@prisma/client";
+import { product } from "@prisma/client";
 import Header from "../src/components/Header/Header";
+import AuthenticationPage from "../src/components/authPage/authenticationPage";
 import { prisma } from "../lib/prisma";
 
 export async function getServerSideProps() {
@@ -17,8 +18,9 @@ type HomeProp = {
 export default function Home(props: HomeProp) {
   return (
     <>
-      <Header />
-      <ProductPage products={props.products}></ProductPage>
+      {/* <Header /> */}
+      <AuthenticationPage></AuthenticationPage>
+      {/* <ProductPage products={props.products}></ProductPage> */}
     </>
   );
 }
