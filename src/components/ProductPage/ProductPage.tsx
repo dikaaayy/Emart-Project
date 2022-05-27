@@ -20,7 +20,7 @@ export default function ProductPage(props: HomeProp) {
     }
     setIsLoading(true);
     async function fetchData() {
-      fetch("http://localhost:3000/api/product/searchproduct", {
+      await fetch("http://localhost:3000/api/product/searchproduct", {
         body: JSON.stringify({ searchName }),
         headers: {
           "Content-Type": "application/json",
@@ -28,10 +28,12 @@ export default function ProductPage(props: HomeProp) {
         method: "POST",
       })
         .then((res) => res.json())
-        .then((data) => setSearchedProduct(data));
+        .then((data) => {
+          setSearchedProduct(data);
+          setIsLoading(false);
+        });
     }
     fetchData();
-    setIsLoading(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchName]);
