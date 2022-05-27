@@ -41,8 +41,8 @@ export default function ProductPage(props: HomeProp) {
   }, 300);
 
   return (
-    <div className="pt-[77px]">
-      <div className="w-full bg-[#DBE1EE] flex items-center justify-evenly h-20 px-4 rounded-b-2xl mb-5">
+    <div className="pt-[76px] relative">
+      <div className="w-full bg-[#DBE1EE] flex items-center justify-evenly h-20 px-4 rounded-b-2xl mb-5 sticky top-[76px] z-20">
         <input className="w-[95%] rounded-lg h-10 pl-2 outline-none border-custom-lightOrange border-[1px]" type="text" onChange={handler} placeholder="Search a product" spellCheck={false} />
         <button>
           <Image src="/magnifier.svg" alt="search-logo" width="20" height="20" />
