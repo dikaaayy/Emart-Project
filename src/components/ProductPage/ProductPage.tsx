@@ -18,8 +18,8 @@ export default function ProductPage(props: HomeProp) {
       setSearchedProduct([]);
       return;
     }
+    setIsLoading(true);
     async function fetchData() {
-      setIsLoading(true);
       fetch("http://localhost:3000/api/product/searchproduct", {
         body: JSON.stringify({ searchName }),
         headers: {
@@ -29,9 +29,9 @@ export default function ProductPage(props: HomeProp) {
       })
         .then((res) => res.json())
         .then((data) => setSearchedProduct(data));
-      setIsLoading(false);
     }
     fetchData();
+    setIsLoading(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchName]);
