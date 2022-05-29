@@ -1,7 +1,12 @@
-import { HeaderAddProductButtonWrapper, HeaderHomeIcon, HeaderLogoWrapper, NavBar } from "../globalstyled";
+import {
+  HeaderAddProductButtonWrapper,
+  HeaderHomeIcon,
+  HeaderLogoWrapper,
+  NavBar,
+} from "../globalstyled";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useSession, signOut } from "next-auth/react";
 export default function Header() {
   return (
     <NavBar>
@@ -22,6 +27,12 @@ export default function Header() {
           </a>
         </Link>
       </HeaderAddProductButtonWrapper>
+      {/* Added Only For testing purposes :)) Feel free to delete after*/}
+      <div>
+        <button className="text-white" onClick={() => signOut()}>
+          Sign Out
+        </button>
+      </div>
     </NavBar>
   );
 }
