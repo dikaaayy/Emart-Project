@@ -3,18 +3,20 @@ import Image from "next/image";
 import Router from "next/router";
 
 type ProductCardProps = {
-  productId: string | null
+  productId: string | null;
   productName: string | null;
   productPrice: string | null;
 };
 export default function ProductCard(props: ProductCardProps) {
   return (
-    <CardBox onClick={()=>{
-      Router.push('/product/' + props.productId)
-    }}>
+    <CardBox
+      onClick={() => {
+        Router.push("/product/" + props.productId);
+      }}
+    >
       <CardImage>
         <Image
-          alt="placeholder"
+          alt="/placeholder.png"
           src={"/placeholder.png"}
           width="100%"
           height="100%"
