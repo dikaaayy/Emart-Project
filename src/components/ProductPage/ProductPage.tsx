@@ -1,5 +1,5 @@
 import { product } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { debounce } from "lodash";
 import ProductCard from "./ProductCard";
 import Image from "next/image";
@@ -12,6 +12,7 @@ export default function ProductPage(props: HomeProp) {
   const [searchedProduct, setSearchedProduct] = useState<any[]>([]);
   const [searchName, setSearchName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (searchName === "") {
@@ -45,7 +46,19 @@ export default function ProductPage(props: HomeProp) {
   return (
     <div className="pt-[76px] relative">
       <div className="w-full bg-[#DBE1EE] flex items-center justify-evenly h-20 px-4 rounded-b-2xl mb-5 sticky top-[76px] z-20">
-        <input className="w-[95%] rounded-lg h-10 pl-2 outline-none border-custom-lightOrange border-[1px]" type="text" onChange={handler} placeholder="Search a product" spellCheck={false} />
+        <form className="w-[95%] flex items-center rounded-lg h-10 border-custom-lightOrange border-[1px] bg-white overflow-hidden">
+          <input className="w-[99%] h-full outline-none pl-2" type="text" onChange={handler} placeholder="Search a product" spellCheck={false} ref={inputRef} />
+          <button
+            className="px-2"
+            onClick={(e) => {
+              e.preventDefault();
+              setSearchName("");
+              inputRef.current!.value = "";
+            }}
+          >
+            x
+          </button>
+        </form>
         <button>
           <Image src="/magnifier.svg" alt="search-logo" width="20" height="20" />
         </button>
