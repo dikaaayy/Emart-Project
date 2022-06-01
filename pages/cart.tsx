@@ -17,7 +17,6 @@ import Image from "next/image";
 
 export default function Cart() {
   const { data: session } = useSession();
-  const [isLoaded, setIsLoaded] = useState(false);
   const [cart, setCart] = useState<any>([]);
   useEffect(() => {
     async function fetchData() {
@@ -31,14 +30,13 @@ export default function Cart() {
         .then((res) => res.json())
         .then((data) => {
           setCart(data);
-          setIsLoaded(true);
           //   console.log(data);
         });
     }
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(cart);
+
   return (
     <>
       <Head>
@@ -52,7 +50,7 @@ export default function Cart() {
               <div className="px-2 py-5 flex gap-x-4" key={i}>
                 <div className="flex items-start gap-x-1">
                   <Image src={"/Trash.svg"} width={20} height={20} alt={"trash"} />
-                  <Image src={"/placeholder.png"} width={140} height={140} alt={item.product.name} />
+                  <Image src={item.product.imageUrl || "/placeholder.png"} width={140} height={140} alt={item.product.name} />
                 </div>
                 <div className="flex flex-col justify-start">
                   <p className="text-xl">{item.product.name}</p>
@@ -69,15 +67,15 @@ export default function Cart() {
           <div className="mx-auto w-[95%] space-y-3">
             <div className="flex flex-col">
               <p className="text-lg font-semibold">Total Item</p>
-              <p className="self-end">2</p>
+              <p className="self-end">{cart.length}</p>
             </div>
             <div className="flex flex-col">
               <p className="text-lg font-semibold">Total Quantity</p>
-              <p className="self-end">2</p>
+              <p className="self-end">{cart.reduce((n: any, { quantity }: any) => n + quantity, 0)}</p>
             </div>
             <div className="flex flex-col">
               <p className="text-lg font-semibold">Total Price</p>
-              <p className="self-end text-xl font-semibold">Rp 2</p>
+              <p className="self-end text-xl font-semibold">Rp {cart.reduce((n: any, { quantity, product }: any) => n + parseInt(quantity) * parseInt(product.cost), 0).toLocaleString("en-US", { maximumFractionDigits: 2 })}</p>
             </div>
           </div>
           <button className="bg-custom-lightOrange hover:bg-[#ee9f1f] transition w-full text-white font-semibold py-2 rounded-md">Pay</button>
