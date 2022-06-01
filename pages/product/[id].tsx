@@ -5,7 +5,6 @@ import Image from "next/image";
 import Router from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
-import { product } from "@prisma/client";
 
 export async function getServerSideProps(context: any) {
   const { id } = context.params;
@@ -78,7 +77,7 @@ export default function Detail(props: any) {
         <div className="w-full lg:w-1/2 h-full flex flex-col gap-y-3 justify-between py-2 px-8 lg:px-0">
           <div className="space-y-3 mt-5">
             <p className="text-4xl lg:text-5xl font-bold text-custom-darkBlue">{product.name}</p>
-            <p className="text-xl font-semibold">{product.cost}</p>
+            <p className="text-xl font-semibold">Rp {product.cost}</p>
             <p className="text-lg">{product.description}</p>
           </div>
           {props.product.email === session?.user?.email ? (
@@ -101,7 +100,7 @@ export default function Detail(props: any) {
                   <button onClick={() => setQuantity(quantity - 1)} disabled={quantity === 1} className={`${quantity === 1 ? "opacity-40" : ""}`}>
                     <Image src={"/minus.svg"} width={30} height={30} alt="minus" />
                   </button>
-                  <p className="text-lg font-medium">{quantity}</p>
+                  <p className="text-xl font-medium">{quantity}</p>
                   <button onClick={() => setQuantity(quantity + 1)} disabled={quantity === props.product.stock} className={`${quantity === props.product.stock ? "opacity-40" : ""}`}>
                     <Image src={"/plus.svg"} width={30} height={30} alt="minus" />
                   </button>

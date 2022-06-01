@@ -17,7 +17,7 @@ export async function getServerSideProps(context: any) {
 }
 
 export default function Update(props: any) {
-  const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description });
+  const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description, stock: props.product.stock });
   const [isOpen, setIsOpen] = useState(false);
 
   const cancelHandler = () => {
@@ -46,7 +46,7 @@ export default function Update(props: any) {
       submitToDB(product);
       setIsOpen(true);
       setTimeout(() => {
-        setProduct({ productID: "", name: "", cost: "", description: "" });
+        setProduct({ productID: "", name: "", cost: "", description: "", stock: null });
         setIsOpen(false);
         Router.push("/");
       }, 3000);
@@ -58,7 +58,7 @@ export default function Update(props: any) {
   return (
     <>
       <Head>
-        <title>{product.name} | Edit</title>{" "}
+        <title>Edit Product</title>
       </Head>
       <Header />
       {isOpen && (
@@ -109,6 +109,22 @@ export default function Update(props: any) {
                 id="productCost"
                 value={product.cost}
                 onChange={(e) => setProduct({ ...product, cost: e.target.value })}
+                maxLength={15}
+                required
+              />
+            </div>
+            <div className="flex flex-col gap-y-2 mb-5">
+              <label htmlFor="productStock" className="lg:text-xl font-semibold">
+                Stock
+              </label>
+              <input
+                className="w-1/2 lg:w-1/3 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
+                placeholder="Enter Price"
+                type="text"
+                name="productStock"
+                id="productStock"
+                value={product.stock}
+                onChange={(e) => setProduct({ ...product, stock: parseInt(e.target.value) })}
                 maxLength={15}
                 required
               />
