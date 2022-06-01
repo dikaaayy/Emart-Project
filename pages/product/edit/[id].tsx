@@ -1,5 +1,4 @@
 import Header from "../../../src/components/Header/Header";
-import { product } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
 import { useState } from "react";
 import Image from "next/image";
@@ -17,7 +16,12 @@ export async function getServerSideProps(context: any) {
 }
 
 export default function Update(props: any) {
-  const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description });
+  const [product, setProduct] = useState({
+    productID: props.product.productID,
+    name: props.product.name,
+    cost: props.product.cost,
+    description: props.product.description,
+  });
   const [isOpen, setIsOpen] = useState(false);
 
   const cancelHandler = () => {
@@ -62,8 +66,12 @@ export default function Update(props: any) {
       </Head>
       <Header />
       {isOpen && (
-        <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
-          <div className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
+        <div
+          className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}
+        >
+          <div
+            className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}
+          >
             <p className="text-2xl">Product Updated!</p>
             <p className="">Redirecting to main page</p>
           </div>
@@ -74,13 +82,42 @@ export default function Update(props: any) {
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[85vw] lg:w-[65vw] lg:h-[65vh]">
         <div className="w-full  lg:w-1/2 grid grid-cols-2 p-7 lg:p-5 gap-4 content-center">
-          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
-          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
-          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
-          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
+          <Image
+            src={"/placeholder.png"}
+            alt="img-template"
+            width="320"
+            height="306"
+            objectFit="contain"
+          />
+          <Image
+            src={"/placeholder.png"}
+            alt="img-template"
+            width="320"
+            height="306"
+            objectFit="contain"
+          />
+          <Image
+            src={"/placeholder.png"}
+            alt="img-template"
+            width="320"
+            height="306"
+            objectFit="contain"
+          />
+          <Image
+            src={"/placeholder.png"}
+            alt="img-template"
+            width="320"
+            height="306"
+            objectFit="contain"
+          />
         </div>
         <div className="w-full  lg:w-1/2">
-          <form onSubmit={submitHandler} spellCheck={false} autoComplete="off" className="w-full h-full lg:mt-20 mx-auto">
+          <form
+            onSubmit={submitHandler}
+            spellCheck={false}
+            autoComplete="off"
+            className="w-full h-full lg:mt-20 mx-auto"
+          >
             <div className="flex flex-col gap-y-2 mb-5">
               <label htmlFor="productName" className="lg:text-xl font-semibold">
                 Name
@@ -92,7 +129,9 @@ export default function Update(props: any) {
                 name="productName"
                 id="productName"
                 value={product.name}
-                onChange={(e) => setProduct({ ...product, name: e.target.value })}
+                onChange={(e) =>
+                  setProduct({ ...product, name: e.target.value })
+                }
                 maxLength={14}
                 required
               />
@@ -108,7 +147,9 @@ export default function Update(props: any) {
                 name="productCost"
                 id="productCost"
                 value={product.cost}
-                onChange={(e) => setProduct({ ...product, cost: e.target.value })}
+                onChange={(e) =>
+                  setProduct({ ...product, cost: e.target.value })
+                }
                 maxLength={15}
                 required
               />
@@ -124,16 +165,25 @@ export default function Update(props: any) {
                 name="productDesc"
                 id="productDesc"
                 value={product.description}
-                onChange={(e) => setProduct({ ...product, description: e.target.value })}
+                onChange={(e) =>
+                  setProduct({ ...product, description: e.target.value })
+                }
                 maxLength={16}
                 required
               />
             </div>
             <div className="flex gap-x-4">
-              <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded" type="submit">
+              <button
+                className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded"
+                type="submit"
+              >
                 Update
               </button>
-              <button className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded" type="reset" onClick={cancelHandler}>
+              <button
+                className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded"
+                type="reset"
+                onClick={cancelHandler}
+              >
                 Cancel
               </button>
             </div>
