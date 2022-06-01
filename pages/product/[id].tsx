@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
+import { product } from "@prisma/client";
 
 export async function getServerSideProps(context: any) {
   const { id } = context.params;
@@ -19,6 +21,8 @@ export default function Detail(props: any) {
   const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description });
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenToast, setIsOpenToast] = useState(false);
+  const { data: session } = useSession();
+  const [quantity, setQuantity] = useState(1);
 
   // console.log(props);
 
@@ -33,6 +37,8 @@ export default function Detail(props: any) {
   const closeModalHandler = () => {
     setIsOpenModal(false);
   };
+
+  const addCartHandler = () => {};
 
   const deleteHandler = () => {
     setIsOpenModal(false);
@@ -75,22 +81,40 @@ export default function Detail(props: any) {
             <p className="text-xl font-semibold">{product.cost}</p>
             <p className="text-lg">{product.description}</p>
           </div>
-          <div className="flex justify-between">
-            <p className="font-medium text-2xl">Stock: {props.product.stock}</p>
-            <div className="flex gap-x-2 select-none">
-              <Image src={"/minus.svg"} width={30} height={30} alt="minus" />
-              <p className="text-lg font-medium">{props.product.stock}</p>
-              <Image src={"/plus.svg"} width={30} height={30} alt="minus" />
-            </div>
-          </div>
-          <div className="flex lg:flex-col gap-x-5 lg:w-[60%] gap-y-4 lg:mb-5 lg:text-xl lg:mx-auto">
-            <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md" onClick={editHandler}>
-              Edit Item
-            </button>
-            <button className="bg-white border-[2px] lg:border-[3px] hover:bg-[#f1f1f1] border-custom-lightOrange font-semibold transition text-custom-lightOrange px-4 py-2 rounded-md" type="reset" onClick={openModalHandler}>
-              Delete Item
-            </button>
-          </div>
+          {props.product.email === session?.user?.email ? (
+            <>
+              <p className="font-medium text-2xl">Stock: {props.product.stock}</p>
+              <div className="flex lg:flex-col gap-x-5 lg:w-[60%] gap-y-4 lg:mb-5 lg:text-xl lg:mx-auto">
+                <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md" onClick={editHandler}>
+                  Edit Item
+                </button>
+                <button className="bg-white border-[2px] lg:border-[3px] hover:bg-[#f1f1f1] border-custom-lightOrange font-semibold transition text-custom-lightOrange px-4 py-2 rounded-md" type="reset" onClick={openModalHandler}>
+                  Delete Item
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="font-medium text-2xl">Stock: {props.product.stock}</p>
+              <div className="flex flex-col items-end gap-y-3">
+                <div className="flex gap-x-2 select-none">
+                  <button onClick={() => setQuantity(quantity - 1)} disabled={quantity === 1} className={`${quantity === 1 ? "opacity-40" : ""}`}>
+                    <Image src={"/minus.svg"} width={30} height={30} alt="minus" />
+                  </button>
+                  <p className="text-lg font-medium">{quantity}</p>
+                  <button onClick={() => setQuantity(quantity + 1)} disabled={quantity === props.product.stock} className={`${quantity === props.product.stock ? "opacity-40" : ""}`}>
+                    <Image src={"/plus.svg"} width={30} height={30} alt="minus" />
+                  </button>
+                </div>
+                <p className="text-2xl font-semibold">Rp {(parseInt(product.cost) * quantity).toLocaleString("en-US", { maximumFractionDigits: 2 })}</p>
+                <div className="flex justify-end gap-x-5 lg:w-[30%] gap-y-4 lg:text-lg">
+                  <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-8 py-2 rounded-md" onClick={addCartHandler}>
+                    Add To Cart
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
