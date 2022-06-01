@@ -3,19 +3,16 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email } = req.body;
-  // console.log(email);
+  const { id } = req.body;
+  console.log(id);
 
   try {
-    const response = await prisma.cart.findMany({
+    await prisma.cart.delete({
       where: {
-        email,
-      },
-      include: {
-        product: true,
+        cartID: id,
       },
     });
-    res.send(response);
+    res.status(200);
   } catch (e) {
     console.log(e);
   }
