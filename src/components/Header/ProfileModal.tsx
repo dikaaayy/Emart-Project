@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 export default function ProfileModal() {
   const router = useRouter();
   return (
-    <div className="bg-custom-lightOrange space-y-3 text-white font-medium absolute top-16 z-40 min-w-max -left-0 rounded-b-lg overflow-hidden">
+    <div className="bg-custom-lightOrange space-y-3 text-white font-medium absolute top-16 z-20 min-w-max left-5 rounded-b-lg overflow-hidden">
       <p
         className="cursor-pointer hover:bg-[#db9017] p-2"
         onClick={() => {
