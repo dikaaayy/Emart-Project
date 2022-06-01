@@ -6,7 +6,7 @@ import ProfileModal from "./ProfileModal";
 
 export default function Header() {
   const { data: session } = useSession();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLButtonElement>(null);
   // console.log(session?.user?.image);
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function Header() {
     };
   }, [isOpen]);
   return (
-    <div className="w-full fixed z-20 flex justify-between bg-[#16213b] px-6 py-3">
+    <div className="w-full fixed z-20 flex justify-between select-none bg-[#16213b] px-6 py-3">
       <Link href={"/"} passHref>
         <a className="p-2 hover:bg-[#1d2b4d] rounded-lg transition">
           <Image src="/home.svg" alt="home" width="30" height="30" />
@@ -37,7 +37,13 @@ export default function Header() {
           </a>
         </Link>
         <button className="flex items-center hover:bg-[#1d2b4d] p-1 rounded-md transition" onClick={() => setIsOpen(!isOpen)} ref={ref}>
-          <Image src={session?.user?.image!} alt={session?.user?.name!} width={45} height={45} className="rounded-full" />
+          {session?.user?.image ? (
+            <Image src={session?.user?.image!} alt={session?.user?.name!} width={45} height={45} className="rounded-full" />
+          ) : (
+            <>
+              <Image src={"/placeholder.png"} alt={"placeholder"} width={45} height={45} className="rounded-full" />
+            </>
+          )}
           {isOpen ? (
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
