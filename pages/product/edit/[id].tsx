@@ -4,6 +4,7 @@ import { prisma } from "../../../lib/prisma";
 import { useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
+import Head from "next/head";
 
 export async function getServerSideProps(context: any) {
   const { id } = context.params;
@@ -54,9 +55,11 @@ export default function Update(props: any) {
     }
   };
 
-  // console.log(props.product)
   return (
-    <div>
+    <>
+      <Head>
+        <title>{product.name} | Edit</title>{" "}
+      </Head>
       <Header />
       {isOpen && (
         <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
@@ -70,11 +73,11 @@ export default function Update(props: any) {
         <h1>Update Product</h1>
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[85vw] lg:w-[65vw] lg:h-[65vh]">
-        <div className="w-full  lg:w-1/2 grid grid-cols-2 p-7 lg:p-5 gap-4">
-          <Image src={"/placeholder.png"} alt="img-template" width="100%" height="100%" />
-          <Image src={"/placeholder.png"} alt="img-template" width="100%" height="100%" />
-          <Image src={"/placeholder.png"} alt="img-template" width="100%" height="100%" />
-          <Image src={"/placeholder.png"} alt="img-template" width="100%" height="100%" />
+        <div className="w-full  lg:w-1/2 grid grid-cols-2 p-7 lg:p-5 gap-4 content-center">
+          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
+          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
+          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
+          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
         </div>
         <div className="w-full  lg:w-1/2">
           <form onSubmit={submitHandler} spellCheck={false} autoComplete="off" className="w-full h-full lg:mt-20 mx-auto">
@@ -137,6 +140,6 @@ export default function Update(props: any) {
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }
