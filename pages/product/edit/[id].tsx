@@ -1,9 +1,10 @@
 import Header from "../../../src/components/Header/Header";
-import { product } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
 import { useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
+import { submitProduct } from "../../../src/firebase/firebase";
+import { updateProductToDB } from "../../../src/database/updateDB";
 import Head from "next/head";
 
 export async function getServerSideProps(context: any) {
@@ -16,37 +17,51 @@ export async function getServerSideProps(context: any) {
   return { props: { product } };
 }
 
+export type Product = {
+  productID: String;
+  name: String;
+  cost: String;
+  description: String;
+  imageUrl: String;
+};
+
 export default function Update(props: any) {
-  const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description });
+  const [product, setProduct] = useState({
+    productID: props.product.productID,
+    name: props.product.name,
+    cost: props.product.cost,
+    description: props.product.description,
+    imageUrl: "",
+  });
   const [isOpen, setIsOpen] = useState(false);
+  const [imageString, setImageString] = useState<string>("/placeholder.png");
+  const [imageFile, setImageFile] = useState<File>();
 
   const cancelHandler = () => {
     setTimeout(() => {
       Router.push("/product/" + props.product.productID);
     }, 100);
   };
-
-  const submitToDB = async (data: any) => {
-    try {
-      fetch("http://localhost:3000/api/product/updateProduct", {
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-    } catch (e) {
-      console.log(e);
+  const submitImageLocally = (file: any) => {
+    if (file.target.files && file.target.files[0]) {
+      setImageFile(file.target.files[0]);
+      setImageString(URL.createObjectURL(file.target.files[0]));
     }
   };
 
-  const submitHandler = (e: any) => {
+  const submitHandler = async (e: any) => {
     try {
       e.preventDefault();
-      submitToDB(product);
       setIsOpen(true);
+      await submitProduct(imageFile!, product, updateProductToDB);
       setTimeout(() => {
-        setProduct({ productID: "", name: "", cost: "", description: "" });
+        setProduct({
+          productID: "",
+          name: "",
+          cost: "",
+          description: "",
+          imageUrl: "",
+        });
         setIsOpen(false);
         Router.push("/");
       }, 3000);
@@ -62,9 +77,13 @@ export default function Update(props: any) {
       </Head>
       <Header />
       {isOpen && (
-        <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
-          <div className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
-            <p className="text-2xl">Product Updated!</p>
+        <div
+          className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}
+        >
+          <div
+            className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}
+          >
+            <p className="text-2xl ">Product Updated!</p>
             <p className="">Redirecting to main page</p>
           </div>
         </div>
@@ -73,14 +92,24 @@ export default function Update(props: any) {
         <h1>Update Product</h1>
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[85vw] lg:w-[65vw] lg:h-[65vh]">
-        <div className="w-full  lg:w-1/2 grid grid-cols-2 p-7 lg:p-5 gap-4 content-center">
-          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
-          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
-          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
-          <Image src={"/placeholder.png"} alt="img-template" width="320" height="306" objectFit="contain" />
+        <div className=" flex border-2 border-black justify-items-center justify-center align-middle lg:w-60 lg:h-60">
+          <div className="min-w-full">
+            <Image
+              src={imageString}
+              alt="img-template"
+              width="100%"
+              height="100%"
+              layout="responsive"
+            ></Image>
+          </div>
         </div>
         <div className="w-full  lg:w-1/2">
-          <form onSubmit={submitHandler} spellCheck={false} autoComplete="off" className="w-full h-full lg:mt-20 mx-auto">
+          <form
+            onSubmit={submitHandler}
+            spellCheck={false}
+            autoComplete="off"
+            className="w-full h-full lg:mt-20 mx-auto"
+          >
             <div className="flex flex-col gap-y-2 mb-5">
               <label htmlFor="productName" className="lg:text-xl font-semibold">
                 Name
@@ -92,7 +121,9 @@ export default function Update(props: any) {
                 name="productName"
                 id="productName"
                 value={product.name}
-                onChange={(e) => setProduct({ ...product, name: e.target.value })}
+                onChange={(e) =>
+                  setProduct({ ...product, name: e.target.value })
+                }
                 maxLength={14}
                 required
               />
@@ -108,7 +139,9 @@ export default function Update(props: any) {
                 name="productCost"
                 id="productCost"
                 value={product.cost}
-                onChange={(e) => setProduct({ ...product, cost: e.target.value })}
+                onChange={(e) =>
+                  setProduct({ ...product, cost: e.target.value })
+                }
                 maxLength={15}
                 required
               />
@@ -124,16 +157,37 @@ export default function Update(props: any) {
                 name="productDesc"
                 id="productDesc"
                 value={product.description}
-                onChange={(e) => setProduct({ ...product, description: e.target.value })}
+                onChange={(e) =>
+                  setProduct({ ...product, description: e.target.value })
+                }
                 maxLength={16}
                 required
               />
             </div>
-            <div className="flex gap-x-4">
-              <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded" type="submit">
+            <div className="flex border-2 border-black">
+              <label htmlFor="productCost" className="lg:text-xl font-semibold">
+                Upload Your Image
+              </label>
+              <input
+                onChange={submitImageLocally}
+                type="file"
+                accept="image/png, image/jpeg"
+              ></input>
+            </div>
+            <div className="flex gap-x-4 mt-4">
+              <button
+                className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded"
+                type="submit"
+                disabled={isOpen ? true : false}
+              >
                 Update
               </button>
-              <button className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded" type="reset" onClick={cancelHandler}>
+              <button
+                className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded"
+                type="reset"
+                onClick={cancelHandler}
+                disabled={false}
+              >
                 Cancel
               </button>
             </div>
