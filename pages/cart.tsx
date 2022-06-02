@@ -40,7 +40,7 @@ export default function Cart() {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  }, []);
 
   const deleteInDB = async (id: any) => {
     const newCart = cart.filter(function (item: any) {

@@ -68,7 +68,7 @@ export default function ProductPage(props: HomeProp) {
       {searchName === "" ? (
         <div className="grid grid-cols-2 gap-y-5 pb-8 justify-items-center content-evenly sm:grid-cols-3 sm:gap-y-8 sm:gap-x-5 lg:grid-cols-5 lg:gap-y-12 lg:gap-x-9">
           {products.map((product: product) => {
-            return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost} />;
+            return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost} productImageUrl={product.imageUrl} />;
           })}
         </div>
       ) : (
@@ -79,7 +79,7 @@ export default function ProductPage(props: HomeProp) {
             </div>
           ) : (
             searchedProduct.map((product) => {
-              return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost} />;
+              return <ProductCard key={product.productID} productId={product.productID} productName={product.name} productPrice={product.cost} productImageUrl={product.imageUrl} />;
             })
           )}
         </div>
