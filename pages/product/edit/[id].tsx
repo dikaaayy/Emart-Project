@@ -59,6 +59,7 @@ export default function Update(props: any) {
     <>
       <Head>
         <title>Edit Product</title>
+        <link rel="icon" href="/iconlogo.svg" />
       </Head>
       <Header />
       {isOpen && (

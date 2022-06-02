@@ -37,7 +37,19 @@ export default function Detail(props: any) {
     setIsOpenModal(false);
   };
 
-  const addCartHandler = () => {};
+  const addCartHandler = () => {
+    try {
+      fetch("http://localhost:3000/api/product/addToCart", {
+        body: JSON.stringify({ quantity, email: session?.user?.email, productID: product.productID }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const deleteHandler = () => {
     setIsOpenModal(false);
@@ -66,13 +78,9 @@ export default function Detail(props: any) {
         <h1>Product Detail</h1>
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-8 lg:justify-center lg:h-[65vh]">
-        <div className="w-full h-[37vh] lg:h-full lg:w-[40%] flex flex-col items-center justify-center gap-y-4 lg:gap-y-16">
-          <Image src={"/placeholder.png"} alt="img-template" width={160 * 2} height={153 * 2} objectFit="contain" />
-          <div className="flex gap-x-3 justify-center sm:justify-around w-[70%]">
-            <Image src={"/placeholder.png"} alt="img-template" width="80" height="76" />
-            <Image src={"/placeholder.png"} alt="img-template" width="80" height="76" />
-            <Image src={"/placeholder.png"} alt="img-template" width="80" height="76" />
-          </div>
+        <div className="w-full h-[37vh] lg:h-full lg:w-[40%] flex flex-col items-center py-10 justify-between border-2">
+          <Image src={"/placeholder.png"} alt="img-template" width={400} height={400} />
+          <p className="">test</p>
         </div>
         <div className="w-full lg:w-1/2 h-full flex flex-col gap-y-3 justify-between py-2 px-8 lg:px-0">
           <div className="space-y-3 mt-5">
@@ -84,7 +92,7 @@ export default function Detail(props: any) {
             <>
               <p className="font-medium text-2xl">Stock: {props.product.stock}</p>
               <div className="flex lg:flex-col gap-x-5 lg:w-[60%] gap-y-4 lg:mb-5 lg:text-xl lg:mx-auto">
-                <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md" onClick={editHandler}>
+                <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md" onClick={() => editHandler}>
                   Edit Item
                 </button>
                 <button className="bg-white border-[2px] lg:border-[3px] hover:bg-[#f1f1f1] border-custom-lightOrange font-semibold transition text-custom-lightOrange px-4 py-2 rounded-md" type="reset" onClick={openModalHandler}>

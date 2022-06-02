@@ -1,35 +1,46 @@
 import Head from "next/head";
 import Header from "../src/components/Header/Header";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { prisma } from "@prisma/client";
+import { fetchData } from "next-auth/client/_utils";
+
+// export async function getServerSideProps(context: any) {
+//   const { id } = context.params;
+//   // const product = await prisma.product.findUnique();
+//   // return { props: { product } };
+// }
 
 export default function Cart() {
   const { data: session } = useSession();
   const router = useRouter();
   const [cart, setCart] = useState<any>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    setIsLoading(true);
-    async function fetchData() {
-      await fetch("http://localhost:3000/api/product/getUserCart", {
-        body: JSON.stringify({ email: session?.user?.email }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setCart(data);
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function fetchData() {
+    await fetch("http://localhost:3000/api/product/getUserCart", {
+      body: JSON.stringify({ email: session?.user?.email }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCart(data);
+        setTimeout(() => {
           setIsLoading(false);
-          //   console.log(data);
-        });
-    }
+        }, 150);
+        //   console.log(data);
+      });
+  }
+
+  useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [session]);
 
   const deleteInDB = async (id: any) => {
     const newCart = cart.filter(function (item: any) {
@@ -55,6 +66,7 @@ export default function Cart() {
     <>
       <Head>
         <title>Cart | Emart</title>
+        <link rel="icon" href="/iconlogo.svg" />
       </Head>
       <Header />
       <div className="pt-28 flex mx-10 cursor-default">
@@ -66,6 +78,7 @@ export default function Cart() {
           <>
             <div className="w-2/3 flex flex-col gap-y-5">
               {cart.map((item: any, i: number) => {
+                // if (item.email !== session?.user?.email) return;
                 return (
                   <div className="px-2 py-5 flex gap-x-4" key={i}>
                     <div className="flex items-start gap-x-1">

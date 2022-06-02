@@ -3,15 +3,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { name, cost, description, productID } = req.body;
-
+  const { email, quantity, productID } = req.body;
   try {
-    await prisma.product.create({
+    await prisma.cart.create({
       data: {
         productID,
-        name,
-        description,
-        cost,
+        email,
+        quantity,
       },
     });
     res.status(200).end();
