@@ -1,44 +1,37 @@
 import Head from "next/head";
 import Header from "../src/components/Header/Header";
 import { useEffect, useState } from "react";
-import { useSession, getSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { prisma } from "@prisma/client";
-import { fetchData } from "next-auth/client/_utils";
+import { prisma } from "../lib/prisma";
+import CartModal from "../src/components/cart/CartModal";
 
-// export async function getServerSideProps(context: any) {
-//   const { id } = context.params;
-//   // const product = await prisma.product.findUnique();
-//   // return { props: { product } };
-// }
+export async function getServerSideProps(context: any) {
+  const session = await getSession(context);
+  const data = await prisma.cart.findMany({
+    where: {
+      email: session?.user?.email!,
+    },
+    include: {
+      product: true,
+    },
+  });
+  return {
+    props: { data },
+  };
+}
 
-export default function Cart() {
-  const { data: session } = useSession();
+export default function Cart({ data }: any) {
   const router = useRouter();
   const [cart, setCart] = useState<any>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  async function fetchData() {
-    await fetch("http://localhost:3000/api/product/getUserCart", {
-      body: JSON.stringify({ email: session?.user?.email }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCart(data);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 150);
-        //   console.log(data);
-      });
-  }
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchData();
+    setIsLoading(true);
+    setCart(data);
+    setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -58,9 +51,27 @@ export default function Cart() {
     } catch (e) {
       console.log(e);
     }
-    // router.reload();
   };
-  // console.log(cart);
+
+  const payHandler = async () => {
+    // cart.map((item: any) => item.product.productID)
+    try {
+      const res = await fetch("http://localhost:3000/api/product/getCurrentStock", {
+        body: JSON.stringify({
+          productID: "27",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+    // isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
+  };
 
   return (
     <>
@@ -78,7 +89,6 @@ export default function Cart() {
           <>
             <div className="w-2/3 flex flex-col gap-y-5">
               {cart.map((item: any, i: number) => {
-                // if (item.email !== session?.user?.email) return;
                 return (
                   <div className="px-2 py-5 flex gap-x-4" key={i}>
                     <div className="flex items-start gap-x-1">
@@ -111,8 +121,18 @@ export default function Cart() {
                   <p className="self-end text-xl font-semibold">Rp {cart.reduce((n: any, { quantity, product }: any) => n + parseInt(quantity) * parseInt(product.cost), 0).toLocaleString("en-US", { maximumFractionDigits: 2 })}</p>
                 </div>
               </div>
-              <button className="bg-custom-lightOrange hover:bg-[#ee9f1f] transition w-full text-white font-semibold py-2 rounded-md">Pay</button>
+              <button className="bg-custom-lightOrange hover:bg-[#ee9f1f] transition w-full text-white font-semibold py-2 rounded-md" onClick={payHandler}>
+                Pay
+              </button>
             </div>
+            {isModalOpen && (
+              <CartModal
+                handleClose={() => {
+                  setIsModalOpen(false);
+                }}
+                data={cart}
+              />
+            )}
           </>
         ) : (
           <>

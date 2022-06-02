@@ -26,17 +26,15 @@ export type Product = {
 };
 
 export default function Update(props: any) {
-<<<<<<< HEAD
-  const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description, stock: props.product.stock });
-=======
+  // const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description, stock: props.product.stock });
   const [product, setProduct] = useState({
     productID: props.product.productID,
     name: props.product.name,
     cost: props.product.cost,
     description: props.product.description,
     imageUrl: "",
+    stock: props.product.stock,
   });
->>>>>>> 736279f000fb121d6cd3104ef77aedf4e151f8d2
   const [isOpen, setIsOpen] = useState(false);
   const [imageString, setImageString] = useState<string>("/placeholder.png");
   const [imageFile, setImageFile] = useState<File>();
@@ -59,17 +57,14 @@ export default function Update(props: any) {
       setIsOpen(true);
       await submitProduct(imageFile!, product, updateProductToDB);
       setTimeout(() => {
-<<<<<<< HEAD
-        setProduct({ productID: "", name: "", cost: "", description: "", stock: null });
-=======
         setProduct({
           productID: "",
           name: "",
           cost: "",
           description: "",
           imageUrl: "",
+          stock: null,
         });
->>>>>>> 736279f000fb121d6cd3104ef77aedf4e151f8d2
         setIsOpen(false);
         Router.push("/");
       }, 3000);
@@ -86,12 +81,8 @@ export default function Update(props: any) {
       </Head>
       <Header />
       {isOpen && (
-        <div
-          className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}
-        >
-          <div
-            className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}
-          >
+        <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen`}>
+          <div className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}>
             <p className="text-2xl ">Product Updated!</p>
             <p className="">Redirecting to main page</p>
           </div>
@@ -103,22 +94,11 @@ export default function Update(props: any) {
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[85vw] lg:w-[65vw] lg:h-[65vh]">
         <div className=" flex border-2 border-black justify-items-center justify-center align-middle lg:w-60 lg:h-60">
           <div className="min-w-full">
-            <Image
-              src={imageString}
-              alt="img-template"
-              width="100%"
-              height="100%"
-              layout="responsive"
-            ></Image>
+            <Image src={imageString} alt="img-template" width="100%" height="100%" layout="responsive"></Image>
           </div>
         </div>
         <div className="w-full  lg:w-1/2">
-          <form
-            onSubmit={submitHandler}
-            spellCheck={false}
-            autoComplete="off"
-            className="w-full h-full lg:mt-20 mx-auto"
-          >
+          <form onSubmit={submitHandler} spellCheck={false} autoComplete="off" className="w-full h-full lg:mt-20 mx-auto">
             <div className="flex flex-col gap-y-2 mb-5">
               <label htmlFor="productName" className="lg:text-xl font-semibold">
                 Name
@@ -130,9 +110,7 @@ export default function Update(props: any) {
                 name="productName"
                 id="productName"
                 value={product.name}
-                onChange={(e) =>
-                  setProduct({ ...product, name: e.target.value })
-                }
+                onChange={(e) => setProduct({ ...product, name: e.target.value })}
                 maxLength={14}
                 required
               />
@@ -148,9 +126,7 @@ export default function Update(props: any) {
                 name="productCost"
                 id="productCost"
                 value={product.cost}
-                onChange={(e) =>
-                  setProduct({ ...product, cost: e.target.value })
-                }
+                onChange={(e) => setProduct({ ...product, cost: e.target.value })}
                 maxLength={15}
                 required
               />
@@ -182,9 +158,7 @@ export default function Update(props: any) {
                 name="productDesc"
                 id="productDesc"
                 value={product.description}
-                onChange={(e) =>
-                  setProduct({ ...product, description: e.target.value })
-                }
+                onChange={(e) => setProduct({ ...product, description: e.target.value })}
                 maxLength={16}
                 required
               />
@@ -193,26 +167,13 @@ export default function Update(props: any) {
               <label htmlFor="productCost" className="lg:text-xl font-semibold">
                 Upload Your Image
               </label>
-              <input
-                onChange={submitImageLocally}
-                type="file"
-                accept="image/png, image/jpeg"
-              ></input>
+              <input onChange={submitImageLocally} type="file" accept="image/png, image/jpeg"></input>
             </div>
             <div className="flex gap-x-4 mt-4">
-              <button
-                className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded"
-                type="submit"
-                disabled={isOpen ? true : false}
-              >
+              <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded" type="submit" disabled={isOpen ? true : false}>
                 Update
               </button>
-              <button
-                className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded"
-                type="reset"
-                onClick={cancelHandler}
-                disabled={false}
-              >
+              <button className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded" type="reset" onClick={cancelHandler} disabled={false}>
                 Cancel
               </button>
             </div>

@@ -13,7 +13,7 @@ export default function ProfileModal() {
       >
         Add Product
       </p>
-      <p className="cursor-pointer hover:bg-[#db9017] p-2">Order Tracker</p>
+      <p className="cursor-pointer hover:bg-[#db9017] p-2">My Order</p>
       <p className="cursor-pointer hover:bg-[#db9017] p-2" onClick={() => signOut()}>
         Sign Out
       </p>

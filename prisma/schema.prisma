@@ -12,6 +12,7 @@ model Customer {
   name            String?   @db.Char(40)
   profile_picture String?   @db.VarChar(500)
   Cart            Cart[]
+  orders          orders[]
   product         product[]
 }
 
@@ -21,25 +22,15 @@ model Seller {
   name      String? @db.VarChar(40)
 }
 
-model orderdetail {
-  custName      String   @db.VarChar(30)
-  orderDate     DateTime @db.Date
-  price         Int
-  orderDetailID Int      @id
-  orderID       Int
-  orders        orders   @relation(fields: [orderID], references: [orderID], onDelete: Cascade, onUpdate: NoAction, map: "orderdetail_ibfk_1")
-
-  @@index([orderID], map: "orderID")
-}
-
 model orders {
-  orderID     Int           @id
-  productID   String        @db.VarChar(255)
-  warehouseID Int
-  orderdetail orderdetail[]
+  orderID   Int       @id
+  productID String    @db.VarChar(255)
+  quantity  Int?
+  email     String?   @db.VarChar(500)
+  Customer  Customer? @relation(fields: [email], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "FK_email3")
 
   @@index([productID], map: "productID")
-  @@index([warehouseID], map: "warehouseID")
+  @@index([email], map: "FK_email3")
 }
 
 model product {
