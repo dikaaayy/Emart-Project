@@ -27,13 +27,15 @@ export default function Cart({ data }: any) {
   const [cart, setCart] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [availablity, setAvailablity] = useState(true);
+  const [outStock, setOutStock] = useState<any>([]);
 
   useEffect(() => {
     setIsLoading(true);
     setCart(data);
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cart]);
 
   const deleteInDB = async (id: any) => {
     const newCart = cart.filter(function (item: any) {
@@ -54,11 +56,11 @@ export default function Cart({ data }: any) {
   };
 
   const payHandler = async () => {
-    // cart.map((item: any) => item.product.productID)
-    try {
+    let array: any[] = [];
+    cart.map(async (item: any) => {
       const res = await fetch("http://localhost:3000/api/product/getCurrentStock", {
         body: JSON.stringify({
-          productID: "27",
+          productID: item.product.productID,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -66,11 +68,24 @@ export default function Cart({ data }: any) {
         method: "POST",
       });
       const data = await res.json();
-      console.log(data);
-    } catch (e) {
-      console.log(e);
-    }
-    // isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
+      array.push(data[0].stock);
+    });
+    setTimeout(() => {
+      cart.map((item: any, i: number) => {
+        // console.log(item.product.name + " " + array[i]);
+        if (array[i] < item.quantity) {
+          console.log(item.product.productID);
+          setOutStock((prev: any[]) => {
+            [...prev, item.product.productID];
+          });
+          setAvailablity(false);
+        }
+      });
+    }, 110);
+
+    setTimeout(() => {
+      isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
+    }, 110);
   };
 
   return (
@@ -125,13 +140,19 @@ export default function Cart({ data }: any) {
                 Pay
               </button>
             </div>
-            {isModalOpen && (
+            {isModalOpen && availablity && (
               <CartModal
                 handleClose={() => {
                   setIsModalOpen(false);
                 }}
                 data={cart}
               />
+            )}
+            {!availablity && (
+              <div className="fixed">
+                <p>not available</p>
+                <>{console.log(outStock)}</>
+              </div>
             )}
           </>
         ) : (

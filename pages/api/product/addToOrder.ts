@@ -3,19 +3,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { productID } = req.body;
+  const { email, quantity, productID, orderID } = req.body;
   try {
-    const data = await prisma.product.findMany({
-      select: {
-        stock: true,
-      },
-      where: {
-        productID: productID,
-      },
+    await prisma.orders.createMany({
+      data: req.body,
     });
-    res.send(data);
+    res.status(200).end();
   } catch (e) {
     console.log(e);
   }
-  //   console.log(array);
 }
