@@ -7,9 +7,18 @@ import { useRouter } from "next/router";
 import { prisma } from "../lib/prisma";
 import CartModal from "../src/components/cart/CartModal";
 import OrderSuccess from "../src/components/cart/OrderSuccess";
+import CartEmpty from "../src/components/cart/CartEmpty";
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
   const data = await prisma.cart.findMany({
     where: {
       email: session?.user?.email!,
@@ -30,7 +39,6 @@ export default function Cart({ data }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [availablity, setAvailablity] = useState(true);
   const [outStock, setOutStock] = useState<any>([]);
-  console.log(router.query.success);
 
   const deleteInDB = async (id: any) => {
     const newCart = cart.filter(function (item: any) {
@@ -49,21 +57,6 @@ export default function Cart({ data }: any) {
       console.log(e);
     }
   };
-  // const timer = setTimeout(() => {
-  //   console.log("timer called");
-  //   router.reload();
-  //   setIsSuccess(false);
-  // }, 10000);
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     timer;
-  //   } else return;
-
-  //   // return () => {
-  //   //   clearTimeout(timer);
-  //   // };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isSuccess]);
 
   const payHandler = async () => {
     let array: any[] = [];
@@ -82,7 +75,6 @@ export default function Cart({ data }: any) {
     });
     setTimeout(() => {
       cart.map((item: any, i: number) => {
-        // console.log(item.product.name + " " + array[i]);
         if (array[i] < item.quantity) {
           console.log(item.product.productID);
           setOutStock((prev: any[]) => {
@@ -97,6 +89,8 @@ export default function Cart({ data }: any) {
       isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
     }, 110);
   };
+
+  console.log(outStock);
 
   return (
     <>
@@ -167,10 +161,7 @@ export default function Cart({ data }: any) {
             )}
           </>
         ) : (
-          <div className="w-screen space-y-3 text-custom-darkBlue h-[80vh] flex flex-col items-center justify-center">
-            <p className="text-3xl font-semibold">Cart is Empty!</p>
-            <p className="text-2xl font-semibold">Start Shopping Right Now</p>
-          </div>
+          <CartEmpty />
         )}
       </div>
     </>

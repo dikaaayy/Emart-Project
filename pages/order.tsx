@@ -6,6 +6,14 @@ import Header from "../src/components/Header/Header";
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
   const data = await prisma.orders.findMany({
     select: {
       orderID: true,

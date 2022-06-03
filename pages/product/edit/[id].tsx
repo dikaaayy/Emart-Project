@@ -6,10 +6,19 @@ import Router, { useRouter } from "next/router";
 import { submitProduct } from "../../../src/firebase/firebase";
 import { updateProductToDB } from "../../../src/database/updateDB";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 export async function getServerSideProps(context: any) {
   const { id } = context.params;
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
   const product = await prisma.product.findUnique({
     where: {
       productID: id,
