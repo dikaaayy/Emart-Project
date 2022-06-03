@@ -24,18 +24,11 @@ export async function getServerSideProps(context: any) {
 
 export default function Cart({ data }: any) {
   const router = useRouter();
-  const [cart, setCart] = useState<any>([]);
+  const [cart, setCart] = useState<any>(data);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [availablity, setAvailablity] = useState(true);
   const [outStock, setOutStock] = useState<any>([]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    setCart(data);
-    setIsLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
 
   const deleteInDB = async (id: any) => {
     const newCart = cart.filter(function (item: any) {

@@ -23,14 +23,15 @@ model Seller {
 }
 
 model orders {
-  orderID   Int       @id
-  productID String    @db.VarChar(255)
+  orderID   String    @id @db.VarChar(255)
+  productID String?   @db.VarChar(255)
   quantity  Int?
   email     String?   @db.VarChar(500)
   Customer  Customer? @relation(fields: [email], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "FK_email3")
+  product   product?  @relation(fields: [productID], references: [productID], onDelete: NoAction, onUpdate: NoAction, map: "FK_productID2")
 
-  @@index([productID], map: "productID")
   @@index([email], map: "FK_email3")
+  @@index([productID], map: "FK_productID2")
 }
 
 model product {
@@ -43,6 +44,7 @@ model product {
   email       String?   @db.VarChar(500)
   Customer    Customer? @relation(fields: [email], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "FK_email2")
   Cart        Cart[]
+  orders      orders[]
 
   @@index([email], map: "FK_email2")
 }

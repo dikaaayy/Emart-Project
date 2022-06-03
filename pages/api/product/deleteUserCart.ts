@@ -4,7 +4,7 @@ import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
-  console.log(id);
+  // console.log(id);
 
   try {
     await prisma.cart.delete({
@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         cartID: id,
       },
     });
-    res.status(200);
+    res.status(200).end();
   } catch (e) {
     console.log(e);
   }

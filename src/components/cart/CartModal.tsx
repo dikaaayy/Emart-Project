@@ -2,26 +2,21 @@ import Backdrop from "./Backdrop";
 import { uid } from "uid";
 import { useEffect, useState } from "react";
 
-export default function CartModal({ handleClose, data }: { handleClose: any; data: any }) {
-  const [cart, setCart] = useState<any>(data);
-  const addOrderID = () => {
+export default function CartModal({ handleClose, data }: { handleClose: any; data: any[] }) {
+  const [checkout, setCheckout] = useState<any>(data);
+
+  // console.log(checkout);
+  const handleYes = async () => {
+    const arr = [...data];
     const newArr: any[] = [];
-    cart.forEach((item: any, i: any) => {
+    arr.forEach((item: any, i: any) => {
       delete item.cartID;
       delete item.product;
       newArr.push({ ...item, orderID: String(uid(20 + i)) });
     });
-    console.log(newArr);
-  };
-  useEffect(() => {
-    addOrderID();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
-  // console.log(cart);
-  const handleYes = async () => {
     try {
       fetch("http://localhost:3000/api/product/addToOrder", {
-        body: JSON.stringify(cart),
+        body: JSON.stringify(newArr),
         headers: {
           "Content-Type": "application/json",
         },
@@ -36,7 +31,7 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
       <div className="w-1/2 h-1/2 bg-white rounded-md p-10 space-y-7 flex flex-col justify-between select-none" onClick={(e) => e.stopPropagation()}>
         <div>
           <p className="text-2xl font-medium mb-5">Check your purchase first!</p>
-          {data.map((item: any, i: number) => {
+          {checkout.map((item: any, i: number) => {
             return (
               <div className="flex gap-x-2" key={i}>
                 <p className="font-medium">{i + 1}.</p>
