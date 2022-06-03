@@ -63,7 +63,7 @@ export default function Detail(props: any) {
     setTimeout(() => {
       setIsOpenToast(false);
       router.push("/");
-    }, 3000);
+    }, 4000);
   };
   return (
     <>

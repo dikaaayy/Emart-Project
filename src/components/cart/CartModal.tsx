@@ -1,41 +1,49 @@
 import Backdrop from "./Backdrop";
 import { uid } from "uid";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function CartModal({ handleClose, data }: { handleClose: any; data: any[] }) {
   const [checkout, setCheckout] = useState<any>(data);
+  const router = useRouter();
 
   // console.log(checkout);
   const handleYes = async () => {
     const arr = [...data];
-    const newArr: any[] = [];
+    const newArray: any[] = [];
     arr.forEach((item: any, i: any) => {
+      newArray.push({ ...item, orderID: String(uid(20 + i)), stock: item.product.stock });
+    });
+    newArray.forEach((item: any, i: any) => {
       delete item.cartID;
       delete item.product;
-      newArr.push({ ...item, orderID: String(uid(20 + i)) });
+      console.log();
     });
     try {
-      fetch("http://localhost:3000/api/product/addToOrder", {
-        body: JSON.stringify(newArr),
+      await fetch("http://localhost:3000/api/product/addToOrder", {
+        body: JSON.stringify(newArray),
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
       });
+      console.log(newArray);
     } catch (e) {
       console.log(e);
     }
-    try {
-      fetch("http://localhost:3000/api/product/deleteUserCart", {
-        body: JSON.stringify({ id: "1" }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    router.reload();
+
+    // try {
+    //   fetch("http://localhost:3000/api/product/deleteUserCart", {
+    //     body: JSON.stringify({ id: "1" }),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     method: "POST",
+    //   });
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
   return (
     <Backdrop onClick={handleClose}>
