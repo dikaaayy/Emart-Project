@@ -18,20 +18,20 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
       delete item.cartID;
       delete item.product;
     });
+    try {
+      await fetch("http://localhost:3000/api/product/addToOrder", {
+        body: JSON.stringify(newArray),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+      console.log(newArray);
+    } catch (e) {
+      console.log(e);
+    }
     router.push("/cart?success=true");
     handleClose();
-    // try {
-    //   await fetch("http://localhost:3000/api/product/addToOrder", {
-    //     body: JSON.stringify(newArray),
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     method: "POST",
-    //   });
-    //   console.log(newArray);
-    // } catch (e) {
-    //   console.log(e);
-    // }
   };
   return (
     <Backdrop onClick={handleClose}>

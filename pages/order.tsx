@@ -25,6 +25,13 @@ export async function getServerSideProps(context: any) {
   };
 }
 export default function order({ data }: any) {
+  const returnImageUrl = (imageUrl: string | null): string => {
+    if (imageUrl === null) {
+      return "/placeholder.png";
+    } else {
+      return imageUrl as string;
+    }
+  };
   return (
     <>
       <Head>
@@ -45,7 +52,7 @@ export default function order({ data }: any) {
                     </p>
                     <div className="mt-4 flex gap-x-4">
                       <div>
-                        <Image src={item.product.imageUrl || "/placeholder.png"} width={150} height={150} alt={item.product.name} />
+                        <Image src={returnImageUrl(item.product.imageUrl)} width={150} height={150} alt={item.product.name} />
                       </div>
                       <div className="flex flex-col justify-start pb-1">
                         <p className="text-lg">{item.product.name}</p>
