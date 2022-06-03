@@ -25,6 +25,17 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
     } catch (e) {
       console.log(e);
     }
+    try {
+      fetch("http://localhost:3000/api/product/deleteUserCart", {
+        body: JSON.stringify({ id: "1" }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <Backdrop onClick={handleClose}>
