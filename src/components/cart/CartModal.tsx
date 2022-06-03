@@ -17,30 +17,18 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
     newArray.forEach((item: any, i: any) => {
       delete item.cartID;
       delete item.product;
-      console.log();
     });
-    try {
-      await fetch("http://localhost:3000/api/product/addToOrder", {
-        body: JSON.stringify(newArray),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-      console.log(newArray);
-    } catch (e) {
-      console.log(e);
-    }
-    router.reload();
-
+    router.push("/cart?success=true");
+    handleClose();
     // try {
-    //   fetch("http://localhost:3000/api/product/deleteUserCart", {
-    //     body: JSON.stringify({ id: "1" }),
+    //   await fetch("http://localhost:3000/api/product/addToOrder", {
+    //     body: JSON.stringify(newArray),
     //     headers: {
     //       "Content-Type": "application/json",
     //     },
     //     method: "POST",
     //   });
+    //   console.log(newArray);
     // } catch (e) {
     //   console.log(e);
     // }

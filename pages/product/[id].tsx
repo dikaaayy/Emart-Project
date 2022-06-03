@@ -38,6 +38,13 @@ export default function Detail(props: any) {
   const closeModalHandler = () => {
     setIsDeleteModalOpen(false);
   };
+  const returnImageUrl = (imageUrl: string | null): string => {
+    if (imageUrl === null) {
+      return "/placeholder.png";
+    } else {
+      return imageUrl as string;
+    }
+  };
 
   const addCartHandler = () => {
     try {
@@ -90,7 +97,7 @@ export default function Detail(props: any) {
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-8 lg:justify-center lg:h-[65vh]">
         <div className="w-full h-[37vh] lg:h-full lg:w-[40%] flex flex-col items-center py-10 justify-between">
-          <Image src={"/placeholder.png"} alt="img-template" width={400} height={400} />
+          <Image src={returnImageUrl(props.product.imageUrl)} alt="img-template" width={400} height={400} />
         </div>
         <div className="w-full lg:w-1/2 h-full flex flex-col gap-y-3 justify-between py-2 px-8 lg:px-0">
           <div className="space-y-3 mt-5">
