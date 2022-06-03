@@ -24,6 +24,14 @@ export async function getServerSideProps(context: any) {
       productID: id,
     },
   });
+  if (session.user?.email !== product?.email) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/product/" + product?.productID,
+      },
+    };
+  }
   return { props: { product } };
 }
 
