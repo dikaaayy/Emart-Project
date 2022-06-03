@@ -3,10 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // const { stock, productID} = req.body;
   const email = req.body[0].email;
   const arrayA = [...req.body];
-
   arrayA.forEach(async (item) => {
     try {
       await prisma.product.update({
@@ -21,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log(e);
     }
   });
+  console.log(arrayA);
   arrayA.forEach((item: any) => {
     delete item.stock;
   });

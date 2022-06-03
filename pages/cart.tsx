@@ -90,7 +90,7 @@ export default function Cart({ data }: any) {
     }, 110);
   };
 
-  console.log(outStock);
+  // console.log(outStock);
 
   return (
     <>
@@ -156,7 +156,7 @@ export default function Cart({ data }: any) {
             {!availablity && (
               <div className="fixed">
                 <p>not available</p>
-                <>{console.log(outStock)}</>
+                {/* <>{console.log(outStock)}</> */}
               </div>
             )}
           </>

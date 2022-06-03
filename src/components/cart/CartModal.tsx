@@ -7,7 +7,6 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
   const [checkout, setCheckout] = useState<any>(data);
   const router = useRouter();
 
-  // console.log(checkout);
   const handleYes = async () => {
     const arr = [...data];
     const newArray: any[] = [];
@@ -18,6 +17,7 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
       delete item.cartID;
       delete item.product;
     });
+    console.log(newArray);
     try {
       await fetch("http://localhost:3000/api/product/addToOrder", {
         body: JSON.stringify(newArray),
@@ -53,12 +53,7 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
             <button className="bg-white border-2 hover:bg-[#f5f5f5] border-custom-lightOrange font-semibold transition text-custom-lightOrange px-2 py-2 rounded-md" onClick={handleClose}>
               Cancel
             </button>
-            <button
-              className="bg-custom-lightOrange hover:bg-[#ee9f1f] font-semibold transition text-white px-7 py-2 rounded-md border-custom-lightOrange border-2"
-              onClick={() => {
-                handleYes();
-              }}
-            >
+            <button className="bg-custom-lightOrange hover:bg-[#ee9f1f] font-semibold transition text-white px-7 py-2 rounded-md border-custom-lightOrange border-2" onClick={handleYes}>
               Yes
             </button>
           </div>

@@ -1,6 +1,6 @@
 import Header from "../../../src/components/Header/Header";
 import { prisma } from "../../../lib/prisma";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Router, { useRouter } from "next/router";
 import { submitProduct } from "../../../src/firebase/firebase";
@@ -58,13 +58,6 @@ export default function Update(props: any) {
   const [imageFile, setImageFile] = useState<File>();
   const { data: session } = useSession();
   const router = useRouter();
-
-  useEffect(() => {
-    if (props.product.email !== session?.user?.email) {
-      router.push("/product/" + props.product.productID);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const cancelHandler = () => {
     setTimeout(() => {
