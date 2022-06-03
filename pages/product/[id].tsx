@@ -2,7 +2,7 @@ import Header from "../../src/components/Header/Header";
 import { prisma } from "../../lib/prisma";
 import { useState } from "react";
 import Image from "next/image";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 
@@ -22,11 +22,12 @@ export default function Detail(props: any) {
   const [isOpenToast, setIsOpenToast] = useState(false);
   const { data: session } = useSession();
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   // console.log(props);
 
   const editHandler = () => {
-    Router.push("/product/edit/" + props.product.productID);
+    router.push("/product/edit/" + props.product.productID);
   };
 
   const openModalHandler = () => {
@@ -56,7 +57,7 @@ export default function Detail(props: any) {
     setIsOpenToast(true);
     setTimeout(() => {
       setIsOpenToast(false);
-      Router.push("/");
+      router.push("/");
     }, 3000);
   };
   return (
@@ -91,7 +92,7 @@ export default function Detail(props: any) {
             <>
               <p className="font-medium text-2xl">Stock: {props.product.stock}</p>
               <div className="flex lg:flex-col gap-x-5 lg:w-[60%] gap-y-4 lg:mb-5 lg:text-xl lg:mx-auto">
-                <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md" onClick={() => editHandler}>
+                <button className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md" onClick={editHandler}>
                   Edit Item
                 </button>
                 <button className="bg-white border-[2px] lg:border-[3px] hover:bg-[#f1f1f1] border-custom-lightOrange font-semibold transition text-custom-lightOrange px-4 py-2 rounded-md" type="reset" onClick={openModalHandler}>

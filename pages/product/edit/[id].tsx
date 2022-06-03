@@ -1,11 +1,12 @@
 import Header from "../../../src/components/Header/Header";
 import { prisma } from "../../../lib/prisma";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { submitProduct } from "../../../src/firebase/firebase";
 import { updateProductToDB } from "../../../src/database/updateDB";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 
 export async function getServerSideProps(context: any) {
   const { id } = context.params;
@@ -38,10 +39,19 @@ export default function Update(props: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [imageString, setImageString] = useState<string>("/placeholder.png");
   const [imageFile, setImageFile] = useState<File>();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (props.product.email !== session?.user?.email) {
+      router.push("/product/" + props.product.productID);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const cancelHandler = () => {
     setTimeout(() => {
-      Router.push("/product/" + props.product.productID);
+      router.push("/product/" + props.product.productID);
     }, 100);
   };
   const submitImageLocally = (file: any) => {
@@ -66,7 +76,7 @@ export default function Update(props: any) {
           stock: null,
         });
         setIsOpen(false);
-        Router.push("/");
+        router.push("/");
       }, 3000);
     } catch (e) {
       console.log(e);
