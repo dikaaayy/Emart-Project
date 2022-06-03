@@ -18,8 +18,9 @@ export async function getServerSideProps(context: any) {
 
 export default function Detail(props: any) {
   const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description });
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isOpenToast, setIsOpenToast] = useState(false);
+  const [isAddToCartToast, setIsAddToCartToast] = useState(false);
   const { data: session } = useSession();
   const [quantity, setQuantity] = useState(1);
   const router = useRouter();
@@ -31,11 +32,11 @@ export default function Detail(props: any) {
   };
 
   const openModalHandler = () => {
-    setIsOpenModal(true);
+    setIsDeleteModalOpen(true);
   };
 
   const closeModalHandler = () => {
-    setIsOpenModal(false);
+    setIsDeleteModalOpen(false);
   };
 
   const addCartHandler = () => {
@@ -50,10 +51,14 @@ export default function Detail(props: any) {
     } catch (e) {
       console.log(e);
     }
+    setIsAddToCartToast(true);
+    setTimeout(() => {
+      setIsAddToCartToast(false);
+    }, 3000);
   };
 
   const deleteHandler = () => {
-    setIsOpenModal(false);
+    setIsDeleteModalOpen(false);
     setIsOpenToast(true);
     setTimeout(() => {
       setIsOpenToast(false);
@@ -66,13 +71,18 @@ export default function Detail(props: any) {
         <title>{product.name} | Detail Product</title>
       </Head>
       <Header />
-      {isOpenModal && <DeleteProduct product={product} handleClose={closeModalHandler} deleteHandler={deleteHandler} />}
+      {isDeleteModalOpen && <DeleteProduct product={product} handleClose={closeModalHandler} deleteHandler={deleteHandler} />}
       {isOpenToast && (
         <div className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen flex justify-center items-center`}>
           <div className={`font-semibold flex flex-col items-center justify-center w-[20%] h-[20%] bg-custom-darkBlue text-custom-lightGrey rounded-md gap-y-4`}>
             <p className="text-2xl">Product Deleted!</p>
             <p className="">Redirecting to main page</p>
           </div>
+        </div>
+      )}
+      {isAddToCartToast && (
+        <div className="fixed left-0 right-0 w-1/4 h-[7%] bg-custom-lightOrange rounded-md top-28 mx-auto flex justify-center items-center">
+          <p className="text-lg font-semibold text-custom-darkBlue ">Item added to cart!</p>
         </div>
       )}
       <div className="pt-28 lg:pt-36 text-center font-semibold text-lg md:text-xl lg:text-2xl">
