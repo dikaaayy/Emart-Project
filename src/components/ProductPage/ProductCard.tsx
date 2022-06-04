@@ -23,7 +23,7 @@ export default function ProductCard(props: ProductCardProps) {
           <Image alt="placeholder" src={returnImageUrl(props.productImageUrl)} width="160" height="160" />
           <div>
             <p>{props.productName}</p>
-            <p className="font-bold">{props.productPrice}</p>
+            <p className="font-bold">Rp {parseInt(props?.productPrice!).toLocaleString("en-US", { maximumFractionDigits: 2 })}</p>
           </div>
         </div>
       </a>

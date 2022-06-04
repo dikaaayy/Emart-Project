@@ -111,7 +111,7 @@ export default function Detail(props: any) {
         <div className="w-full lg:w-1/2 h-full flex flex-col gap-y-3 justify-between py-2 px-8 lg:px-0">
           <div className="space-y-3 mt-5">
             <p className="text-4xl lg:text-5xl font-bold text-custom-darkBlue">{product.name}</p>
-            <p className="text-xl font-semibold">Rp {product.cost}</p>
+            <p className="text-xl font-semibold">Rp {parseInt(product.cost).toLocaleString("en-US", { maximumFractionDigits: 2 })}</p>
             <p className="text-lg">{product.description}</p>
           </div>
           {props.product.email === session?.user?.email ? (
