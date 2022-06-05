@@ -2,11 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../lib/prisma";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { name, cost, description, productID, imageUrl } = req.body;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { name, cost, description, productID, imageUrl, stock } = req.body;
 
   try {
     await prisma.product.update({
@@ -17,6 +14,7 @@ export default async function handler(
         name,
         cost,
         description,
+        stock: parseInt(stock),
         imageUrl,
       },
     });
