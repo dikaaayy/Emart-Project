@@ -114,9 +114,9 @@ export default function AddProduct() {
       <div className="pt-10 text-center font-semibold text-lg md:text-xl lg:text-2xl">
         Add Product
       </div>
-      <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[100vw] lg:w-[65vw] lg:h-[65vh]">
+      <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[400px] lg:w-[65vw] lg:h-[65vh]">
         <div className="flex flex-col">
-          <div className=" flex border-2 mt-5 border-black justify-items-center justify-center align-middle lg:w-60 lg:h-60">
+          <div className=" flex border-2 mt-5 border-black justify-items-center justify-center align-middle lg:w-[400px] lg:h-[400px]">
             <div className="min-w-full">
               <Image
                 src={imageString}
@@ -127,19 +127,24 @@ export default function AddProduct() {
               ></Image>
             </div>
           </div>
-          <div className="flex flex-col border-2 border-black">
+          <div className="flex flex-col mt-10">
             <label htmlFor="productCost" className="lg:text-xl font-semibold">
               Foto Produk
             </label>
-            <div className="w-72 h-72 border-2 border-black">
+            <div className=" w-566.5px h-147.23px ">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                className="flex flex-col justify-center items-center w-full h-64 bg-white rounded-lg border-2 border-gray-300  cursor-pointer   hover:bg-gray-100  hover:border-gray-500 dark:hover:bg-gray-200"
               >
                 <div className="flex flex-col justify-center items-center pt-5 pb-6">
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Click to upload</span> or
-                    drag and drop
+                  <Image
+                    alt={"/Upload.png"}
+                    src={"/Upload.png"}
+                    height={29.17}
+                    width={29.17}
+                  ></Image>
+                  <p className="mb-2 text-sm text-black60 dark:text-gray-400">
+                    <span className="font-semibold">Upload Image</span>
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     PNG, JPG only
@@ -198,6 +203,25 @@ export default function AddProduct() {
                 required
               />
             </div>
+            <div className="flex flex-col gap-y-2 mb-5">
+              <label htmlFor="productName" className="lg:text-xl font-semibold">
+                Stock
+              </label>
+              <input
+                className="w-[80%] sm:w-[65%] lg:w-[60%] overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
+                placeholder="Enter Name"
+                type="number"
+                name="productName"
+                id="productName"
+                value={product.stock!}
+                min="1"
+                onChange={(e) =>
+                  setProduct({ ...product, stock: parseInt(e.target.value) })
+                }
+                maxLength={14}
+                required
+              />
+            </div>
             <div className="flex flex-col gap-y-2 mb-4">
               <label
                 htmlFor="productDesc"
@@ -215,25 +239,6 @@ export default function AddProduct() {
                   setProduct({ ...product, description: e.target.value })
                 }
                 maxLength={255}
-                required
-              />
-            </div>
-            <div className="flex flex-col gap-y-2 mb-5">
-              <label htmlFor="productName" className="lg:text-xl font-semibold">
-                Stock
-              </label>
-              <input
-                className="w-[80%] sm:w-[65%] lg:w-[60%] overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
-                placeholder="Enter Name"
-                type="number"
-                name="productName"
-                id="productName"
-                value={product.stock!}
-                min="1"
-                onChange={(e) =>
-                  setProduct({ ...product, stock: parseInt(e.target.value) })
-                }
-                maxLength={14}
                 required
               />
             </div>
