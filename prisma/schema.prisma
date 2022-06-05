@@ -8,11 +8,6 @@ datasource db {
 }
 
 model Customer {
-<<<<<<< HEAD
-  email           String  @id @db.VarChar(500)
-  name            String? @db.Char(40)
-  profile_picture String? @db.VarChar(500)
-=======
   email           String    @id @db.VarChar(500)
   name            String?   @db.Char(40)
   profile_picture String?   @db.VarChar(500)
@@ -20,7 +15,6 @@ model Customer {
   Cart            Cart[]
   orders          orders[]
   product         product[]
->>>>>>> 8fa25c16dff701988a8bd1f00d476416ed1783bf
 }
 
 model Seller {
@@ -34,6 +28,7 @@ model orders {
   productID String?   @db.VarChar(255)
   quantity  Int?
   email     String?   @db.VarChar(500)
+  to        String?   @db.VarChar(500)
   status    String?   @db.VarChar(50)
   Customer  Customer? @relation(fields: [email], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "FK_email3")
   product   product?  @relation(fields: [productID], references: [productID], onDelete: NoAction, onUpdate: NoAction, map: "FK_productID2")
