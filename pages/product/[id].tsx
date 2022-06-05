@@ -97,160 +97,150 @@ export default function Detail(props: any) {
     }, 4000);
   };
   return (
-    <Protected>
-      <>
-        <Head>
-          <title>{product.name} | Detail Product</title>
-        </Head>
-        <Header />
-        {isDeleteModalOpen && (
-          <DeleteProduct
-            product={product}
-            handleClose={closeModalHandler}
-            deleteHandler={deleteHandler}
-          />
-        )}
-        {isOpenToast && (
+    <>
+      <Head>
+        <title>{product.name} | Detail Product</title>
+      </Head>
+      <Header />
+      {isDeleteModalOpen && (
+        <DeleteProduct
+          product={product}
+          handleClose={closeModalHandler}
+          deleteHandler={deleteHandler}
+        />
+      )}
+      {isOpenToast && (
+        <div
+          className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen flex justify-center items-center`}
+        >
           <div
-            className={`absolute select-none bg-black bg-opacity-30 z-40 w-screen h-screen flex justify-center items-center`}
+            className={`font-semibold flex flex-col items-center justify-center w-[20%] h-[20%] bg-custom-darkBlue text-custom-lightGrey rounded-md gap-y-4`}
           >
-            <div
-              className={`font-semibold flex flex-col items-center justify-center w-[20%] h-[20%] bg-custom-darkBlue text-custom-lightGrey rounded-md gap-y-4`}
-            >
-              <p className="text-2xl">Product Deleted!</p>
-              <p className="">Redirecting to main page</p>
-            </div>
+            <p className="text-2xl">Product Deleted!</p>
+            <p className="">Redirecting to main page</p>
           </div>
-        )}
-        {isAddToCartToast && (
-          <div className="fixed left-0 right-0 w-1/4 h-[7%] bg-custom-lightOrange rounded-md top-28 mx-auto flex justify-center items-center">
-            <p className="text-lg font-semibold text-custom-darkBlue ">
-              Item added to cart!
+        </div>
+      )}
+      {isAddToCartToast && (
+        <div className="fixed left-0 right-0 w-1/4 h-[7%] bg-custom-lightOrange rounded-md top-28 mx-auto flex justify-center items-center">
+          <p className="text-lg font-semibold text-custom-darkBlue ">
+            Item added to cart!
+          </p>
+        </div>
+      )}
+      <div className="pt-28 lg:pt-36 text-center font-semibold text-lg md:text-xl lg:text-2xl">
+        <h1>Product Detail</h1>
+      </div>
+      <div className="flex flex-col  mt-3 justify-center items-center md:flex-row">
+        <div className="flex flex-col mr-10">
+          <div className="w-[400px] h-[400px] items-center">
+            <Image
+              src={returnImageUrl(props.product.imageUrl)}
+              alt="img-template"
+              width={700}
+              height={700}
+            />
+          </div>
+          <div className="flex flex-row rounded-lg mt-10">
+            <Link href={"/store/" + props.product.email} passHref>
+              <div className="border-2 border-black flex flex-row items-center px-2 py-2 hover:bg-slate-100 cursor-pointer rounded-lg">
+                <Image src="/homeBlack.svg" alt="home" width={34} height={34} />
+                <span className="text-black px-2">
+                  {`${firstname(props.product.Customer.name)}'s`} Store
+                </span>
+              </div>
+            </Link>
+          </div>
+        </div>
+        <div className="w-full lg:w-1/2 h-full flex flex-col gap-y-3 justify-between py-2 px-8 lg:px-0">
+          <div className="space-y-3 mt-5">
+            <p className="text-4xl lg:text-5xl font-bold text-custom-darkBlue">
+              {product.name}
             </p>
+            <p className="text-xl font-semibold">
+              Rp{" "}
+              {parseInt(product.cost).toLocaleString("en-US", {
+                maximumFractionDigits: 2,
+              })}
+            </p>
+            <p className="text-lg">{product.description}</p>
           </div>
-        )}
-        <div className="pt-28 lg:pt-36 text-center font-semibold text-lg md:text-xl lg:text-2xl">
-          <h1>Product Detail</h1>
-        </div>
-        <div className="flex flex-col  mt-3 justify-center items-center md:flex-row">
-          <div className="flex flex-col mr-10">
-            <div className="w-[400px] h-[400px] items-center">
-              <Image
-                src={returnImageUrl(props.product.imageUrl)}
-                alt="img-template"
-                width={700}
-                height={700}
-              />
-            </div>
-            <div className="flex flex-row rounded-lg mt-10">
-              <Link href={"/store/" + props.product.email} passHref>
-                <div className="border-2 border-black flex flex-row items-center px-2 py-2 hover:bg-slate-100 cursor-pointer rounded-lg">
-                  <Image
-                    src="/homeBlack.svg"
-                    alt="home"
-                    width={34}
-                    height={34}
-                  />
-                  <span className="text-black px-2">
-                    {`${firstname(props.product.Customer.name)}'s`} Store
-                  </span>
-                </div>
-              </Link>
-            </div>
-          </div>
-          <div className="w-full lg:w-1/2 h-full flex flex-col gap-y-3 justify-between py-2 px-8 lg:px-0">
-            <div className="space-y-3 mt-5">
-              <p className="text-4xl lg:text-5xl font-bold text-custom-darkBlue">
-                {product.name}
+          {props.product.email === session?.user?.email ? (
+            <>
+              <p className="font-medium text-2xl">
+                Stock: {props.product.stock}
               </p>
-              <p className="text-xl font-semibold">
-                Rp{" "}
-                {parseInt(product.cost).toLocaleString("en-US", {
-                  maximumFractionDigits: 2,
-                })}
+              <div className="flex lg:flex-col gap-x-5 lg:w-[80%] gap-y-4 lg:mb-5 lg:text-xl lg:mx-auto">
+                <button
+                  className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md"
+                  onClick={editHandler}
+                >
+                  Edit Item
+                </button>
+                <button
+                  className="flex flex-col items-center justify-center bg-white border-[2px] lg:border-[3px] hover:bg-[#f1f1f1] border-[#F05E3E] font-semibold transition text-[#F05E3E] px-4 py-2 rounded-md"
+                  type="reset"
+                  onClick={openModalHandler}
+                >
+                  <span>Delete Item</span>
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="font-medium text-2xl">
+                Stock: {props.product.stock}
               </p>
-              <p className="text-lg">{product.description}</p>
-            </div>
-            {props.product.email === session?.user?.email ? (
-              <>
-                <p className="font-medium text-2xl">
-                  Stock: {props.product.stock}
-                </p>
-                <div className="flex lg:flex-col gap-x-5 lg:w-[80%] gap-y-4 lg:mb-5 lg:text-xl lg:mx-auto">
+              <div className="flex flex-col items-end gap-y-3">
+                <div className="flex gap-x-2 select-none">
                   <button
-                    className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded-md"
-                    onClick={editHandler}
+                    onClick={() => setQuantity(quantity - 1)}
+                    disabled={quantity === 1}
+                    className={`${quantity === 1 ? "opacity-40" : ""}`}
                   >
-                    Edit Item
+                    <Image
+                      src={"/minus.svg"}
+                      width={30}
+                      height={30}
+                      alt="minus"
+                    />
                   </button>
+                  <p className="text-xl font-medium">{quantity}</p>
                   <button
-                    className="flex flex-col items-center justify-center bg-white border-[2px] lg:border-[3px] hover:bg-[#f1f1f1] border-[#F05E3E] font-semibold transition text-[#F05E3E] px-4 py-2 rounded-md"
-                    type="reset"
-                    onClick={openModalHandler}
+                    onClick={() => setQuantity(quantity + 1)}
+                    disabled={quantity === props.product.stock}
+                    className={`${
+                      quantity === props.product.stock ? "opacity-40" : ""
+                    }`}
                   >
-                    <span>Delete Item</span>
+                    <Image
+                      src={"/plus.svg"}
+                      width={30}
+                      height={30}
+                      alt="minus"
+                    />
                   </button>
                 </div>
-              </>
-            ) : (
-              <>
-                <p className="font-medium text-2xl">
-                  Stock: {props.product.stock}
+                <p className="text-2xl font-semibold">
+                  Rp{" "}
+                  {(parseInt(product.cost) * quantity).toLocaleString("en-US", {
+                    maximumFractionDigits: 2,
+                  })}
                 </p>
-                <div className="flex flex-col items-end gap-y-3">
-                  <div className="flex gap-x-2 select-none">
-                    <button
-                      onClick={() => setQuantity(quantity - 1)}
-                      disabled={quantity === 1}
-                      className={`${quantity === 1 ? "opacity-40" : ""}`}
-                    >
-                      <Image
-                        src={"/minus.svg"}
-                        width={30}
-                        height={30}
-                        alt="minus"
-                      />
-                    </button>
-                    <p className="text-xl font-medium">{quantity}</p>
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      disabled={quantity === props.product.stock}
-                      className={`${
-                        quantity === props.product.stock ? "opacity-40" : ""
-                      }`}
-                    >
-                      <Image
-                        src={"/plus.svg"}
-                        width={30}
-                        height={30}
-                        alt="minus"
-                      />
-                    </button>
-                  </div>
-                  <p className="text-2xl font-semibold">
-                    Rp{" "}
-                    {(parseInt(product.cost) * quantity).toLocaleString(
-                      "en-US",
-                      {
-                        maximumFractionDigits: 2,
-                      }
-                    )}
-                  </p>
-                  <div className="flex justify-end gap-x-5 lg:w-[30%] gap-y-4 lg:text-lg">
-                    <button
-                      className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-8 py-2 rounded-md"
-                      onClick={addCartHandler}
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
+                <div className="flex justify-end gap-x-5 lg:w-[30%] gap-y-4 lg:text-lg">
+                  <button
+                    className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-8 py-2 rounded-md"
+                    onClick={addCartHandler}
+                  >
+                    Add To Cart
+                  </button>
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
-      </>
-    </Protected>
+      </div>
+    </>
   );
 }
 
