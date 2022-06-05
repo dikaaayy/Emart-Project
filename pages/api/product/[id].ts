@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { product} from "@prisma/client";
+import { product } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
 
 export default async function handler(
@@ -11,7 +11,7 @@ export default async function handler(
   if (req.method === "DELETE") {
     const product: product = await prisma.product.delete({
       where: {
-        productID: Number(productId),
+        productID: productId as string,
       },
     });
     res.json(product);
