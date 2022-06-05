@@ -18,6 +18,8 @@ export async function getServerSideProps(context: any) {
     select: {
       orderID: true,
       quantity: true,
+      status: true,
+      Customer: true,
       product: {
         include: {
           Customer: true,
@@ -25,7 +27,9 @@ export async function getServerSideProps(context: any) {
       },
     },
     where: {
-      email: session?.user?.email!,
+      product: {
+        email: session!.user!.email!,
+      },
     },
   });
   return {
@@ -40,10 +44,12 @@ export default function order({ data }: any) {
       return imageUrl as string;
     }
   };
+  console.log("Hello");
+  console.log(data);
   return (
     <>
       <Head>
-        <title>Order | Emart</title>
+        <title>My Store Order | Emart</title>
         <link rel="icon" href="/iconlogo.svg" />
       </Head>
       <Header />
@@ -79,8 +85,8 @@ export default function order({ data }: any) {
                           })}
                         </p>
                         <p>Qty: {item.quantity}</p>
-                        <p>Seller: {item.product.Customer.name}</p>
-                        <p className="font-bold mt-auto text-lg">
+                        <p>Orderer: {item.Customer.name}</p>
+                        <p className="font-bold text-lg">
                           Total: Rp{" "}
                           {(
                             parseInt(item.product.cost) *
@@ -105,9 +111,11 @@ export default function order({ data }: any) {
               alt="motorbike"
             />
             <p className="text-2xl font-semibold">
-              You Havent ordered anything!
+              Oo, oo.. No Order is Here Yet!
             </p>
-            <p className="text-xl font-semibold">Start Shopping Right Now</p>
+            <p className="text-xl font-semibold">
+              In the Meantime,Why not Shop yourself Away?
+            </p>
           </div>
         )}
       </div>
