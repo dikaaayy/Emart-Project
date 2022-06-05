@@ -1,6 +1,7 @@
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { prisma } from "../lib/prisma";
 import Header from "../src/components/Header/Header";
 
@@ -34,6 +35,7 @@ export async function getServerSideProps(context: any) {
   };
 }
 export default function Order({ data }: any) {
+  const [datas, setDatas] = useState(data);
   const returnImageUrl = (imageUrl: string | null): string => {
     if (imageUrl === null) {
       return "/placeholder.png";
@@ -41,6 +43,9 @@ export default function Order({ data }: any) {
       return imageUrl as string;
     }
   };
+  useEffect(() => {
+    setDatas(data);
+  }, [data]);
   const handleSend = async (data: any) => {
     const newData = { ...data, status: "Recieved" };
     try {
@@ -65,13 +70,13 @@ export default function Order({ data }: any) {
       </Head>
       <Header />
       <div className="pt-28 pb-10">
-        {data.length !== 0 ? (
+        {datas.length !== 0 ? (
           <>
             <p className="text-center text-3xl font-semibold mb-10 text-custom-darkBlue">
               My Order
             </p>
             <div className="mx-10 w-1/2 flex flex-col gap-y-5">
-              {data.map((item: any, i: any) => {
+              {datas.map((item: any, i: any) => {
                 return (
                   <div className="border-[1px] shadow p-5 rounded-md" key={i}>
                     <p className="ml-1">

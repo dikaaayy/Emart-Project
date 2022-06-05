@@ -39,8 +39,8 @@ export async function getServerSideProps(context: any) {
 }
 export default function Order({ data }: any) {
   useEffect(() => {
-    isAllSent(data);
-  }, [data]);
+    setDatas(data);
+  }, [data, data.status]);
 
   const returnImageUrl = (imageUrl: string | null): string => {
     if (imageUrl === null) {
@@ -49,9 +49,9 @@ export default function Order({ data }: any) {
       return imageUrl as string;
     }
   };
-  const [allSent, setAllSent] = useState(false);
   console.log("Hello");
   console.log(data);
+  const [datas, setDatas] = useState(data);
   const handleSend = async (data: any) => {
     const newData = { ...data, status: "Sent" };
     try {
@@ -67,22 +67,6 @@ export default function Order({ data }: any) {
       console.log(e);
     }
   };
-
-  const isAllSent = (data: any) => {
-    let newIsAllSent: any[] = [];
-    data.map((e: any) => {
-      if (e.status == "Sent") {
-        newIsAllSent.push(e.status);
-      }
-    });
-    if (newIsAllSent.length === data.length) {
-      console.log("here");
-      setAllSent(true);
-    } else {
-      console.log("here");
-      setAllSent(false);
-    }
-  };
   return (
     <>
       <Head>
@@ -91,13 +75,13 @@ export default function Order({ data }: any) {
       </Head>
       <Header />
       <div className="pt-28 pb-10">
-        {data.length !== 0 ? (
+        {datas.length !== 0 ? (
           <>
             <p className="text-center text-3xl font-semibold mb-10 text-custom-darkBlue">
               My Store Order
             </p>
             <div className="mx-10 w-1/2 flex flex-col gap-y-5">
-              {data.map((item: any, i: any) => {
+              {datas.map((item: any, i: any) => {
                 return (
                   <div className="border-[1px] shadow p-5 rounded-md" key={i}>
                     <p className="ml-1">

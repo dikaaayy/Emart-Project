@@ -122,7 +122,7 @@ export default function Detail(props: any) {
         </div>
       )}
       {isAddToCartToast && (
-        <div className="fixed left-0 right-0 w-1/4 h-[7%] bg-custom-lightOrange rounded-md top-28 mx-auto flex justify-center items-center">
+        <div className="fixed left-0 right-0 w-1/4 h-[7%] bg-custom-lightOrange rounded-md top-28 mx-auto flex justify-center items-center z-10">
           <p className="text-lg font-semibold text-custom-darkBlue ">
             Item added to cart!
           </p>
