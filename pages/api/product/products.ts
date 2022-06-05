@@ -1,15 +1,21 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { product} from "@prisma/client";
+import { product } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
+import { getSession } from "next-auth/react";
 
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    const product: product[] = await prisma.product.findMany();
-    res.json(product);
+  const session = await getSession({ req });
+  if (session) {
+    if (req.method === "GET") {
+      const product: product[] = await prisma.product.findMany();
+      res.json(product);
+    } else {
+      console.log("products not found");
+    }
   } else {
-    console.log("products not found");
+    return res.status(401);
   }
 }
