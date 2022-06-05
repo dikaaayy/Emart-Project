@@ -35,8 +35,6 @@ export default function Store(props: any) {
   const [product, setProduct] = useState(props.customer.product);
   const { data: session } = useSession();
 
-  // console.log(props.customer.product);
-  console.log(product);
   const productLength = (len: number) => {
     if (len > 1) {
       return len + " products";
@@ -53,7 +51,7 @@ export default function Store(props: any) {
       </Head>
       <Header />
       <div className="pt-[77px] select-none">
-        <div className="w-screen 2xl:w-[99.1vw] h-[40vh] pl-24 md:pl-48 pt-32 flex pb-10 items-center gap-x-4 relative bg-center">
+        <div className="w-full overflow-x-clip h-[40vh] pl-24 md:pl-48 pt-32 flex pb-10 items-center gap-x-4 relative bg-center">
           <div className="w-full h-full absolute left-0 top-0 -z-10 blur-[1.2px]" style={{ backgroundImage: `url(/placeholder.png)` }} />
           <Image src={profpic} alt="home" width={120} height={120} className="rounded-full self-center" priority layout="fixed" />
           <div className="self-center space-y-1">
