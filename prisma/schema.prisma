@@ -11,6 +11,7 @@ model Customer {
   email           String    @id @db.VarChar(500)
   name            String?   @db.Char(40)
   profile_picture String?   @db.VarChar(500)
+  banner_url      String?   @db.VarChar(500)
   Cart            Cart[]
   orders          orders[]
   product         product[]
