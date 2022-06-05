@@ -43,25 +43,32 @@ export default function Order({ data }: any) {
       return imageUrl as string;
     }
   };
-  useEffect(() => {
-    setDatas(data);
-  }, [data]);
   const handleSend = async (data: any) => {
-    const newData = { ...data, status: "Recieved" };
+    const orderID = data.orderID;
+    let status = "";
+    let newDatas = [...datas];
+    newDatas.find((e) => {
+      if (e.orderID === orderID) {
+        e.status = "Recieved";
+        status = "Recieved";
+        console.log(e.status);
+      }
+    });
+    setDatas(newDatas); //updateLocal
+    console.log(datas);
     try {
       await fetch("http://localhost:3000/api/product/updateToOrder", {
-        body: JSON.stringify(newData),
+        body: JSON.stringify({ orderID, status }),
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
       });
-      console.log(newData);
+      console.log(datas);
     } catch (e) {
       console.log(e);
     }
   };
-  console.log(data);
   return (
     <>
       <Head>

@@ -11,10 +11,11 @@ export default async function handler(
   const { orderID, status } = req.body;
   const session = await getSession({ req });
   if (session) {
+    console.log(orderID);
     try {
       await prisma.orders.update({
         where: {
-          orderID,
+          orderID: orderID,
         },
         data: {
           status,
@@ -22,6 +23,7 @@ export default async function handler(
       });
       return res.status(200).json({ message: "Update Sucessfull" });
     } catch (e) {
+      console.log(orderID);
       console.log(e);
     }
   } else {

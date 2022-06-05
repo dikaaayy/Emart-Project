@@ -53,10 +53,20 @@ export default function Order({ data }: any) {
   console.log(data);
   const [datas, setDatas] = useState(data);
   const handleSend = async (data: any) => {
+    const orderID = data.orderID;
+    let status = " ";
+    let newDatas = [...datas];
+    newDatas.find((e) => {
+      if (e.orderID === data.orderID) {
+        e.status = "Sent";
+        status = "Sent"; // update for db
+      }
+    });
+    setDatas(newDatas); //update local
     const newData = { ...data, status: "Sent" };
     try {
       await fetch("http://localhost:3000/api/product/updateToOrder", {
-        body: JSON.stringify(newData),
+        body: JSON.stringify({ orderID, status }),
         headers: {
           "Content-Type": "application/json",
         },
