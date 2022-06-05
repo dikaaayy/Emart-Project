@@ -114,7 +114,7 @@ export default function AddProduct() {
       <div className="pt-10 text-center font-semibold text-lg md:text-xl lg:text-2xl">
         Add Product
       </div>
-      <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[400px] lg:w-[65vw] lg:h-[65vh]">
+      <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-full lg:w-[65vw] lg:h-[65vh]">
         <div className="flex flex-col">
           <div className=" flex border-2 mt-5 border-black justify-items-center justify-center align-middle lg:w-[400px] lg:h-[400px]">
             <div className="min-w-full">
@@ -127,14 +127,14 @@ export default function AddProduct() {
               ></Image>
             </div>
           </div>
-          <div className="flex flex-col mt-10">
-            <label htmlFor="productCost" className="lg:text-xl font-semibold">
-              Foto Produk
+          <div className="flex flex-col mt-3">
+            <label htmlFor="productCost" className="text-base font-semibold">
+              <span>Foto Produk</span>
             </label>
-            <div className=" w-566.5px h-147.23px ">
+            <div className=" flex w-566.5px mt-3 ">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col justify-center items-center w-full h-64 bg-white rounded-lg border-2 border-gray-300  cursor-pointer   hover:bg-gray-100  hover:border-gray-500 dark:hover:bg-gray-200"
+                className="flex flex-col justify-center items-center w-full  bg-white rounded-lg border-2 border-gray-300  cursor-pointer   hover:bg-gray-100  hover:border-gray-500 dark:hover:bg-gray-200"
               >
                 <div className="flex flex-col justify-center items-center pt-5 pb-6">
                   <Image
@@ -168,7 +168,7 @@ export default function AddProduct() {
             className="w-full h-full lg:mt-3 mx-auto"
           >
             <div className="flex flex-col gap-y-2 mb-5">
-              <label htmlFor="productName" className="lg:text-xl font-semibold">
+              <label htmlFor="productName" className="text-base font-semibold">
                 Name
               </label>
               <input
@@ -186,7 +186,7 @@ export default function AddProduct() {
               />
             </div>
             <div className="flex flex-col gap-y-2 mb-5">
-              <label htmlFor="productCost" className="lg:text-xl font-semibold">
+              <label htmlFor="productCost" className="text-base font-semibold">
                 Price
               </label>
               <input
@@ -204,7 +204,7 @@ export default function AddProduct() {
               />
             </div>
             <div className="flex flex-col gap-y-2 mb-5">
-              <label htmlFor="productName" className="lg:text-xl font-semibold">
+              <label htmlFor="productName" className="text-base font-semibold">
                 Stock
               </label>
               <input
@@ -223,10 +223,7 @@ export default function AddProduct() {
               />
             </div>
             <div className="flex flex-col gap-y-2 mb-4">
-              <label
-                htmlFor="productDesc"
-                className="lg:tetexxt-xl font-semibold"
-              >
+              <label htmlFor="productDesc" className="text-base font-semibold">
                 Description
               </label>
               <textarea
@@ -242,19 +239,19 @@ export default function AddProduct() {
                 required
               />
             </div>
-            <div className="flex gap-x-4 mt-4">
+            <div className="flex gap-x-2 mt-4">
               <button
-                className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded"
+                className="flex bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-[49.5px] py-2 rounded"
                 type="submit"
                 disabled={isOpen ? true : false}
                 onClick={() => {
                   setProduct({ ...product, productID: String(uid(25)) });
                 }}
               >
-                Update
+                Add Product
               </button>
               <button
-                className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded"
+                className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-[43px] py-2 rounded"
                 type="reset"
                 onClick={cancelHandler}
                 disabled={false}
