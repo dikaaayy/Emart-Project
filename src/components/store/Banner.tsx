@@ -1,6 +1,8 @@
 import { Session } from "next-auth/core/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { updateBannerToDb } from "../../database/updateDB";
+import { updateBanner } from "../../firebase/firebase";
 import { Product } from "../../helper/types";
 
 type BannerProps = {
@@ -26,12 +28,16 @@ export default function Banner(props: BannerProps) {
     }
   }, [props.bannerUrl]);
   const [imageString, setImageString] = useState<string>("/defaultBanner.png");
-  const [imageFile, setImageFile] = useState<File>();
 
-  const submitImagetoDatabase = (file: any) => {
+  const submitImagetoDatabase = async (file: any) => {
     if (file.target.files && file.target.files[0]) {
-      setImageFile(file.target.files[0]);
       setImageString(URL.createObjectURL(file.target.files[0]));
+      console.log(file.target.files[0]);
+      updateBanner(
+        file.target.files[0] as File,
+        props.email!,
+        updateBannerToDb
+      );
     }
   };
   return (

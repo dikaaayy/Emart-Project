@@ -9,7 +9,7 @@ export default async function handler(
   try {
     await prisma.customer.update({
       where: {
-        email: email,
+        email,
       },
       data: {
         banner_url,
