@@ -115,15 +115,44 @@ export default function AddProduct() {
         Add Product
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[100vw] lg:w-[65vw] lg:h-[65vh]">
-        <div className=" flex border-2 mt-5 border-black justify-items-center justify-center align-middle lg:w-60 lg:h-60">
-          <div className="min-w-full">
-            <Image
-              src={imageString}
-              alt="img-template"
-              width="100%"
-              height="100%"
-              layout="responsive"
-            ></Image>
+        <div className="flex flex-col">
+          <div className=" flex border-2 mt-5 border-black justify-items-center justify-center align-middle lg:w-60 lg:h-60">
+            <div className="min-w-full">
+              <Image
+                src={imageString}
+                alt="img-template"
+                width="100%"
+                height="100%"
+                layout="responsive"
+              ></Image>
+            </div>
+          </div>
+          <div className="flex flex-col border-2 border-black">
+            <label htmlFor="productCost" className="lg:text-xl font-semibold">
+              Foto Produk
+            </label>
+            <div className="w-72 h-72 border-2 border-black">
+              <label
+                htmlFor="dropzone-file"
+                className="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              >
+                <div className="flex flex-col justify-center items-center pt-5 pb-6">
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    PNG, JPG only
+                  </p>
+                </div>
+                <input
+                  id="dropzone-file"
+                  type="file"
+                  className="hidden"
+                  onChange={submitImageLocally}
+                />
+              </label>
+            </div>
           </div>
         </div>
         <div className="w-full  lg:w-1/2">
@@ -207,16 +236,6 @@ export default function AddProduct() {
                 maxLength={14}
                 required
               />
-            </div>
-            <div className="flex border-2 border-black">
-              <label htmlFor="productCost" className="lg:text-xl font-semibold">
-                Upload Your Image
-              </label>
-              <input
-                onChange={submitImageLocally}
-                type="file"
-                accept="image/png, image/jpeg"
-              ></input>
             </div>
             <div className="flex gap-x-4 mt-4">
               <button
