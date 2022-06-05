@@ -1,6 +1,6 @@
 import { Session } from "next-auth/core/types";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Product } from "../../helper/types";
 
 type BannerProps = {
@@ -20,7 +20,12 @@ const productLength = (len: number) => {
 };
 
 export default function Banner(props: BannerProps) {
-  const [imageString, setImageString] = useState<string>(props.bannerUrl!);
+  useEffect(() => {
+    if (props.bannerUrl !== null) {
+      setImageString(props.bannerUrl!);
+    }
+  }, [props.bannerUrl]);
+  const [imageString, setImageString] = useState<string>("/defaultBanner.png");
   const [imageFile, setImageFile] = useState<File>();
 
   const submitImagetoDatabase = (file: any) => {
@@ -33,7 +38,7 @@ export default function Banner(props: BannerProps) {
     <div className="w-full overflow-x-clip h-[40vh] pl-24 md:pl-48 pt-32 flex pb-10 items-center gap-x-4 relative bg-center">
       <div className="w-full h-full absolute left-0 top-0 -z-10 blur-[1.2px]">
         <Image
-          src={props.bannerUrl === null ? "/defaultBanner.png" : imageString}
+          src={imageString}
           alt={"/defaultBanner.png"}
           objectFit="cover"
           layout="fill"
