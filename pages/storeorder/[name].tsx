@@ -157,7 +157,9 @@ const NoOrder = () => {
   return (
     <div className="w-[99.1vw] space-y-2 text-custom-darkBlue -mt-10 h-[85vh] flex flex-col items-center justify-center">
       <Image src={"/motorbike.svg"} width={250} height={250} alt="motorbike" />
-      <p className="text-2xl font-semibold">Oo, oo.. No Order is Here Yet!</p>
+      <p className="text-2xl font-semibold">
+        Congratulations,All Order is Done!
+      </p>
       <p className="text-xl font-semibold">
         In the Meantime,Why not Shop yourself Away?
       </p>
