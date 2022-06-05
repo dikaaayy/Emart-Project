@@ -4,7 +4,6 @@ import Header from "../src/components/Header/Header";
 import AuthenticationPage from "./authPage/AuthenticationPage";
 import { prisma } from "../lib/prisma";
 import { useSession, getSession } from "next-auth/react";
-import Protected from "../src/components/Protected/Protected";
 import Head from "next/head";
 
 export async function getServerSideProps(context: any) {
