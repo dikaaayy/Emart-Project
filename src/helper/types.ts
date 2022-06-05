@@ -4,4 +4,6 @@ export type Product = {
   cost: String;
   description: String;
   imageUrl: String;
+  stock: number | null;
+  email: string;
 };
