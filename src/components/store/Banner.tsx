@@ -1,5 +1,6 @@
 import { Session } from "next-auth/core/types";
 import Image from "next/image";
+import { useState } from "react";
 import { Product } from "../../helper/types";
 
 type BannerProps = {
@@ -17,22 +18,22 @@ const productLength = (len: number) => {
     return len + " product";
   }
 };
-const returnImageUrl = (imageUrl: string | null): string => {
-  if (imageUrl === null) {
-    return "/defaultBanner.png";
-  } else {
-    console.log("Hello");
-    return imageUrl as string;
-  }
-};
+
 export default function Banner(props: BannerProps) {
-  const defaultBanner = "/defaultBanner.png";
-  console.log(props.bannerUrl);
+  const [imageString, setImageString] = useState<string>(props.bannerUrl!);
+  const [imageFile, setImageFile] = useState<File>();
+
+  const submitImagetoDatabase = (file: any) => {
+    if (file.target.files && file.target.files[0]) {
+      setImageFile(file.target.files[0]);
+      setImageString(URL.createObjectURL(file.target.files[0]));
+    }
+  };
   return (
     <div className="w-full overflow-x-clip h-[40vh] pl-24 md:pl-48 pt-32 flex pb-10 items-center gap-x-4 relative bg-center">
       <div className="w-full h-full absolute left-0 top-0 -z-10 blur-[1.2px]">
         <Image
-          src={returnImageUrl(props.bannerUrl!)}
+          src={props.bannerUrl === null ? "/defaultBanner.png" : imageString}
           alt={"/defaultBanner.png"}
           objectFit="cover"
           layout="fill"
@@ -65,6 +66,7 @@ export default function Banner(props: BannerProps) {
               type="file"
               accept="image/png, image/jpeg"
               className="hidden"
+              onChange={submitImagetoDatabase}
             />
           </div>
         ) : (

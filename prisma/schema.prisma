@@ -28,6 +28,7 @@ model orders {
   productID String?   @db.VarChar(255)
   quantity  Int?
   email     String?   @db.VarChar(500)
+  status    String?   @db.VarChar(50)
   Customer  Customer? @relation(fields: [email], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "FK_email3")
   product   product?  @relation(fields: [productID], references: [productID], onDelete: NoAction, onUpdate: NoAction, map: "FK_productID2")
 
