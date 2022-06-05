@@ -23,12 +23,13 @@ export async function getServerSideProps(context: any) {
     props: {
       data: {
         state: "true",
+        session_email: session.user!.email,
       },
     },
   };
 }
 
-export default function AddProduct() {
+export default function AddProduct(props: any) {
   const [product, setProduct] = useState<Product>({
     productID: String(uid(25)),
     name: "",
@@ -36,6 +37,7 @@ export default function AddProduct() {
     description: "",
     stock: 0,
     imageUrl: "",
+    email: props.data.session_email,
   });
   const [isOpen, setIsOpen] = useState(false);
   const [imageString, setImageString] = useState<string>("/placeholder.png");
@@ -70,6 +72,7 @@ export default function AddProduct() {
           description: "",
           imageUrl: "",
           stock: null,
+          email: props.data.session_email,
         });
         setIsOpen(false);
         Router.push("/");
@@ -86,6 +89,7 @@ export default function AddProduct() {
       description: "",
       imageUrl: "",
       stock: null,
+      email: props.data.session_email,
     });
     setTimeout(() => {
       Router.push("/");

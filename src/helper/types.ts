@@ -5,4 +5,5 @@ export type Product = {
   description: String;
   imageUrl: String;
   stock: number | null;
+  email: string;
 };

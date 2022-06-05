@@ -6,7 +6,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { name, cost, description, productID, imageUrl, stock } = req.body;
+  const { name, cost, description, productID, imageUrl, stock, email } =
+    req.body;
 
   try {
     await prisma.product.create({
@@ -17,6 +18,7 @@ export default async function handler(
         cost,
         imageUrl,
         stock,
+        email,
       },
     });
     res.status(200).end();
