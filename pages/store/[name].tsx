@@ -31,7 +31,7 @@ export async function getServerSideProps(context: any) {
 }
 
 export default function Store(props: any) {
-  const { name, email, profile_picture: profpic } = props.customer;
+  const { name, email, profile_picture: profpic, banner_url: banner } = props.customer;
   const [product, setProduct] = useState(props.customer.product);
   const { data: session } = useSession();
 
@@ -43,6 +43,8 @@ export default function Store(props: any) {
     }
   };
 
+  console.log(props.customer);
+
   return (
     <>
       <Head>
@@ -52,7 +54,7 @@ export default function Store(props: any) {
       <Header />
       <div className="pt-[77px] select-none">
         <div className="w-full overflow-x-clip h-[40vh] pl-24 md:pl-48 pt-32 flex pb-10 items-center gap-x-4 relative bg-center">
-          <div className="w-full h-full absolute left-0 top-0 -z-10 blur-[1.2px]" style={{ backgroundImage: `url(/placeholder.png)` }} />
+          <div className="w-full h-full absolute left-0 top-0 -z-10 blur-[1.2px]" style={{ backgroundImage: `url(${banner !== null ? banner : "/defaultBanner.png"})` }} />
           <Image src={profpic} alt="home" width={120} height={120} className="rounded-full self-center" priority layout="fixed" />
           <div className="self-center space-y-1">
             <Image src="/homeBlack.svg" alt="home" width={40} height={40} />
