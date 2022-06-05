@@ -5,6 +5,8 @@ import Image from "next/image";
 import Router, { useRouter } from "next/router";
 import Head from "next/head";
 import { getSession, useSession } from "next-auth/react";
+import Link from "next/link";
+import firstname from "../../src/helper/returnfirstname";
 
 export async function getServerSideProps(context: any) {
   const { id } = context.params;
@@ -20,6 +22,9 @@ export async function getServerSideProps(context: any) {
   const product = await prisma.product.findUnique({
     where: {
       productID: id,
+    },
+    include: {
+      Customer: true,
     },
   });
   return { props: { product } };
@@ -125,14 +130,26 @@ export default function Detail(props: any) {
       <div className="pt-28 lg:pt-36 text-center font-semibold text-lg md:text-xl lg:text-2xl">
         <h1>Product Detail</h1>
       </div>
-      <div className="flex flex-col lg:flex-row mt-3 lg:mt-8 lg:justify-center lg:h-[65vh]">
-        <div className="w-full h-[37vh] lg:h-full lg:w-[40%] flex flex-col items-center py-10 justify-between">
-          <Image
-            src={returnImageUrl(props.product.imageUrl)}
-            alt="img-template"
-            width={400}
-            height={400}
-          />
+      <div className="flex flex-col  mt-3 justify-center items-center md:flex-row">
+        <div className="flex flex-col mr-10">
+          <div className="w-[400px] h-[400px] items-center">
+            <Image
+              src={returnImageUrl(props.product.imageUrl)}
+              alt="img-template"
+              width={700}
+              height={700}
+            />
+          </div>
+          <div className="flex flex-row rounded-lg mt-10">
+            <Link href={"/store/" + props.product.email} passHref>
+              <div className="border-2 border-black flex flex-row items-center px-2 py-2 hover:bg-slate-100 cursor-pointer rounded-lg">
+                <Image src="/homeBlack.svg" alt="home" width={34} height={34} />
+                <span className="text-black px-2">
+                  {`${firstname(props.product.Customer.name)}'s`} Store
+                </span>
+              </div>
+            </Link>
+          </div>
         </div>
         <div className="w-full lg:w-1/2 h-full flex flex-col gap-y-3 justify-between py-2 px-8 lg:px-0">
           <div className="space-y-3 mt-5">

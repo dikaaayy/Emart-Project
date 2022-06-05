@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 import ProfileModal from "./ProfileModal";
 import Head from "next/head";
@@ -9,7 +9,7 @@ export default function Header() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLButtonElement>(null);
-  // console.log(session?.user?.image);
+
   useEffect(() => {
     const checkIfClickedOutside = (e: any) => {
       if (isOpen && !ref?.current!.contains(e.target)) {
@@ -21,6 +21,7 @@ export default function Header() {
       document.removeEventListener("click", checkIfClickedOutside);
     };
   }, [isOpen]);
+
   return (
     <>
       <Head>
@@ -59,7 +60,7 @@ export default function Header() {
               </svg>
             )}
           </button>
-          {isOpen && <ProfileModal />}
+          {isOpen && <ProfileModal store={session?.user?.email} />}
         </div>
       </div>
     </>

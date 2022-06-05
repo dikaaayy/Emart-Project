@@ -45,3 +45,17 @@ export const submitProduct = async (
     });
   });
 };
+
+export const updateBanner = async (
+  imageFile: File,
+  email: string,
+  submitToDB: Function // For DB related action
+) => {
+  const imageRef = ref(storage, `images/${imageFile!.name + email}`);
+  await uploadBytes(imageRef, imageFile!).then(() => {
+    getDownloadURL(imageRef).then((url) => {
+      const data = { email: email, banner_url: url };
+      submitToDB(data);
+    });
+  });
+};
