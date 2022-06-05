@@ -2,57 +2,91 @@ import Header from "../../../src/components/Header/Header";
 import { prisma } from "../../../lib/prisma";
 import { useState } from "react";
 import Image from "next/image";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
+import { submitProduct } from "../../../src/firebase/firebase";
+import { updateProductToDB } from "../../../src/database/updateDB";
 import Head from "next/head";
+import { getSession, useSession } from "next-auth/react";
 
 export async function getServerSideProps(context: any) {
   const { id } = context.params;
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
   const product = await prisma.product.findUnique({
     where: {
       productID: id,
     },
   });
+  if (session.user?.email !== product?.email) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/product/" + product?.productID,
+      },
+    };
+  }
   return { props: { product } };
 }
 
+export type Product = {
+  productID: String;
+  name: String;
+  cost: String;
+  description: String;
+  imageUrl: String;
+};
+
 export default function Update(props: any) {
+  // const [product, setProduct] = useState({ productID: props.product.productID, name: props.product.name, cost: props.product.cost, description: props.product.description, stock: props.product.stock });
   const [product, setProduct] = useState({
     productID: props.product.productID,
     name: props.product.name,
     cost: props.product.cost,
     description: props.product.description,
+    imageUrl: "",
+    stock: props.product.stock,
   });
   const [isOpen, setIsOpen] = useState(false);
+  const [imageString, setImageString] = useState<string>("/placeholder.png");
+  const [imageFile, setImageFile] = useState<File>();
+  const { data: session } = useSession();
+  const router = useRouter();
 
   const cancelHandler = () => {
     setTimeout(() => {
-      Router.push("/product/" + props.product.productID);
+      router.push("/product/" + props.product.productID);
     }, 100);
   };
-
-  const submitToDB = async (data: any) => {
-    try {
-      fetch("http://localhost:3000/api/product/updateProduct", {
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-    } catch (e) {
-      console.log(e);
+  const submitImageLocally = (file: any) => {
+    if (file.target.files && file.target.files[0]) {
+      setImageFile(file.target.files[0]);
+      setImageString(URL.createObjectURL(file.target.files[0]));
     }
   };
 
-  const submitHandler = (e: any) => {
+  const submitHandler = async (e: any) => {
     try {
       e.preventDefault();
-      submitToDB(product);
       setIsOpen(true);
+      await submitProduct(imageFile!, product, updateProductToDB);
       setTimeout(() => {
-        setProduct({ productID: "", name: "", cost: "", description: "" });
+        setProduct({
+          productID: "",
+          name: "",
+          cost: "",
+          description: "",
+          imageUrl: "",
+          stock: null,
+        });
         setIsOpen(false);
-        Router.push("/");
+        router.push("/");
       }, 3000);
     } catch (e) {
       console.log(e);
@@ -62,7 +96,8 @@ export default function Update(props: any) {
   return (
     <>
       <Head>
-        <title>{product.name} | Edit</title>{" "}
+        <title>Edit Product</title>
+        <link rel="icon" href="/iconlogo.svg" />
       </Head>
       <Header />
       {isOpen && (
@@ -72,7 +107,7 @@ export default function Update(props: any) {
           <div
             className={`fixed mx-auto top-32 right-0 left-0 font-semibold flex flex-col justify-center items-center w-[20%] h-24 bg-custom-darkBlue text-custom-lightGrey rounded-md select-none gap-y-3`}
           >
-            <p className="text-2xl">Product Updated!</p>
+            <p className="text-2xl ">Product Updated!</p>
             <p className="">Redirecting to main page</p>
           </div>
         </div>
@@ -81,35 +116,16 @@ export default function Update(props: any) {
         <h1>Update Product</h1>
       </div>
       <div className="flex flex-col lg:flex-row mt-3 lg:mt-7 gap-x-24 lg:justify-around mx-auto w-[85vw] lg:w-[65vw] lg:h-[65vh]">
-        <div className="w-full  lg:w-1/2 grid grid-cols-2 p-7 lg:p-5 gap-4 content-center">
-          <Image
-            src={"/placeholder.png"}
-            alt="img-template"
-            width="320"
-            height="306"
-            objectFit="contain"
-          />
-          <Image
-            src={"/placeholder.png"}
-            alt="img-template"
-            width="320"
-            height="306"
-            objectFit="contain"
-          />
-          <Image
-            src={"/placeholder.png"}
-            alt="img-template"
-            width="320"
-            height="306"
-            objectFit="contain"
-          />
-          <Image
-            src={"/placeholder.png"}
-            alt="img-template"
-            width="320"
-            height="306"
-            objectFit="contain"
-          />
+        <div className=" flex border-2 border-black justify-items-center justify-center align-middle lg:w-60 lg:h-60">
+          <div className="min-w-full">
+            <Image
+              src={imageString}
+              alt="img-template"
+              width="100%"
+              height="100%"
+              layout="responsive"
+            ></Image>
+          </div>
         </div>
         <div className="w-full  lg:w-1/2">
           <form
@@ -154,6 +170,27 @@ export default function Update(props: any) {
                 required
               />
             </div>
+            <div className="flex flex-col gap-y-2 mb-5">
+              <label
+                htmlFor="productStock"
+                className="lg:text-xl font-semibold"
+              >
+                Stock
+              </label>
+              <input
+                className="w-1/2 lg:w-1/3 overflow-auto p-2 rounded border border-gray-400 outline-1 outline-gray-700 focus:border-gray-500"
+                placeholder="Enter Price"
+                type="text"
+                name="productStock"
+                id="productStock"
+                value={product.stock}
+                onChange={(e) =>
+                  setProduct({ ...product, stock: parseInt(e.target.value) })
+                }
+                maxLength={15}
+                required
+              />
+            </div>
             <div className="flex flex-col gap-y-2 mb-10">
               <label htmlFor="productDesc" className="lg:text-xl font-semibold">
                 Description
@@ -172,10 +209,21 @@ export default function Update(props: any) {
                 required
               />
             </div>
-            <div className="flex gap-x-4">
+            <div className="flex border-2 border-black">
+              <label htmlFor="productCost" className="lg:text-xl font-semibold">
+                Upload Your Image
+              </label>
+              <input
+                onChange={submitImageLocally}
+                type="file"
+                accept="image/png, image/jpeg"
+              ></input>
+            </div>
+            <div className="flex gap-x-4 mt-4">
               <button
                 className="bg-custom-lightOrange hover:bg-[#e2910f] font-semibold transition text-white px-3 py-2 rounded"
                 type="submit"
+                disabled={isOpen ? true : false}
               >
                 Update
               </button>
@@ -183,6 +231,7 @@ export default function Update(props: any) {
                 className="bg-custom-darkOrange hover:bg-[#d45133] font-semibold transition text-white px-4 py-2 rounded"
                 type="reset"
                 onClick={cancelHandler}
+                disabled={false}
               >
                 Cancel
               </button>

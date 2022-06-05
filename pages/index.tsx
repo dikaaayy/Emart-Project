@@ -24,6 +24,7 @@ export default function Home(props: HomeProp) {
       <Protected>
         <Head>
           <title>Home | Emart</title>
+          <link rel="icon" href="/iconlogo.svg" />
         </Head>
         <Header />
         <ProductPage products={props.products}></ProductPage>
