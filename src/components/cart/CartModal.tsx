@@ -8,10 +8,13 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
   const router = useRouter();
 
   const handleYes = async () => {
+    const today = new Date(Date.now());
+    const date = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0");
     const arr = [...data];
     const newArray: any[] = [];
     arr.forEach((item: any, i: any) => {
-      newArray.push({ ...item, orderID: String(uid(20 + i)), stock: item.product.stock });
+      newArray.push({ ...item, orderID: `${date}/${month}/${String(uid(10 + i))}`, stock: item.product.stock });
     });
     newArray.forEach((item: any, i: any) => {
       delete item.cartID;
