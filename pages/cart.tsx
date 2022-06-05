@@ -90,8 +90,6 @@ export default function Cart({ data }: any) {
     }, 110);
   };
 
-  // console.log(outStock);
-
   return (
     <>
       <Head>
