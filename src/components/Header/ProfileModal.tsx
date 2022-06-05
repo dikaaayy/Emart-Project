@@ -29,7 +29,18 @@ export default function ProfileModal(props: any) {
       >
         My Store
       </p>
-      <p className="cursor-pointer hover:bg-[#db9017] p-2" onClick={() => signOut()}>
+      <p
+        className="cursor-pointer hover:bg-[#db9017] p-2"
+        onClick={() => {
+          router.push("/storeorder/" + props.store);
+        }}
+      >
+        My Store Order
+      </p>
+      <p
+        className="cursor-pointer hover:bg-[#db9017] p-2"
+        onClick={() => signOut()}
+      >
         Sign Out
       </p>
     </div>
