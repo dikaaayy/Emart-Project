@@ -2,8 +2,8 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { prisma } from "../lib/prisma";
-import Header from "../src/components/Header/Header";
+import { prisma } from "../../lib/prisma";
+import Header from "../../src/components/Header/Header";
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
@@ -20,6 +20,7 @@ export async function getServerSideProps(context: any) {
       orderID: true,
       quantity: true,
       status: true,
+      Customer: true,
       product: {
         include: {
           Customer: true,
@@ -27,7 +28,9 @@ export async function getServerSideProps(context: any) {
       },
     },
     where: {
-      email: session?.user?.email!,
+      product: {
+        email: session!.user!.email!,
+      },
     },
   });
   return {
@@ -35,7 +38,10 @@ export async function getServerSideProps(context: any) {
   };
 }
 export default function Order({ data }: any) {
-  const [datas, setDatas] = useState(data);
+  useEffect(() => {
+    setDatas(data);
+  }, [data, data.status]);
+
   const returnImageUrl = (imageUrl: string | null): string => {
     if (imageUrl === null) {
       return "/placeholder.png";
@@ -43,19 +49,21 @@ export default function Order({ data }: any) {
       return imageUrl as string;
     }
   };
+  console.log("Hello");
+  console.log(data);
+  const [datas, setDatas] = useState(data);
   const handleSend = async (data: any) => {
     const orderID = data.orderID;
-    let status = "";
+    let status = " ";
     let newDatas = [...datas];
     newDatas.find((e) => {
-      if (e.orderID === orderID) {
-        e.status = "Recieved";
-        status = "Recieved";
-        console.log(e.status);
+      if (e.orderID === data.orderID) {
+        e.status = "Sent";
+        status = "Sent"; // update for db
       }
     });
-    setDatas(newDatas); //updateLocal
-    console.log(datas);
+    setDatas(newDatas); //update local
+    const newData = { ...data, status: "Sent" };
     try {
       await fetch("http://localhost:3000/api/product/updateToOrder", {
         body: JSON.stringify({ orderID, status }),
@@ -64,7 +72,7 @@ export default function Order({ data }: any) {
         },
         method: "POST",
       });
-      console.log(datas);
+      console.log(newData);
     } catch (e) {
       console.log(e);
     }
@@ -72,7 +80,7 @@ export default function Order({ data }: any) {
   return (
     <>
       <Head>
-        <title>Order | Emart</title>
+        <title>My Store Order | Emart</title>
         <link rel="icon" href="/iconlogo.svg" />
       </Head>
       <Header />
@@ -80,7 +88,7 @@ export default function Order({ data }: any) {
         {datas.length !== 0 ? (
           <>
             <p className="text-center text-3xl font-semibold mb-10 text-custom-darkBlue">
-              My Order
+              My Store Order
             </p>
             <div className="mx-10 w-1/2 flex flex-col gap-y-5">
               {datas.map((item: any, i: any) => {
@@ -108,7 +116,7 @@ export default function Order({ data }: any) {
                           })}
                         </p>
                         <p>Qty: {item.quantity}</p>
-                        <p>Seller: {item.product.Customer.name}</p>
+                        <p>Orderer: {item.Customer.name}</p>
                         {item.status === "Sent" ? (
                           <>
                             <p className="text-custom-lightOrange">
@@ -123,12 +131,6 @@ export default function Order({ data }: any) {
                                 maximumFractionDigits: 2,
                               })}
                             </p>
-                            <button
-                              className="flex bg-green-400 justify-center hover:bg-green-400 font-semibold transition text-white py-2 rounded"
-                              onClick={() => handleSend(data[i])}
-                            >
-                              Recieved
-                            </button>
                           </>
                         ) : (
                           <>
@@ -146,6 +148,12 @@ export default function Order({ data }: any) {
                                     maximumFractionDigits: 2,
                                   })}
                                 </p>
+                                <button
+                                  className="flex bg-yellow-500 justify-center hover:bg-green-200 font-semibold transition text-white py-2 rounded"
+                                  onClick={() => handleSend(data[i])}
+                                >
+                                  Send
+                                </button>
                               </>
                             ) : (
                               <>
@@ -173,20 +181,23 @@ export default function Order({ data }: any) {
             </div>
           </>
         ) : (
-          <div className="w-[99.1vw] space-y-2 text-custom-darkBlue -mt-10 h-[85vh] flex flex-col items-center justify-center">
-            <Image
-              src={"/motorbike.svg"}
-              width={250}
-              height={250}
-              alt="motorbike"
-            />
-            <p className="text-2xl font-semibold">
-              You Havent ordered anything!
-            </p>
-            <p className="text-xl font-semibold">Start Shopping Right Now</p>
-          </div>
+          <NoOrder></NoOrder>
         )}
       </div>
     </>
   );
 }
+
+const NoOrder = () => {
+  return (
+    <div className="w-[99.1vw] space-y-2 text-custom-darkBlue -mt-10 h-[85vh] flex flex-col items-center justify-center">
+      <Image src={"/motorbike.svg"} width={250} height={250} alt="motorbike" />
+      <p className="text-2xl font-semibold">
+        Congratulations,All Order is Done!
+      </p>
+      <p className="text-xl font-semibold">
+        In the Meantime,Why not Shop yourself Away?
+      </p>
+    </div>
+  );
+};
