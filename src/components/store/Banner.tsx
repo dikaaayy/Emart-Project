@@ -1,3 +1,4 @@
+import { profile } from "console";
 import { Session } from "next-auth/core/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -26,8 +27,15 @@ export default function Banner(props: BannerProps) {
     if (props.bannerUrl !== null) {
       setImageString(props.bannerUrl!);
     }
-  }, [props.bannerUrl]);
+    if (props.profile_picture !== null) {
+      if (props.profile_picture.includes(":") === true) {
+        setProfilePicture(props.profile_picture!);
+      }
+    }
+  }, [props.bannerUrl, props.profile_picture]);
   const [imageString, setImageString] = useState<string>("/defaultBanner.png");
+  const [profilePicture, setProfilePicture] =
+    useState<string>("/placeholder.png");
 
   const submitImagetoDatabase = async (file: any) => {
     if (file.target.files && file.target.files[0]) {
@@ -51,7 +59,7 @@ export default function Banner(props: BannerProps) {
         ></Image>
       </div>
       <Image
-        src={props.profile_picture}
+        src={profilePicture}
         alt="home"
         width={120}
         height={120}
