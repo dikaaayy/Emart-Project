@@ -91,16 +91,13 @@ export default function Order({ data }: any) {
       </Head>
       <Header />
       <div className="pt-28 pb-10">
-        {data.length !== 0 && allSent !== false ? (
+        {data.length !== 0 ? (
           <>
             <p className="text-center text-3xl font-semibold mb-10 text-custom-darkBlue">
               My Store Order
             </p>
             <div className="mx-10 w-1/2 flex flex-col gap-y-5">
               {data.map((item: any, i: any) => {
-                if (item.status === "Sent") {
-                  return <></>;
-                }
                 return (
                   <div className="border-[1px] shadow p-5 rounded-md" key={i}>
                     <p className="ml-1">
@@ -126,22 +123,62 @@ export default function Order({ data }: any) {
                         </p>
                         <p>Qty: {item.quantity}</p>
                         <p>Orderer: {item.Customer.name}</p>
-                        <p>Status: {item.status}</p>
-                        <p className="font-bold text-lg">
-                          Total: Rp{" "}
-                          {(
-                            parseInt(item.product.cost) *
-                            parseInt(item.quantity)
-                          ).toLocaleString("en-US", {
-                            maximumFractionDigits: 2,
-                          })}
-                        </p>
-                        <button
-                          className="flex bg-custom-lightOrange justify-center hover:bg-[#e2910f] font-semibold transition text-white py-2 rounded"
-                          onClick={() => handleSend(data[i])}
-                        >
-                          Send
-                        </button>
+                        {item.status === "Sent" ? (
+                          <>
+                            <p className="text-custom-lightOrange">
+                              Status: {item.status}
+                            </p>
+                            <p className="font-bold text-lg ">
+                              Total: Rp{" "}
+                              {(
+                                parseInt(item.product.cost) *
+                                parseInt(item.quantity)
+                              ).toLocaleString("en-US", {
+                                maximumFractionDigits: 2,
+                              })}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            {item.status === "ordered" ? (
+                              <>
+                                <p className="text-yellow-500">
+                                  Status: {item.status}
+                                </p>
+                                <p className="font-bold text-lg">
+                                  Total: Rp{" "}
+                                  {(
+                                    parseInt(item.product.cost) *
+                                    parseInt(item.quantity)
+                                  ).toLocaleString("en-US", {
+                                    maximumFractionDigits: 2,
+                                  })}
+                                </p>
+                                <button
+                                  className="flex bg-yellow-500 justify-center hover:bg-green-200 font-semibold transition text-white py-2 rounded"
+                                  onClick={() => handleSend(data[i])}
+                                >
+                                  Send
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <p className="text-green-400">
+                                  Status: {item.status}
+                                </p>
+                                <p className="font-bold text-lg">
+                                  Total: Rp{" "}
+                                  {(
+                                    parseInt(item.product.cost) *
+                                    parseInt(item.quantity)
+                                  ).toLocaleString("en-US", {
+                                    maximumFractionDigits: 2,
+                                  })}
+                                </p>
+                              </>
+                            )}
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>

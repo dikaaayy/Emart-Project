@@ -99,10 +99,10 @@ export default function Order({ data }: any) {
                         <p>Seller: {item.product.Customer.name}</p>
                         {item.status === "Sent" ? (
                           <>
-                            <p className="text-orange-400">
+                            <p className="text-custom-lightOrange">
                               Status: {item.status}
                             </p>
-                            <p className="font-bold mt-auto text-lg">
+                            <p className="font-bold text-lg ">
                               Total: Rp{" "}
                               {(
                                 parseInt(item.product.cost) *
@@ -112,7 +112,7 @@ export default function Order({ data }: any) {
                               })}
                             </p>
                             <button
-                              className="flex bg-green-400 justify-center hover:bg-green-200 font-semibold transition text-white py-2 rounded"
+                              className="flex bg-green-400 justify-center hover:bg-green-400 font-semibold transition text-white py-2 rounded"
                               onClick={() => handleSend(data[i])}
                             >
                               Recieved
@@ -120,18 +120,37 @@ export default function Order({ data }: any) {
                           </>
                         ) : (
                           <>
-                            <p className="text-yellow-700">
-                              Status: {item.status}
-                            </p>
-                            <p className="font-bold mt-auto text-lg">
-                              Total: Rp{" "}
-                              {(
-                                parseInt(item.product.cost) *
-                                parseInt(item.quantity)
-                              ).toLocaleString("en-US", {
-                                maximumFractionDigits: 2,
-                              })}
-                            </p>
+                            {item.status === "ordered" ? (
+                              <>
+                                <p className="text-yellow-500">
+                                  Status: {item.status}
+                                </p>
+                                <p className="font-bold text-lg">
+                                  Total: Rp{" "}
+                                  {(
+                                    parseInt(item.product.cost) *
+                                    parseInt(item.quantity)
+                                  ).toLocaleString("en-US", {
+                                    maximumFractionDigits: 2,
+                                  })}
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <p className="text-green-400">
+                                  Status: {item.status}
+                                </p>
+                                <p className="font-bold text-lg">
+                                  Total: Rp{" "}
+                                  {(
+                                    parseInt(item.product.cost) *
+                                    parseInt(item.quantity)
+                                  ).toLocaleString("en-US", {
+                                    maximumFractionDigits: 2,
+                                  })}
+                                </p>
+                              </>
+                            )}
                           </>
                         )}
                       </div>
