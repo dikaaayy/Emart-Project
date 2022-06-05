@@ -1,7 +1,7 @@
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { prisma } from "../../lib/prisma";
 import Header from "../../src/components/Header/Header";
 
@@ -38,6 +38,10 @@ export async function getServerSideProps(context: any) {
   };
 }
 export default function Order({ data }: any) {
+  useEffect(() => {
+    isAllSent(data);
+  }, [data]);
+
   const returnImageUrl = (imageUrl: string | null): string => {
     if (imageUrl === null) {
       return "/placeholder.png";

@@ -3,7 +3,13 @@ import { uid } from "uid";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export default function CartModal({ handleClose, data }: { handleClose: any; data: any[] }) {
+export default function CartModal({
+  handleClose,
+  data,
+}: {
+  handleClose: any;
+  data: any[];
+}) {
   const [checkout, setCheckout] = useState<any>(data);
   const router = useRouter();
 
@@ -14,7 +20,12 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
     const arr = [...data];
     const newArray: any[] = [];
     arr.forEach((item: any, i: any) => {
-      newArray.push({ ...item, orderID: `${date}/${month}/${String(uid(10 + i))}`, stock: item.product.stock });
+      newArray.push({
+        ...item,
+        orderID: `${date}/${month}/${String(uid(10 + i))}`,
+        stock: item.product.stock,
+        status: "ordered",
+      });
     });
     newArray.forEach((item: any, i: any) => {
       delete item.cartID;
@@ -38,9 +49,14 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
   };
   return (
     <Backdrop onClick={handleClose}>
-      <div className="w-1/2 h-1/2 bg-white rounded-md p-10 space-y-7 flex flex-col justify-between select-none" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="w-1/2 h-1/2 bg-white rounded-md p-10 space-y-7 flex flex-col justify-between select-none"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div>
-          <p className="text-2xl font-medium mb-5">Check your purchase first!</p>
+          <p className="text-2xl font-medium mb-5">
+            Check your purchase first!
+          </p>
           {checkout.map((item: any, i: number) => {
             return (
               <div className="flex gap-x-2" key={i}>
@@ -51,12 +67,20 @@ export default function CartModal({ handleClose, data }: { handleClose: any; dat
           })}
         </div>
         <div className="mt-auto space-y-2">
-          <p className="text-lg">Are you sure you want to buy all the item above?</p>
+          <p className="text-lg">
+            Are you sure you want to buy all the item above?
+          </p>
           <div className="space-x-3">
-            <button className="bg-white border-2 hover:bg-[#f5f5f5] border-custom-lightOrange font-semibold transition text-custom-lightOrange px-2 py-2 rounded-md" onClick={handleClose}>
+            <button
+              className="bg-white border-2 hover:bg-[#f5f5f5] border-custom-lightOrange font-semibold transition text-custom-lightOrange px-2 py-2 rounded-md"
+              onClick={handleClose}
+            >
               Cancel
             </button>
-            <button className="bg-custom-lightOrange hover:bg-[#ee9f1f] font-semibold transition text-white px-7 py-2 rounded-md border-custom-lightOrange border-2" onClick={handleYes}>
+            <button
+              className="bg-custom-lightOrange hover:bg-[#ee9f1f] font-semibold transition text-white px-7 py-2 rounded-md border-custom-lightOrange border-2"
+              onClick={handleYes}
+            >
               Yes
             </button>
           </div>
