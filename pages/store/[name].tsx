@@ -59,7 +59,7 @@ export default function Store(props: any) {
             <p className="text-3xl font-bold">{name} Store</p>
             <p className="text-lg">{productLength(product.length)}</p>
             {session?.user?.email === email ? (
-              <div className="bg-white rounded-3xl absolute right-7 bottom-7">
+              <div className="bg-white rounded-3xl absolute right-7 bottom-7 transition hover:bg-[#f1f1f1]">
                 <label htmlFor="imgUpload" className="font-bold cursor-pointer py-1 px-5 flex items-center gap-x-3">
                   Upload Banner
                   <Image src="/Upload.svg" alt="home" width={25} height={25} />
