@@ -37,8 +37,6 @@ export default function Store(props: any) {
   const [product, setProduct] = useState<product[]>(props.customer.product);
   const { data: session } = useSession();
 
-  console.log(props.customer);
-
   return (
     <>
       <Head>
