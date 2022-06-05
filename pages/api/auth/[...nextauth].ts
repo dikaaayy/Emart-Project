@@ -38,6 +38,9 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+  pages: {
+    signIn: "/authPage/AuthenticationPage",
+  },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       try {
