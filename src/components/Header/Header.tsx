@@ -42,21 +42,59 @@ export default function Header() {
               <Image src="/Vector.svg" alt="home" width="25" height="25" />
             </a>
           </Link>
-          <button className="flex items-center hover:bg-[#1d2b4d] p-1 rounded-md transition" onClick={() => setIsOpen(!isOpen)} ref={ref}>
+          <button
+            className="flex items-center hover:bg-[#1d2b4d] p-1 rounded-md transition"
+            onClick={() => setIsOpen(!isOpen)}
+            ref={ref}
+          >
             {session?.user?.image ? (
-              <Image src={session?.user?.image!} alt={session?.user?.name!} width={45} height={45} className="rounded-full" />
+              <Image
+                src={session?.user?.image!}
+                alt={session?.user?.name!}
+                width={45}
+                height={45}
+                className="rounded-full"
+              />
             ) : (
               <>
-                <Image src={"/placeholder.png"} alt={"placeholder"} width={45} height={45} className="rounded-full" />
+                <Image
+                  src={"/placeholder.png"}
+                  alt={"placeholder"}
+                  width={45}
+                  height={45}
+                  className="rounded-full"
+                />
               </>
             )}
             {isOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 15l7-7 7 7"
+                />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             )}
           </button>

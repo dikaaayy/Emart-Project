@@ -1,7 +1,11 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { imageOptimizer } from "next/dist/server/image-optimizer";
-const postUser = async (email: string, name: string, profile_picture: string) => {
+const postUser = async (
+  email: string,
+  name: string,
+  profile_picture: string
+) => {
   type Customer = {
     email: String;
     name: String;
@@ -34,10 +38,15 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+  pages: {
+    signIn: "/authPage/AuthenticationPage",
+  },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       try {
-        let result = await fetch(`http://localhost:3000/api/auth/validateUser/?email=${profile.email}`);
+        let result = await fetch(
+          `http://localhost:3000/api/auth/validateUser/?email=${profile.email}`
+        );
         let jsonResult = await result.json();
         let count = jsonResult["count"];
         if (count === 0) {

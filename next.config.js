@@ -2,7 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["lh3.googleusercontent.com", "firebasestorage.googleapis.com"],
+    dangerouslyAllowSVG: true,
+    domains: [
+      "lh3.googleusercontent.com",
+      "firebasestorage.googleapis.com",
+      "www.w3.org",
+    ],
   },
   swcMinify: false,
 };

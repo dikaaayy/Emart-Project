@@ -7,6 +7,7 @@ import Head from "next/head";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import firstname from "../../src/helper/returnfirstname";
+import Protected from "../../src/components/Protected/Protected";
 
 export async function getServerSideProps(context: any) {
   const { id } = context.params;
