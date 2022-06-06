@@ -39,22 +39,22 @@ export default function Store(props: any) {
     profile_picture: string;
     banner_url: string;
   };
-  useEffect(() => {
-    let storeCustomer: StoreCustomer = {
-      name: props.customer.name,
-      email: props.customer.email,
-      profile_picture: props.customer.profile_picture,
-      banner_url: props.customer.banner_url,
-    };
-    setStoreOwner(storeCustomer);
-    setProduct(props.customer.product);
-  }, [
-    props.customer.banner_url,
-    props.customer.email,
-    props.customer.name,
-    props.customer.profile_picture,
-    props.customer.product,
-  ]);
+  // useEffect(() => {
+  //   let storeCustomer: StoreCustomer = {
+  //     name: props.customer.name,
+  //     email: props.customer.email,
+  //     profile_picture: props.customer.profile_picture,
+  //     banner_url: props.customer.banner_url,
+  //   };
+  //   setStoreOwner(storeCustomer);
+  //   setProduct(props.customer.product);
+  // }, [
+  //   props.customer.banner_url,
+  //   props.customer.email,
+  //   props.customer.name,
+  //   props.customer.profile_picture,
+  //   props.customer.product,
+  // ]);
 
   const [store_owner, setStoreOwner] = useState<StoreCustomer>({
     name: props.customer.name,
@@ -72,6 +72,7 @@ export default function Store(props: any) {
         <link rel="icon" href="/iconlogo.svg" />
       </Head>
       <Header />
+      <div className="pt-[75px] select-none">
       <Banner
         profile_picture={store_owner!.profile_picture}
         name={store_owner!.name}
@@ -79,8 +80,7 @@ export default function Store(props: any) {
         product_length={product.length}
         session={session!}
         email={store_owner!.email}
-      ></Banner>
-      <div className="pt-[77px] select-none">
+      />
         <div className="grid grid-cols-2 gap-y-5 py-8 justify-items-center content-evenly sm:grid-cols-3 sm:gap-y-8 sm:gap-x-5 lg:grid-cols-5 lg:gap-y-12 lg:gap-x-9 xl:mx-36">
           {product.map((product: any) => {
             return (
