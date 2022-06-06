@@ -69,6 +69,19 @@ export default function Order({ data }: any) {
       console.log(e);
     }
   };
+
+  const itemStatusColor = (status: string) => {
+    if (status === "Sent") {
+      return "text-custom-lightOrange";
+    }
+    if (status === "ordered") {
+      return "text-yellow-500";
+    }
+    if (status === "Recieved") {
+      return "text-green-400";
+    }
+  };
+
   return (
     <>
       <Head>
@@ -79,27 +92,19 @@ export default function Order({ data }: any) {
       <div className="pt-28 pb-10">
         {datas.length !== 0 ? (
           <>
-            <p className="text-center text-3xl font-semibold mb-10 text-custom-darkBlue">
-              My Order
-            </p>
+            <p className="text-center text-3xl font-semibold mb-10 text-custom-darkBlue">My Order</p>
             <div className="mx-10 w-1/2 flex flex-col gap-y-5">
               {datas.map((item: any, i: any) => {
                 return (
                   <div className="border-[1px] shadow p-5 rounded-md" key={i}>
                     <p className="ml-1">
-                      Order ID:{" "}
-                      <span className="font-bold">{item.orderID}</span>
+                      Order ID: <span className="font-bold">{item.orderID}</span>
                     </p>
-                    <div className="mt-4 flex gap-x-4">
+                    <div className="mt-4 flex gap-x-4 relative">
                       <div>
-                        <Image
-                          src={returnImageUrl(item.product.imageUrl)}
-                          width={150}
-                          height={150}
-                          alt={item.product.name}
-                        />
+                        <Image src={returnImageUrl(item.product.imageUrl)} width={180} height={180} alt={item.product.name} />
                       </div>
-                      <div className="flex flex-col justify-start pb-1">
+                      <div className="flex flex-col justify-start">
                         <p className="text-lg">{item.product.name}</p>
                         <p className="font-semibold">
                           Rp{" "}
@@ -109,62 +114,20 @@ export default function Order({ data }: any) {
                         </p>
                         <p>Qty: {item.quantity}</p>
                         <p>Seller: {item.product.Customer.name}</p>
-                        {item.status === "Sent" ? (
-                          <>
-                            <p className="text-custom-lightOrange">
-                              Status: {item.status}
-                            </p>
-                            <p className="font-bold text-lg ">
-                              Total: Rp{" "}
-                              {(
-                                parseInt(item.product.cost) *
-                                parseInt(item.quantity)
-                              ).toLocaleString("en-US", {
-                                maximumFractionDigits: 2,
-                              })}
-                            </p>
-                            <button
-                              className="flex bg-green-400 justify-center hover:bg-green-400 font-semibold transition text-white py-2 rounded"
-                              onClick={() => handleSend(data[i])}
-                            >
+                        <p className={`${itemStatusColor(item.status)} font-medium`}>Status: {item.status}</p>
+                        <div className="flex items-center mt-auto">
+                          <p className="font-bold text-lg ">
+                            Total: Rp{" "}
+                            {(parseInt(item.product.cost) * parseInt(item.quantity)).toLocaleString("en-US", {
+                              maximumFractionDigits: 2,
+                            })}
+                          </p>
+                          {item.status === "Sent" && (
+                            <button className="flex bg-green-400 justify-center hover:bg-green-500 font-semibold transition text-white py-2 px-5 rounded-md absolute right-7 bottom-0" onClick={() => handleSend(data[i])}>
                               Recieved
                             </button>
-                          </>
-                        ) : (
-                          <>
-                            {item.status === "ordered" ? (
-                              <>
-                                <p className="text-yellow-500">
-                                  Status: {item.status}
-                                </p>
-                                <p className="font-bold text-lg">
-                                  Total: Rp{" "}
-                                  {(
-                                    parseInt(item.product.cost) *
-                                    parseInt(item.quantity)
-                                  ).toLocaleString("en-US", {
-                                    maximumFractionDigits: 2,
-                                  })}
-                                </p>
-                              </>
-                            ) : (
-                              <>
-                                <p className="text-green-400">
-                                  Status: {item.status}
-                                </p>
-                                <p className="font-bold text-lg">
-                                  Total: Rp{" "}
-                                  {(
-                                    parseInt(item.product.cost) *
-                                    parseInt(item.quantity)
-                                  ).toLocaleString("en-US", {
-                                    maximumFractionDigits: 2,
-                                  })}
-                                </p>
-                              </>
-                            )}
-                          </>
-                        )}
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -174,15 +137,8 @@ export default function Order({ data }: any) {
           </>
         ) : (
           <div className="w-[99.1vw] space-y-2 text-custom-darkBlue -mt-10 h-[85vh] flex flex-col items-center justify-center">
-            <Image
-              src={"/motorbike.svg"}
-              width={250}
-              height={250}
-              alt="motorbike"
-            />
-            <p className="text-2xl font-semibold">
-              You Havent ordered anything!
-            </p>
+            <Image src={"/motorbike.svg"} width={250} height={250} alt="motorbike" />
+            <p className="text-2xl font-semibold">You Havent ordered anything!</p>
             <p className="text-xl font-semibold">Start Shopping Right Now</p>
           </div>
         )}
