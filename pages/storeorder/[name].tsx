@@ -90,6 +90,18 @@ export default function Order({ data }: any) {
     }
   };
 
+  const itemStatus = (status:string) =>{
+    if (status === "Sent") {
+      return "Sent";
+    }
+    if (status === "ordered") {
+      return "Waiting to be sent";
+    }
+    if (status === "Recieved") {
+      return "Recieved";
+    }
+  }
+
   return (
     <>
       <Head>
@@ -122,7 +134,7 @@ export default function Order({ data }: any) {
                         </p>
                         <p>Qty: {item.quantity}</p>
                         <p>Buyer: {item.Customer.name}</p>
-                        <p className={`${itemStatusColor(item.status)} font-medium`}>Status: {item.status}</p>
+                        <p className={`${itemStatusColor(item.status)} font-medium`}>Status: {itemStatus(item.status)}</p>
                         <div className="flex items-center mt-auto">
                           <p className="font-bold text-lg ">
                             Total: Rp{" "}
