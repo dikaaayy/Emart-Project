@@ -1,4 +1,4 @@
-# Emart Project
+<h1 align="center">Emart Project</h1>
 
 <img src="images/1.png" width="1000"/>
 
